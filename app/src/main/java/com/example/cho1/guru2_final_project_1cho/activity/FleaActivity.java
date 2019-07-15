@@ -1,4 +1,4 @@
-package com.example.cho1.guru2_final_project_1cho;
+package com.example.cho1.guru2_final_project_1cho.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -8,12 +8,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import com.example.cho1.guru2_final_project_1cho.FragmentBuy;
+import com.example.cho1.guru2_final_project_1cho.FragmentSell;
+import com.example.cho1.guru2_final_project_1cho.R;
 import com.google.android.material.tabs.TabLayout;
 
 public class FleaActivity extends AppCompatActivity {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private ViewPagerAdapter mViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +27,14 @@ public class FleaActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.viewPager);
 
         //탭 생성
-        mTabLayout.addTab(mTabLayout.newTab().setText("메모"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("회원 정보"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("사주세요"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("팔아주세요"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //ViewPager 생성
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
         //Tab이랑 viewpager랑 연결
-        mViewPager.setAdapter(adapter);
+        mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -66,8 +70,7 @@ public class FleaActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            return tabCount; } //실수하면 안됨! 만들어 놓은걸로 바꿔야 함
+        public int getCount() { return tabCount; } //실수하면 안됨! 만들어 놓은걸로 바꿔야 함
 
 
     }
