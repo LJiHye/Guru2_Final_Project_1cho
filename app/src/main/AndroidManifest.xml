@@ -9,20 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SellDetailActivity"></activity>
+        <activity android:name=".activity.ExModifyActivity"></activity>
+        <activity android:name=".activity.ExWriteActivity" />
+        <activity android:name=".activity.SellDetailActivity" />
         <activity android:name=".activity.BuyDetailActivity" />
         <activity android:name=".activity.ExDetailActivity" />
-       <activity android:name=".activity.FleaActivity" />
+        <activity android:name=".activity.FleaActivity" />
         <activity android:name=".activity.BuyModifyActivity" />
         <activity android:name=".activity.BuyWriteActivity" />
-        <activity android:name=".activity.MainActivity">  <!--이거 이따가 MainActivity로 바꿔야 함-->
+        <activity android:name=".activity.MainActivity"> <!-- 이거 이따가 MainActivity로 바꿔야 함 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
