@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FragmentSell"></activity>
-        <activity android:name=".FleaActivity" />
-        <activity android:name=".BuyModifyActivity" />
-        <activity android:name=".BuyWriteActivity" />
-        <activity android:name=".FragmentBuy" />
+        <activity android:name=".fragment.FragmentSell"></activity>
+        <activity android:name=".activity.FleaActivity" />
+        <activity android:name=".activity.BuyModifyActivity" />
+        <activity android:name=".activity.BuyWriteActivity" />
+        <activity android:name=".fragment.FragmentBuy" />
         <activity android:name=".MainActivity">
         <activity android:name=".activity.ExDetailActivity"></activity>
         <activity android:name=".activity.MainActivity">
