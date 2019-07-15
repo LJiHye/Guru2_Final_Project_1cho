@@ -25,6 +25,7 @@ public class FragmentEx extends Fragment {
         TextView txtExPrice = view.findViewById(R.id.txtExPrice);
         TextView txtExDate = view.findViewById(R.id.txtExDate);
 
+
         return view;
     }
 }

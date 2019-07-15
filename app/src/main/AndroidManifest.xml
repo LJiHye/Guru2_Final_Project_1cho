@@ -16,7 +16,6 @@
         <activity android:name=".FragmentBuy" />
         <activity android:name=".MainActivity">
         <activity android:name=".activity.ExDetailActivity"></activity>
-        <activity android:name=".fragment.FragmentEx" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
