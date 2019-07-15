@@ -22,22 +22,25 @@
 
             <ImageButton
                 android:id="@+id/btnClothes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/clothes" />
 
             <ImageButton
                 android:id="@+id/btnBook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/book" />
 
             <ImageButton
                 android:id="@+id/btnLife"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/life" />
         </LinearLayout>
@@ -82,22 +85,25 @@
 
             <ImageButton
                 android:id="@+id/btnGifticon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/gift" />
 
             <ImageButton
                 android:id="@+id/btnData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/data" />
 
             <ImageButton
                 android:id="@+id/btnTicket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/ticket" />
         </LinearLayout>
@@ -142,22 +148,25 @@
 
             <ImageButton
                 android:id="@+id/btnElecDevice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/elecdevice" />
 
             <ImageButton
                 android:id="@+id/btnCosmetic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/cosmetic" />
 
             <ImageButton
                 android:id="@+id/btnEtc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
                 android:layout_weight="1"
                 android:src="@drawable/etc" />
         </LinearLayout>
