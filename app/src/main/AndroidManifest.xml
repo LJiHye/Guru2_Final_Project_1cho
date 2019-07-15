@@ -31,8 +31,9 @@
         <activity android:name=".activity.ExDetailActivity" />
         <activity android:name=".activity.FleaActivity" />
         <activity android:name=".activity.BuyModifyActivity" />
-       <!-- <activity android:name=".activity.BuyWriteActivity" /> -->
-        <activity android:name=".activity.BuyWriteActivity"> <!-- 이거 이따가 MainActivity로 바꿔야 함 -->
+       <activity android:name=".activity.BuyWriteActivity" />
+        <activity android:name=".activity.MainActivity"> <!-- 이거 이따가 MainActivity로 바꿔야 함 -->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
