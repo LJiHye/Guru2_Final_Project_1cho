@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 public class ExBean implements Serializable {
+    public String id;
+    public String userId; // 이메일
     public String imgUrl;
     public String imgName;
     public String mine; // 내 물건
