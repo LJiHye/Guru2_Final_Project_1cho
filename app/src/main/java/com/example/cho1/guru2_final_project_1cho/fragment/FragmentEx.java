@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
-import com.example.cho1.guru2_final_project_1cho.activity.ExModifyActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 
@@ -44,13 +43,13 @@ public class FragmentEx extends Fragment {
             }
         });
 
-        view.findViewById(R.id.btnExModify).setOnClickListener(new View.OnClickListener() {
+         /* view.findViewById(R.id.btnExModify).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), ExModifyActivity.class);
                 startActivity(i);
             }
-        });
+        }); */
 
         mExAdapter = new ExAdapter(getActivity(), mExList);
         mLstEx.setAdapter(mExAdapter);
