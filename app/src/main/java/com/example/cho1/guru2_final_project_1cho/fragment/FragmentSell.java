@@ -11,11 +11,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 
-public class FragmentFlea extends Fragment {
+public class FragmentSell extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_flea, container, false);
+        View view = inflater.inflate(R.layout.fragment_sell, container, false);
 
         return view;
     }
