@@ -1,14 +1,15 @@
-package com.example.cho1.guru2_final_project_1cho;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+package com.example.cho1.guru2_final_project_1cho.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.cho1.guru2_final_project_1cho.R;
 
 public class FragmentBuy extends Fragment {
 

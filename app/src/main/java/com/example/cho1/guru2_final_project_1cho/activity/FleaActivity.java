@@ -1,16 +1,16 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Bundle;
-
-import com.example.cho1.guru2_final_project_1cho.FragmentBuy;
-import com.example.cho1.guru2_final_project_1cho.FragmentSell;
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.fragment.FragmentBuy;
+import com.example.cho1.guru2_final_project_1cho.fragment.FragmentSell;
 import com.google.android.material.tabs.TabLayout;
 
 public class FleaActivity extends AppCompatActivity {
