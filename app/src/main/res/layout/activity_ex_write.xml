@@ -54,9 +54,9 @@
             <TextView
                 android:id="@+id/txtState"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="제품 상태"
-                android:textSize="15dp"
+                android:textSize="20dp"
                 android:gravity="center"
                 android:layout_weight="1"/>
 
@@ -65,7 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <EditText
