@@ -29,4 +29,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.code.gson:gson:2.8.5'  //구글에서 제공하는 제이슨 라이브러리 > key : value 형태로 만들어줌
     implementation 'com.google.android.material:material:1.0.0'
+
+    //FireBase 인증
+    implementation 'com.google.firebase:firebase-auth:18.0.0'
+    //Google 인증
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //Firebase Storage
+    implementation 'com.google.firebase:firebase-storage:18.0.0'
+    //Firebase Database
+    implementation 'com.google.firebase:firebase-database:18.0.0'
 }
