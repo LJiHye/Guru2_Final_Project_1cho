@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.ExDetailActivity"></activity>
-        <activity android:name=".fragment.ExFragment" />
+        <activity android:name=".fragment.FragmentEx" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
