@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
+import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.concurrent.TimeUnit;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position) {
                 case 0:
-                    //return new FragmentFlea();
+                    return new FragmentFlea();
                 case 1:
                     return new FragmentEx();
             }
