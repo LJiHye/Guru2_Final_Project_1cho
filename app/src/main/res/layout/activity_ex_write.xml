@@ -110,7 +110,7 @@
         android:layout_weight="0.1">
 
         <Button
-            android:id="@+id/btnModify"
+            android:id="@+id/btnWrite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

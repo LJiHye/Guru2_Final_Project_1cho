@@ -83,6 +83,9 @@ public class ExModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                // DB 업로드
+
+                finish();
             }
         });
 
