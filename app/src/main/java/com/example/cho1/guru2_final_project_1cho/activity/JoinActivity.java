@@ -50,20 +50,11 @@ import java.util.Date;
 import java.util.UUID;
 
 public class JoinActivity extends AppCompatActivity {
-
-    private static final int MY_PERMISSION_CAMERA = 1111;
-    private static final int REQ_TAKE_PHOTO = 2222;
-    private static final int REQ_TAKE_ALBUM = 3333;
-    private static final int REQ_TAKE_IMAGE_CROP = 4444;
-
     //멤버변수
     private ImageView mImgProfile;
     private EditText mEdtId, mEdtName, mEdtKakao;
 
     private String mCurrentImageFilePath = null;
-    private Uri mProviderUri = null;
-    private Uri mPhotoUri = null;
-    private Uri mAlbumUri = null;
 
     public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com";
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -154,6 +145,7 @@ public class JoinActivity extends AppCompatActivity {
         memberBean.id = id;
         memberBean.memId = mFirebaseAuth.getCurrentUser().getEmail();
         memberBean.memName = mEdtName.getText().toString();
+        memberBean.memKakaoId = mEdtKakao.getText().toString();
         memberBean.imgUrl = imgUrl;
         memberBean.imgName = imgName;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -162,7 +154,7 @@ public class JoinActivity extends AppCompatActivity {
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(mFirebaseAuth.getCurrentUser().getEmail());
 
-        dbRef.child("member").child(guid).setValue(memberBean);
+        dbRef.child("members").child(guid).setValue(memberBean);
         Toast.makeText(this, "멤버 저장 완료", Toast.LENGTH_SHORT).show();
 
         //메인 화면으로 이동
