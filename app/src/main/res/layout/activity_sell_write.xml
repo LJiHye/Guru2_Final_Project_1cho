@@ -37,6 +37,7 @@
         android:spinnerMode="dropdown"/>
 
     <EditText
+        android:id="@+id/edtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
@@ -44,6 +45,7 @@
         android:layout_weight="1"/>
 
     <EditText
+        android:id="@+id/edtWishPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
@@ -51,6 +53,7 @@
         android:layout_weight="1"/>
 
     <EditText
+        android:id="@+id/edtWishOption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
@@ -58,6 +61,7 @@
         android:layout_weight="1"/>
 
     <Button
+        android:id="@+id/btnReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

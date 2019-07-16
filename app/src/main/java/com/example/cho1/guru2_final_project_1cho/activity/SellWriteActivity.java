@@ -1,5 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -19,11 +20,22 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,10 +46,22 @@ import java.util.Date;
 
 public class SellWriteActivity extends AppCompatActivity {
 
-    private ImageView mimgSellWrite;
+    public static final String STORAGE_DB_URL = "https://guru2-final-project-1cho.firebaseio.com/"
+
+    private ImageView mImgSellWrite;
+    private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;
+
+    //Firebase DB 저장 변수
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+    //사진 찍기 변수
     private Uri mCaptureUri;
     public String mPhotoPath;
     public static final int REQUEST_IMAGE_CAPTURE = 200;
+
+    private FleaBean mFleaBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +82,81 @@ public class SellWriteActivity extends AppCompatActivity {
         }, 0);
 
         //사진찍기
-        mimgSellWrite = findViewById(R.id.imgSellWrite);
+        mImgSellWrite = findViewById(R.id.imgSellWrite);
+        mEdtTitle = findViewById(R.id.edtTitle);
+        mEdtWishPrice = findViewById(R.id.edtWishPrice);
+        mEdtWishOption = findViewById(R.id.edtWishOption);
         Button mBtnImgReg = findViewById(R.id.btnImgReg);
 
-        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
+        mImgSellWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });
 
+        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mFleaBean == null){
+                    //신규 등록
+                    upload();
+                }else{
+                    //수정 업데이트
+                    update();
+                }
+            }
+        });
 
+        mFleaBean = (FleaBean)getIntent().getSerializableExtra(FleaBean.class.getName());
+        if(mFleaBean != null){
+            getIntent().getParcelableArrayExtra("titleBitmap");
+            if(mFleaBean.bmpTitle != null){
+                mImgSellWrite.setImageBitmap(mFleaBean.bmpTitle);
+            }
+            mEdtTitle.setText(mFleaBean.title);
+            mEdtWishPrice.setText(mFleaBean.wishoption);
+            mEdtWishOption.setText(mFleaBean.wishoption);
+        }
     }  //end onCreate()
+
+    //새 글 등록
+    private void upload(){
+        if(mPhotoPath == null){
+            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //사진 업로드
+        StorageReference storageRef = mFirebaseStorage.getReference();
+        final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg
+
+        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
+        //파일 업로드 실패에 따른 콜백 처리를 한다.
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imagesRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                //database upload 를 호출한다.
+                uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
+            }
+        });
+    }
+
+    private void uploadDB(String imgUrl, String imgName) {
+        //Firebase 데이터베이스에 글 등록한다.
+        DatabaseReference dbRef = mFirebaseDatabase.getReference();
+        String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
+
+        //데이터베이스에 저장한다.
+
+    }
 
     private void takePicture() {
 
@@ -133,7 +220,7 @@ public class SellWriteActivity extends AppCompatActivity {
             exifDegree = 0;
         }
         Bitmap rotatedBmp = rotate(resizedBmp, exifDegree);
-        mimgSellWrite.setImageBitmap(rotatedBmp);
+        mImgSellWrite.setImageBitmap(rotatedBmp);
         //줄어든 이미지를 다시 저장한다
         saveBitmapToFileCache(resizedBmp, mPhotoPath);
 

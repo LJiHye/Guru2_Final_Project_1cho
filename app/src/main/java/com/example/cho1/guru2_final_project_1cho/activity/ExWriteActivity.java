@@ -99,7 +99,7 @@ public class ExWriteActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btnWrite).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // DB 업로드

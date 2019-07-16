@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,8 +23,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
-import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
-import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -89,7 +86,7 @@ public class CameraCaptureActivity extends AppCompatActivity {
 
     //회원가입 처리
     private void joinProcess() {
-
+/*
         MemberBean memberBean = new MemberBean();
         memberBean.memId = mEdtId.getText().toString();
         memberBean.memName = mEdtName.getText().toString();
@@ -124,7 +121,7 @@ public class CameraCaptureActivity extends AppCompatActivity {
 
         //회원가입 완료
         Toast.makeText(this, "회원가입이 완료 되었습니다.", Toast.LENGTH_LONG).show();
-        finish();
+        finish();*/
     }
 
     private void takePicture() {
