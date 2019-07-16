@@ -71,7 +71,7 @@ public class SellWriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_write);
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        Spinner dropdown = (Spinner)findViewById(R.id.spinCategory);
         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
@@ -88,7 +88,7 @@ public class SellWriteActivity extends AppCompatActivity {
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtWishPrice = findViewById(R.id.edtWishPrice);
         mEdtWishOption = findViewById(R.id.edtWishOption);
-        mspinner1 = findViewById(R.id.spinner1);
+        mspinner1 = findViewById(R.id.spinCategory);
         Button mBtnImgReg = findViewById(R.id.btnImgReg);
         Button mBtnSellReg = findViewById(R.id.btnSellReg);
 

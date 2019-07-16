@@ -88,10 +88,11 @@ public class BuyWriteActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA
         }, 0);
 
-        //사진찍기
+
+
         mimgBuyWrite = findViewById(R.id.imgBuyWrite);
         Button mbtnImgReg = findViewById(R.id.btnImgReg);
-
+        //사진찍기
         mbtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,8 +108,8 @@ public class BuyWriteActivity extends AppCompatActivity {
         medtExprieDate = findViewById(R.id.edtExprieDate);
         medtDefect = findViewById(R.id.edtDefect);
         medtSize = findViewById(R.id.edtSize);
-        mspinner1 = findViewById(R.id.spinner1);
-        mspinner2 = findViewById(R.id.spinner2);
+        mspinner1 = findViewById(R.id.spinCategory);
+        mspinner2 = findViewById(R.id.spinState);
 
         findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,13 +136,13 @@ public class BuyWriteActivity extends AppCompatActivity {
         }
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        Spinner dropdown = (Spinner)findViewById(R.id.spinCategory);
         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
         //제품상태 드롭다운 스피너 추가
-        Spinner dropdown2 = (Spinner)findViewById(R.id.spinner2);
+        Spinner dropdown2 = (Spinner)findViewById(R.id.spinState);
         String[] items2 = new String[]{"상", "중", "하"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);
@@ -191,12 +192,13 @@ public class BuyWriteActivity extends AppCompatActivity {
         fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail(); // email
         fleaBean.imgUrl = imgUrl;
         fleaBean.imgName = imgName;
+        fleaBean.category = mspinner1.getSelectedItem().toString(); //카테고리
         fleaBean.title = medtTitle.getText().toString(); // 타이틀
         //fleaBean.subtitle = medtTitle.getText().toString(); // 서브 타이틀
         fleaBean.price = medtPrice.getText().toString(); // 정가
         fleaBean.saleprice = medtSalePrice.getText().toString(); // 판매가
-        fleaBean.state = mspinner1.getSelectedItem().toString(); // 물건 상태
-        fleaBean.fault = mspinner2.getSelectedItem().toString(); // 하자
+        fleaBean.state = mspinner2.getSelectedItem().toString(); // 물건 상태
+        fleaBean.fault = medtDefect.getText().toString(); // 하자
         fleaBean.buyday = medtBuyDay.getText().toString(); // 구매일
         fleaBean.expire = medtExprieDate.getText().toString(); // 유통기한
         fleaBean.size = medtSize.getText().toString(); // 실측 사이즈

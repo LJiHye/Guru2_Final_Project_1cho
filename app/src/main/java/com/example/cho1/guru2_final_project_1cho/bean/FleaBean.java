@@ -9,6 +9,7 @@ public class FleaBean implements Serializable {
     public String userId;
     public String imgUrl;
     public String imgName;
+    public String category; //카테고리
     public String title;  //타이틀
     public String subtitle;  //서브 타이틀
     public String price;  //정가
