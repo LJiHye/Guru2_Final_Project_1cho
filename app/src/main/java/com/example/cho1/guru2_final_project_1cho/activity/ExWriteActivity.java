@@ -46,7 +46,7 @@ import java.util.UUID;
 
 public class ExWriteActivity extends AppCompatActivity {
 
-    public static final String STORAGE_DB_URL = "gs://swu-class-project.appspot.com";
+    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
@@ -57,9 +57,11 @@ public class ExWriteActivity extends AppCompatActivity {
     private  EditText mEdtItem;
     private EditText mEdtBuyDate;
     private EditText mEdtExpDate;
-    private EditText mEdtDefect;
+    private EditText mEdtFault;
     private EditText mEdtSize;
     private Spinner mSprState;
+
+
 
     // 사진이 저장되는 경로
     private Uri mCaptureUri;
@@ -86,7 +88,7 @@ public class ExWriteActivity extends AppCompatActivity {
         mEdtItem = findViewById(R.id.edtItem);
         mEdtBuyDate = findViewById(R.id.edtBuyDate);
         mEdtExpDate = findViewById(R.id.edtExpDate);
-        mEdtDefect = findViewById(R.id.edtDefect);
+        mEdtFault = findViewById(R.id.edtFault);
         mEdtSize = findViewById(R.id.edtSize);
         mSprState = findViewById(R.id.sprState);
 
@@ -100,7 +102,6 @@ public class ExWriteActivity extends AppCompatActivity {
         findViewById(R.id.btnWrite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // DB 업로드
                 upload();
                 finish();
@@ -151,17 +152,24 @@ public class ExWriteActivity extends AppCompatActivity {
     private void uploadDB(String imgUrl, String imgName) {
         //Firebase 데이터베이스에 메모를 등록한다.
         DatabaseReference dbRef = mFirebaseDatabase.getReference();
-        String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
+        String id = dbRef.push().getKey(); // key 를 게시글의 고유 ID 로 사용한다.
 
         //데이터베이스에 저장한다.
         ExBean exBean = new ExBean();
         exBean.id = id;
-        exBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
-   //     exBean.contents = mEdtTitle.getText().toString();
+        exBean.userId = mFirebaseAuth.getCurrentUser().getEmail(); // email
         exBean.imgUrl = imgUrl;
         exBean.imgName = imgName;
+        exBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
+        exBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
+        exBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+        exBean.fault = mEdtFault.getText().toString(); // 하자
+        exBean.expire = mEdtExpDate.getText().toString(); // 유통기한
+        exBean.buyDate = mEdtBuyDate.getText().toString(); // 구매날짜
+        exBean.size = mEdtSize.getText().toString(); // 실측사이즈
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        exBean.date = sdf.format(new Date());
+        exBean.date = sdf.format(new Date()); // 게시글 올린 날짜
 
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(exBean.userId);
