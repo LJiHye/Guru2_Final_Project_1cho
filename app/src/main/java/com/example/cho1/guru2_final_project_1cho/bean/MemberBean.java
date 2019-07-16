@@ -7,10 +7,9 @@ import java.io.Serializable;
 //회원정보 Bean
 public class MemberBean implements Serializable {
 
-    public String id;
     public String memId;
     public String memName;
-    //public String memPw;
+    public String memPw;
     public String memKakaoId;
     public String imgUrl;
     public String imgName;

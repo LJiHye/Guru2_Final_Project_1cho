@@ -32,6 +32,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     //멤버변수 자리
@@ -39,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // 구글 로그인 클라이언트 제어자
     private GoogleSignInClient mGoogleSignInClient;
+
+    private List<MemberBean> mMemberList = new ArrayList<>();
 
     //FireBase 인증객체 할당
     public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com";
@@ -90,27 +95,31 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(ii);
                     finish();
                     break;
-/*
-                case R.id.btnLogin:
+
+               /* case R.id.btnLogin:
                     String memId = mEdtId.getText().toString();
                     String memPw = mEdtPw.getText().toString();
 
-                    MemberBean memberBean = FileDB.getFindMember(LoginActivity.this, memId);
-                    if(memberBean == null) {
-                        Toast.makeText(LoginActivity.this, "해당 아이디는 가입이 되어 있지 않습니다.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    //패스워드 비교
-                    if( TextUtils.equals(memberBean.memPw, memPw) ) {
-                        FileDB.setLoginMember(LoginActivity.this, memberBean); //저장
-                        //비밀번호 일치
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(LoginActivity.this, "패스워드가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    break;*/
+                    String uuid = JoinActivity.getUserIdFromUUID(memId);
+
+                    mFirebaseAuth.signInWithEmailAndPassword(memId, memPw)
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d("TEST", "signInWithEmail:success");
+                                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                                        updateUI(user);
+                                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Log.w("TEST", "signInWithEmail:failure", task.getException());
+                                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });*/
             }
         }
     };
