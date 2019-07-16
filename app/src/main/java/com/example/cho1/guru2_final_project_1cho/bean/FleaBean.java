@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 public class FleaBean implements Serializable {
-
+    public String id;
+    public String userId; // 이메일
     public String imgUrl;
     public String imgName;
     public String title;  //타이틀

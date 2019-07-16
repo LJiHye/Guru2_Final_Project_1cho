@@ -15,15 +15,28 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
+import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,12 +44,30 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class BuyWriteActivity extends AppCompatActivity {
 
+    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
 
-    private ImageView mimgBuyWrite;
-    //사진이 저장된 경로 - onActivityResult()로부터 받는 데이터
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+    private ImageView mimgBuyWrite;  //사진
+    private EditText medtTitle;  //제목
+    //private EditText medtSubTitle;  //설명   //이거 넣을거면 따로 설명 적을 칸 필요
+    private  EditText medtPrice;  //정가
+    private EditText medtSalePrice;  //판매가
+    private EditText medtBuyDay;  //구매일
+    private EditText medtExprieDate;  //유통기한
+    private EditText medtDefect;  //하자 유무
+    private EditText medtSize;  //실제 측정 사이즈
+    private Spinner mspinner1;  //카테고리
+    private Spinner mspinner2;  //제품 상태
+
+
+    //사진이 저장되는 경로
     private Uri mCaptureUri;
     //사진이 저장된 단말기상의 실제 경로
     public String mPhotoPath;
@@ -65,6 +96,25 @@ public class BuyWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takePicture();
+            }
+        });
+
+        medtTitle = findViewById(R.id.edtTitle);
+        //medtSubTitle = findViewById(R.id.edtSubTitle);
+        medtPrice = findViewById(R.id.edtPrice);
+        medtSalePrice = findViewById(R.id.edtSalePrice);
+        medtBuyDay = findViewById(R.id.edtBuyDate);
+        medtExprieDate = findViewById(R.id.edtExprieDate);
+        medtDefect = findViewById(R.id.edtDefect);
+        medtSize = findViewById(R.id.edtSize);
+        mspinner1 = findViewById(R.id.spinner1);
+        mspinner2 = findViewById(R.id.spinner2);
+
+        findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //DB 업로드
+                upload();
             }
         });
 
@@ -217,4 +267,74 @@ public class BuyWriteActivity extends AppCompatActivity {
             }
         }
     }
+
+    // 새 게시글 작성
+    private void upload() {
+
+        if(mPhotoPath == null) {
+            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //사진부터 Storage 에 업로드한다.
+        StorageReference storageRef = mFirebaseStorage.getReference();
+        final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg
+
+        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
+        //파일 업로드 실패에 따른 콜백 처리를 한다.
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imagesRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                //database upload 를 호출한다.
+                uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
+            }
+        });
+    }
+
+    private void uploadDB(String imgUrl, String imgName) {
+        //Firebase 데이터베이스에 메모를 등록한다.
+        DatabaseReference dbRef = mFirebaseDatabase.getReference();
+        String id = dbRef.push().getKey(); // key 를 게시글의 고유 ID 로 사용한다.
+
+        /**여기 하던 중임 > 작성 버튼 눌러도 작성이 안됨 > 고치기 **/
+        //데이터베이스에 저장한다.
+        FleaBean fleaBean = new FleaBean();
+        fleaBean.id = id;
+        fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail(); // email
+        fleaBean.imgUrl = imgUrl;
+        fleaBean.imgName = imgName;
+        fleaBean.title = medtTitle.getText().toString(); // 타이틀
+        fleaBean.subtitle = medtTitle.getText().toString(); // 서브 타이틀
+        fleaBean.price = medtPrice.getText().toString(); // 정가
+        fleaBean.saleprice = medtSalePrice.getText().toString(); // 판매가
+        fleaBean.state = mspinner1.getSelectedItem().toString(); // 물건 상태
+        fleaBean.fault = mspinner2.getSelectedItem().toString(); // 하자
+        fleaBean.buyday = medtBuyDay.getText().toString(); // 구매일
+        fleaBean.expire = medtExprieDate.getText().toString(); // 유통기한
+        fleaBean.size = medtSize.getText().toString(); // 실측 사이즈
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        fleaBean.date = sdf.format(new Date()); // 게시글 올린 날짜
+
+        //고유번호를 생성한다
+        String guid = getUserIdFromUUID(fleaBean.userId);
+        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    public static String getUserIdFromUUID(String userEmail) {
+        long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
+        return String.valueOf(val);
+    }
+
+
 }
