@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -52,7 +53,7 @@ import java.util.UUID;
 public class JoinActivity extends AppCompatActivity {
     //멤버변수
     private ImageView mImgProfile;
-    private EditText mEdtId, mEdtName, mEdtKakao;
+    private EditText mEdtId, mEdtName, mEdtKakao, mEdtPw1, mEdtPw2;
 
     private String mCurrentImageFilePath = null;
 
@@ -92,6 +93,8 @@ public class JoinActivity extends AppCompatActivity {
         mEdtId.setEnabled(false);
         mEdtName = findViewById(R.id.edtName);
         mEdtKakao = findViewById(R.id.edtKakaoId);
+        mEdtPw1 = findViewById(R.id.edtPw1);
+        mEdtPw2 = findViewById(R.id.edtPw2);
 
         mMemberBean = FileDB.getLoginMember(this);
 
@@ -113,7 +116,12 @@ public class JoinActivity extends AppCompatActivity {
         findViewById(R.id.btnJoin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                joinProcess();
+                if(TextUtils.equals(mEdtPw1.getText().toString(), mEdtPw2.getText().toString())) {
+                    joinProcess();
+                } else {
+                    Toast.makeText(JoinActivity.this, "패스워드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
     }//end onCreate()
@@ -127,7 +135,6 @@ public class JoinActivity extends AppCompatActivity {
             return;
         }
         firebaseAuthWithGoogle(tokenId);
-
 
         //MemberBean 생성
         //insert
@@ -144,6 +151,7 @@ public class JoinActivity extends AppCompatActivity {
         MemberBean memberBean = new MemberBean();
         memberBean.memId = mFirebaseAuth.getCurrentUser().getEmail();
         memberBean.memName = mEdtName.getText().toString();
+        memberBean.memPw = mEdtPw1.getText().toString();
         memberBean.memKakaoId = mEdtKakao.getText().toString();
         memberBean.imgUrl = imgUrl;
         memberBean.imgName = imgName;

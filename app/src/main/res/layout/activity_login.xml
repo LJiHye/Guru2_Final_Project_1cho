@@ -59,34 +59,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="55dp"
-            android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="로그인" />
 
-        <Button
-            android:id="@+id/btnJoin"
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignIn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="55dp"
             android:layout_weight="1"
-            android:text="회원가입" />
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btnGoogleSignIn"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp" />
+
 </LinearLayout>
