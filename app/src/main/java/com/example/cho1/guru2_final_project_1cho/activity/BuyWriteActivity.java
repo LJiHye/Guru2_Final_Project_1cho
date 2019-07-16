@@ -26,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
-import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -66,6 +65,7 @@ public class BuyWriteActivity extends AppCompatActivity {
     private Spinner mspinner1;  //카테고리
     private Spinner mspinner2;  //제품 상태
 
+    private FleaBean mFleaBean;
 
     //사진이 저장되는 경로
     private Uri mCaptureUri;
@@ -118,6 +118,22 @@ public class BuyWriteActivity extends AppCompatActivity {
             }
         });
 
+        mFleaBean = (FleaBean)getIntent().getSerializableExtra(FleaBean.class.getName());
+        if(mFleaBean != null){
+            getIntent().getParcelableArrayExtra("titleBitmap");
+            if(mFleaBean.bmpTitle != null){
+                mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
+            }
+            medtTitle.setText(mFleaBean.title);
+            medtPrice.setText(mFleaBean.price);
+            medtSalePrice.setText(mFleaBean.saleprice);
+            medtBuyDay.setText(mFleaBean.buyday);
+            medtExprieDate.setText(mFleaBean.expire);
+            medtDefect.setText(mFleaBean.fault);
+            medtSize.setText(mFleaBean.size);
+
+        }
+
         //카테고리 드롭다운 스피너 추가
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
@@ -132,6 +148,77 @@ public class BuyWriteActivity extends AppCompatActivity {
 
     }  //end onCreate()
 
+
+    // 새 게시글 작성
+    private void upload() {
+
+        if(mPhotoPath == null) {
+            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //사진부터 Storage 에 업로드한다.
+        StorageReference storageRef = mFirebaseStorage.getReference();
+        final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg
+
+        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
+        //파일 업로드 실패에 따른 콜백 처리를 한다.
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imagesRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                //database upload 를 호출한다.
+                uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
+            }
+        });
+    }
+
+    private void uploadDB(String imgUrl, String imgName) {
+        //Firebase 데이터베이스에 메모를 등록한다.
+        DatabaseReference dbRef = mFirebaseDatabase.getReference();
+        String id = dbRef.push().getKey(); // key 를 게시글의 고유 ID 로 사용한다.
+
+        //데이터베이스에 저장한다.
+        FleaBean fleaBean = new FleaBean();
+        fleaBean.id = id;
+        fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail(); // email
+        fleaBean.imgUrl = imgUrl;
+        fleaBean.imgName = imgName;
+        fleaBean.title = medtTitle.getText().toString(); // 타이틀
+        //fleaBean.subtitle = medtTitle.getText().toString(); // 서브 타이틀
+        fleaBean.price = medtPrice.getText().toString(); // 정가
+        fleaBean.saleprice = medtSalePrice.getText().toString(); // 판매가
+        fleaBean.state = mspinner1.getSelectedItem().toString(); // 물건 상태
+        fleaBean.fault = mspinner2.getSelectedItem().toString(); // 하자
+        fleaBean.buyday = medtBuyDay.getText().toString(); // 구매일
+        fleaBean.expire = medtExprieDate.getText().toString(); // 유통기한
+        fleaBean.size = medtSize.getText().toString(); // 실측 사이즈
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        fleaBean.date = sdf.format(new Date()); // 게시글 올린 날짜
+
+        //고유번호를 생성한다
+        String guid = getUserIdFromUUID(fleaBean.userId);
+        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+
+        //startActivity(new Intent(BuyWriteActivity.this, FleaActivity.class));
+        finish();
+    }
+
+    public static String getUserIdFromUUID(String userEmail) {
+        long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
+        return String.valueOf(val);
+    }
+
+    //사진
     private void takePicture() {
 
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -268,72 +355,8 @@ public class BuyWriteActivity extends AppCompatActivity {
         }
     }
 
-    // 새 게시글 작성
-    private void upload() {
-        if(mPhotoPath == null) {
-            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        //사진부터 Storage 에 업로드한다.
-        StorageReference storageRef = mFirebaseStorage.getReference();
-        final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg
 
-        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
-        //파일 업로드 실패에 따른 콜백 처리를 한다.
-        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(!task.isSuccessful()) {
-                    throw task.getException();
-                }
-                return imagesRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                //database upload 를 호출한다.
-                uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
-            }
-        });
-    }
-
-    private void uploadDB(String imgUrl, String imgName) {
-        //Firebase 데이터베이스에 메모를 등록한다.
-        DatabaseReference dbRef = mFirebaseDatabase.getReference();
-        String id = dbRef.push().getKey(); // key 를 게시글의 고유 ID 로 사용한다.
-
-        /**여기 하던 중임 > 작성 버튼 눌러도 작성이 안됨 > 고치기 **/
-        //데이터베이스에 저장한다.
-        FleaBean fleaBean = new FleaBean();
-        fleaBean.id = id;
-        fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail(); // email
-        fleaBean.imgUrl = imgUrl;
-        fleaBean.imgName = imgName;
-        fleaBean.title = medtTitle.getText().toString(); // 타이틀
-        fleaBean.subtitle = medtTitle.getText().toString(); // 서브 타이틀
-        fleaBean.price = medtPrice.getText().toString(); // 정가
-        fleaBean.saleprice = medtSalePrice.getText().toString(); // 판매가
-        fleaBean.state = mspinner1.getSelectedItem().toString(); // 물건 상태
-        fleaBean.fault = mspinner2.getSelectedItem().toString(); // 하자
-        fleaBean.buyday = medtBuyDay.getText().toString(); // 구매일
-        fleaBean.expire = medtExprieDate.getText().toString(); // 유통기한
-        fleaBean.size = medtSize.getText().toString(); // 실측 사이즈
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        fleaBean.date = sdf.format(new Date()); // 게시글 올린 날짜
-
-        //고유번호를 생성한다
-        String guid = getUserIdFromUUID(fleaBean.userId);
-        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
-        Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
-        finish();
-    }
-
-    public static String getUserIdFromUUID(String userEmail) {
-        long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
-        return String.valueOf(val);
-    }
 
 
 }

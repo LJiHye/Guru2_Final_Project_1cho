@@ -34,9 +34,9 @@
         <activity android:name=".activity.CameraCaptureActivity" />
         <activity android:name=".activity.ModifyMemberActivity" />
         <activity android:name=".activity.BuyModifyActivity" />
-        <activity android:name=".activity.BuyWriteActivity" />
+     <!--   <activity android:name=".activity.BuyWriteActivity" /> -->
         <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.LoginActivity"> <!-- 이거 이따가 LoginActivity로 바꿔야 함 -->
+        <activity android:name=".activity.BuyWriteActivity"> <!-- 이거 이따가 LoginActivity로 바꿔야 함 -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
