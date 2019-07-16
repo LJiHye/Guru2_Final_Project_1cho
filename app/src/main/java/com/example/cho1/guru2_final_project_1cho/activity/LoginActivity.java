@@ -59,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         mEdtId = findViewById(R.id.edtId);
         mEdtPw = findViewById(R.id.edtPw);
 
+        findViewById(R.id.btnLogin).setOnClickListener(mClicks);
+        findViewById(R.id.btnJoin).setOnClickListener(mClicks);
+        findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
+
         // 구글 로그인 객체선언
         GoogleSignInOptions googleSignInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -113,7 +117,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private void googleSignIn() {
+    //구글 로그인 처리
+    private void googleSignIn(){
         Intent i = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(i, 1004);
     }
@@ -130,10 +135,10 @@ public class LoginActivity extends AppCompatActivity {
                 final GoogleSignInAccount account = task.getResult(ApiException.class);
                 Toast.makeText(getBaseContext(), "구글 로그인 성공", Toast.LENGTH_SHORT).show();
 
-                userMail = mFirebaseAuth.getCurrentUser().getEmail();
+                userMail = account.getEmail();
                 String guid = JoinActivity.getUserIdFromUUID(userMail); // 고유 id
 
-                mFirebaseDatabase.getReference().child("member").child(guid).addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean flag = false;
