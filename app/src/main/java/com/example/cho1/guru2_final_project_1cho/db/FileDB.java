@@ -103,7 +103,7 @@ public class FileDB {
 
 
     /* 물물교환 */
-    // 물물교환게시글을 추가하는 메소드
+    // 물물교환게시글을 추가
     public static void addEx(Context context, String memId, ExBean exBean){
         MemberBean findMember = getFindMember(context, memId);
         if(findMember == null) return; // 해당 멤버가 없다면
@@ -112,7 +112,7 @@ public class FileDB {
         if(exList == null){
             exList = new ArrayList<>();
         }
-        // 고유 메모 ID를 생성해 준다
+        // 고유 게시글 ID를 생성해 준다
         long temp = System.currentTimeMillis();
         exBean.id = String.valueOf(temp); // 삭제하고 새로 생성됐을 때 인덱스가 겹치기 때문에 이를 방지하기 위해 게시글이 만들어지는 시간으로 고유 ID 생성
         exList.add(0, exBean);
@@ -121,7 +121,7 @@ public class FileDB {
         setMember(context, findMember); // 기존의 memberBean을 갈아끼우면서 저장
     }
 
-    // 물물교환 게시글 수정하는 메소드
+    // 물물교환 게시글 수정
     public static void setEx(Context context, ExBean exBean){
         MemberBean memberBean = getLoginMember(context);
         if(memberBean != null || memberBean.exList == null){
@@ -141,7 +141,7 @@ public class FileDB {
         setMember(context, memberBean);
     }
 
-    // 물물교환게시글 삭제
+    // 물물교환 게시글 삭제
     public static void delEx(Context context, String id){
         MemberBean memberBean = getLoginMember(context); // 로그인된 멤버를 memberBean에 넣어줌
         List<ExBean> exList = memberBean.exList;
@@ -161,7 +161,7 @@ public class FileDB {
 
     }
 
-    // 어떠한 물물교환 게시글을 삭제,수정을 하기 위해 그 게시글이 어떤 게시글인지 알기 위한 게시글 ID를 찾는다
+    // 어떠한 물물교환 게시글을 삭제,수정하기 위해 그 게시글이 어떤 게시글인지 알기 위한 게시글 ID를 찾는다
     public static ExBean getEx(Context context, String id){
         MemberBean memberBean = getLoginMember(context);
         List<ExBean> exList = memberBean.exList;
@@ -188,6 +188,6 @@ public class FileDB {
         }
 
     }
-    
+
     /* End 물물교환 */
 }

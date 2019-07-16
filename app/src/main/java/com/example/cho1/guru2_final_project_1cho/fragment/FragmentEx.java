@@ -17,6 +17,7 @@ import com.example.cho1.guru2_final_project_1cho.activity.ExWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,5 +66,6 @@ public class FragmentEx extends Fragment {
 
 
         return view;
-    }
+    } // onCreate()
+
 }
