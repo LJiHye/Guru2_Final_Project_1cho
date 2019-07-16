@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 public class ExBean implements Serializable {
+    public String id;
+    public String userId; // 이메일
     public String imgUrl;
     public String imgName;
     public String mine; // 내 물건
@@ -17,4 +19,6 @@ public class ExBean implements Serializable {
     public transient Bitmap bmpTitle;
 
     public String date; // 게시물 올린 날짜
+    public String buyDate; // 물건을 구매한 날짜
+
 }

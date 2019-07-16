@@ -1,5 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -24,6 +25,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,17 +42,26 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class ExWriteActivity extends AppCompatActivity {
+
+    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
+
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     private ImageView mImgItem;
     private EditText mEdtTitle;
     private  EditText mEdtItem;
     private EditText mEdtBuyDate;
     private EditText mEdtExpDate;
-    private EditText mEdtDefect;
+    private EditText mEdtFault;
     private EditText mEdtSize;
     private Spinner mSprState;
+
+
 
     // 사진이 저장되는 경로
     private Uri mCaptureUri;
@@ -68,7 +88,7 @@ public class ExWriteActivity extends AppCompatActivity {
         mEdtItem = findViewById(R.id.edtItem);
         mEdtBuyDate = findViewById(R.id.edtBuyDate);
         mEdtExpDate = findViewById(R.id.edtExpDate);
-        mEdtDefect = findViewById(R.id.edtDefect);
+        mEdtFault = findViewById(R.id.edtFault);
         mEdtSize = findViewById(R.id.edtSize);
         mSprState = findViewById(R.id.sprState);
 
@@ -82,9 +102,8 @@ public class ExWriteActivity extends AppCompatActivity {
         findViewById(R.id.btnWrite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // DB 업로드
-
+                upload();
                 finish();
 
             }
@@ -98,6 +117,71 @@ public class ExWriteActivity extends AppCompatActivity {
 
 
     } // onCreate()
+
+    // 새 게시글 작성
+    private void upload() {
+
+        if(mPhotoPath == null) {
+            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //사진부터 Storage 에 업로드한다.
+        StorageReference storageRef = mFirebaseStorage.getReference();
+        final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg
+
+        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
+        //파일 업로드 실패에 따른 콜백 처리를 한다.
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imagesRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                //database upload 를 호출한다.
+                uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
+            }
+        });
+    }
+
+    private void uploadDB(String imgUrl, String imgName) {
+        //Firebase 데이터베이스에 메모를 등록한다.
+        DatabaseReference dbRef = mFirebaseDatabase.getReference();
+        String id = dbRef.push().getKey(); // key 를 게시글의 고유 ID 로 사용한다.
+
+        //데이터베이스에 저장한다.
+        ExBean exBean = new ExBean();
+        exBean.id = id;
+        exBean.userId = mFirebaseAuth.getCurrentUser().getEmail(); // email
+        exBean.imgUrl = imgUrl;
+        exBean.imgName = imgName;
+        exBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
+        exBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
+        exBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+        exBean.fault = mEdtFault.getText().toString(); // 하자
+        exBean.expire = mEdtExpDate.getText().toString(); // 유통기한
+        exBean.buyDate = mEdtBuyDate.getText().toString(); // 구매날짜
+        exBean.size = mEdtSize.getText().toString(); // 실측사이즈
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        exBean.date = sdf.format(new Date()); // 게시글 올린 날짜
+
+        //고유번호를 생성한다
+        String guid = getUserIdFromUUID(exBean.userId);
+        dbRef.child("memo").child( guid ).child( exBean.id ).setValue(exBean);
+        Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    public static String getUserIdFromUUID(String userEmail) {
+        long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
+        return String.valueOf(val);
+    }
 
 
     private void takePicture() {
