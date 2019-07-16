@@ -14,23 +14,21 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.List;
 
-public class DownloadImgTask extends AsyncTask<URL, Void, Bitmap> { // <URL, Void, Bitmap> 타이핑
+public class DownloadImgTaskFlea extends AsyncTask<URL, Void, Bitmap> {
 
     private Context mContext;
     private WeakReference<ImageView> mImageView = null;
 
-    private List<ExBean> mExList;
     private List<FleaBean> mFleaList;
     private int mPosition;
 
-    //생성자
-    public DownloadImgTask(Context context, ImageView imageView, List<ExBean> exList, int position) {
+    // FleaBean 생성자
+    public DownloadImgTaskFlea(Context context, ImageView imageView, List<FleaBean> fleaList, int position) {
         mContext = context;
         mImageView = new WeakReference<>(imageView);
-        mExList = exList;
+        mFleaList = fleaList;
         mPosition = position;
     }
-
 
     @Override
     protected void onPreExecute() { // doInBackground 전
@@ -57,7 +55,7 @@ public class DownloadImgTask extends AsyncTask<URL, Void, Bitmap> { // <URL, Voi
             // 이미지 다운로드 성공
             mImageView.get().setImageBitmap(bitmap);
             // 리스트 갱신 저장
-            mExList.get(mPosition).bmpTitle = bitmap;
+            mFleaList.get(mPosition).bmpTitle = bitmap;
         }
         //super.onPostExecute(bitmap);
     }
