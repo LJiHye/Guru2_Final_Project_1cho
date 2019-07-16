@@ -104,7 +104,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         medtExplain = findViewById(R.id.edtExplain);
         medtPrice = findViewById(R.id.edtPrice);
         medtSalePrice = findViewById(R.id.edtSalePrice);
-        medtBuyDay = findViewById(R.id.edtBuyDate);
+        medtBuyDay = findViewById(R.id.edtBuyDay);
         medtExprieDate = findViewById(R.id.edtExprieDate);
         medtDefect = findViewById(R.id.edtDefect);
         medtSize = findViewById(R.id.edtSize);
