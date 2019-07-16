@@ -30,10 +30,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,12 +39,10 @@ public class LoginActivity extends AppCompatActivity {
     // 구글 로그인 클라이언트 제어자
     private GoogleSignInClient mGoogleSignInClient;
 
-    private List<MemberBean> mMemberList = new ArrayList<>();
-
     //FireBase 인증객체 할당
-    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com";
+    //public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com";
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
+    //private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     private String userMail;

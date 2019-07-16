@@ -3,7 +3,7 @@ package com.example.cho1.guru2_final_project_1cho.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,13 +75,8 @@ public class MainActivity extends AppCompatActivity {
         else
             txtUserID.setText(mFirebaseAuth.getCurrentUser().getEmail());
 
-        //로그아웃 버튼
-        Button btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(mClicks);
-        if(loginMember != null)
-            btnLogout.setText("로그아웃( " + loginMember.memId + " )");
-        else
-            btnLogout.setText("로그아웃( " + mFirebaseAuth.getCurrentUser().getEmail() + " )");
+        LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        linearLayout.setOnClickListener(mClicks);
     } // end onCreate()
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -131,24 +126,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.btnLogout:
-                    logout();
-                    break;
+                case R.id.linearLayout:
+                    Intent i = new Intent(MainActivity.this, ModifyMemberActivity.class);
+                    i.putExtra("loginMember", loginMember);
+                    startActivity(i);
             }
         }
     };
-
-    //로그아웃 처리
-    private void logout() {
-        try{
-            mFirebaseAuth.signOut();
-            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
 }
