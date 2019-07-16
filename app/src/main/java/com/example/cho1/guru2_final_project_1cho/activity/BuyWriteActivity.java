@@ -55,7 +55,7 @@ public class BuyWriteActivity extends AppCompatActivity {
 
     private ImageView mimgBuyWrite;  //사진
     private EditText medtTitle;  //제목
-    //private EditText medtSubTitle;  //설명   //이거 넣을거면 따로 설명 적을 칸 필요
+    private EditText medtExplain;  //설명   //이거 넣을거면 따로 설명 적을 칸 필요
     private  EditText medtPrice;  //정가
     private EditText medtSalePrice;  //판매가
     private EditText medtBuyDay;  //구매일
@@ -101,7 +101,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         });
 
         medtTitle = findViewById(R.id.edtTitle);
-        //medtSubTitle = findViewById(R.id.edtSubTitle);
+        medtExplain = findViewById(R.id.edtExplain);
         medtPrice = findViewById(R.id.edtPrice);
         medtSalePrice = findViewById(R.id.edtSalePrice);
         medtBuyDay = findViewById(R.id.edtBuyDate);
@@ -114,8 +114,14 @@ public class BuyWriteActivity extends AppCompatActivity {
         findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //DB 업로드
-                upload();
+                if(mFleaBean == null){
+                    //신규 등록
+                    upload();
+                }
+                else {
+                    //수정 업데이트
+                    //update();
+                }
             }
         });
 
@@ -126,6 +132,7 @@ public class BuyWriteActivity extends AppCompatActivity {
                 mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
             }
             medtTitle.setText(mFleaBean.title);
+            medtExplain.setText(mFleaBean.subtitle);
             medtPrice.setText(mFleaBean.price);
             medtSalePrice.setText(mFleaBean.saleprice);
             medtBuyDay.setText(mFleaBean.buyday);
@@ -148,6 +155,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         dropdown2.setAdapter(adapter2);
 
     }  //end onCreate()
+
 
 
     // 새 게시글 작성
@@ -181,6 +189,8 @@ public class BuyWriteActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void uploadDB(String imgUrl, String imgName) {
         //Firebase 데이터베이스에 메모를 등록한다.
         DatabaseReference dbRef = mFirebaseDatabase.getReference();
@@ -194,7 +204,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         fleaBean.imgName = imgName;
         fleaBean.category = mspinner1.getSelectedItem().toString(); //카테고리
         fleaBean.title = medtTitle.getText().toString(); // 타이틀
-        //fleaBean.subtitle = medtTitle.getText().toString(); // 서브 타이틀
+        fleaBean.subtitle = medtExplain.getText().toString(); // 서브 타이틀(설명)
         fleaBean.price = medtPrice.getText().toString(); // 정가
         fleaBean.saleprice = medtSalePrice.getText().toString(); // 판매가
         fleaBean.state = mspinner2.getSelectedItem().toString(); // 물건 상태
@@ -208,10 +218,9 @@ public class BuyWriteActivity extends AppCompatActivity {
 
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(fleaBean.userId);
-        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        dbRef.child("buy").child( guid ).child( fleaBean.id ).setValue(fleaBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
 
-        //startActivity(new Intent(BuyWriteActivity.this, FleaActivity.class));
         finish();
     }
 

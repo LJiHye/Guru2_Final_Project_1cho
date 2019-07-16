@@ -45,7 +45,7 @@ public class FleaAdapter extends BaseAdapter {
 
         ImageView imgBuy = view.findViewById(R.id.imgBuy);
         TextView txtBuyTitle = view.findViewById(R.id.txtBuyTitle);
-        TextView txtBuySubTitle = view.findViewById(R.id.txtBuySubTitle);
+        TextView txtBuySubTitle = view.findViewById(R.id.txtBuyExplain);
         TextView txtBuyPrice = view.findViewById(R.id.txtBuyPrice);
 
         final FleaBean fleaBean = mFleaList.get(i);

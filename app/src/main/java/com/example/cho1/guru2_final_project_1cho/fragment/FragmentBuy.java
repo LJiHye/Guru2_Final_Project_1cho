@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
+import com.example.cho1.guru2_final_project_1cho.activity.SellWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.FleaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +55,8 @@ public class FragmentBuy extends Fragment {
 
         //데이터 취득
         String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-        mFirebaseDB.getReference().child("memo").addValueEventListener(new ValueEventListener() {
+        String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
+        mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //data가 바뀔 때마다 이벤트가 들어옴

@@ -119,6 +119,13 @@
             android:layout_margin="10dp"
             android:hint="실제 측정 사이즈"/>
 
+        <EditText
+            android:id="@+id/edtExplain"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:hint="설명"/>
+
         <Button
             android:id="@+id/btnOk"
             android:layout_width="match_parent"
