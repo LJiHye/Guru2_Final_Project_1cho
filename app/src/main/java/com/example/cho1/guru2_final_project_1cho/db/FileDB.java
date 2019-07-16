@@ -22,7 +22,7 @@ public class FileDB {
     }
 
     /** 새로운 멤버추가 */
-    public static void addMember(Context context, MemberBean memberBean){
+   /* public static void addMember(Context context, MemberBean memberBean){
         //1.기존의 멤버 리스트를 불러온다.
         List<MemberBean> memberList = getMemberList(context);
         //2.기존의 멤버 리스트에 추가한다.
@@ -33,7 +33,7 @@ public class FileDB {
         SharedPreferences.Editor editor = getSP(context).edit();
         editor.putString("memberList", listStr);
         editor.commit();
-    }
+    }*/
 
     public static List<MemberBean> getMemberList(Context context) {
         String listStr = getSP(context).getString("memberList", null);
