@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 public class FleaBean implements Serializable {
+
     public String imgUrl;
     public String imgName;
     public String title;  //타이틀
@@ -16,6 +17,9 @@ public class FleaBean implements Serializable {
     public String buyday;  //구매일
     public String expire; // 유통기한
     public String size; // 사이즈
+
+    public String wishprice;    //팔아주세요-희망가
+    public String wishoption;   //팔아주세요-희망 옵션
 
     public transient Bitmap bmpTitle;
 
