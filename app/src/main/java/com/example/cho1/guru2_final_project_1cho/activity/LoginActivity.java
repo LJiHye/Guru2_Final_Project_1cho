@@ -48,11 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnJoin = findViewById(R.id.btnJoin);
 
-        findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
         findViewById(R.id.btnLogin).setOnClickListener(mClicks);
         findViewById(R.id.btnJoin).setOnClickListener(mClicks);
-//        btnLogin.setOnClickListener(mBtnLoginClick);
-//        btnJoin.setOnClickListener(mBtnJoinClick);
+        findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
 
         //구글 로그인 객체선언
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -78,40 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-//    //로그인 버튼 클릭 이벤트
-//    private View.OnClickListener mBtnLoginClick = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            String memId = mEdtId.getText().toString();
-//            String memPw = mEdtPw.getText().toString();
-//
-//            MemberBean memberBean = FileDB.getFindMember(LoginActivity.this, memId);
-//            if(memberBean == null) {
-//                Toast.makeText(LoginActivity.this, "해당 아이디는 가입이 되어 있지 않습니다.", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//            //패스워드 비교
-//            if( TextUtils.equals(memberBean.memPw, memPw) ) {
-//                FileDB.setLoginMember(LoginActivity.this, memberBean); //저장
-//                //비밀번호 일치
-//                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(i);
-//            } else {
-//                Toast.makeText(LoginActivity.this, "패스워드가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//        }
-//    };
-//
-//    //회원가입 버튼 클릭 이벤트
-//    private View.OnClickListener mBtnJoinClick = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            Intent ii = new Intent(LoginActivity.this, CameraCaptureActivity.class);
-//            startActivity(ii);
-//        }
-//    };
 
     private View.OnClickListener mClicks = new View.OnClickListener() {
         @Override
