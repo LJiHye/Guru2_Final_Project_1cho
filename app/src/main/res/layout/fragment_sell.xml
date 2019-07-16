@@ -9,7 +9,15 @@
     <ListView
         android:id="@+id/lstSell"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="15dp">
     </ListView>
+
+    <Button
+        android:id="@+id/btnSellWrite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="글 등록"/>
 
 </LinearLayout>
