@@ -138,11 +138,10 @@ public class JoinActivity extends AppCompatActivity {
     private void uploadDB(String imgUrl, String imgName) {
         //Firebase 데이터베이스에 메모를 등록한다.
         DatabaseReference dbRef = mFirebaseDatabase.getReference();
-        String id = dbRef.push().getKey(); // key를 메모의 고유 ID로 사용한다.
+        //String id = dbRef.push().getKey(); // key를 메모의 고유 ID로 사용한다.
 
         //데이터베이스에 저장한다.
         MemberBean memberBean = new MemberBean();
-        memberBean.id = id;
         memberBean.memId = mFirebaseAuth.getCurrentUser().getEmail();
         memberBean.memName = mEdtName.getText().toString();
         memberBean.memKakaoId = mEdtKakao.getText().toString();
@@ -154,7 +153,7 @@ public class JoinActivity extends AppCompatActivity {
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(mFirebaseAuth.getCurrentUser().getEmail());
 
-        dbRef.child("members").child(guid).setValue(memberBean);
+        dbRef.child("member").child(guid).setValue(memberBean);
         Toast.makeText(this, "멤버 저장 완료", Toast.LENGTH_SHORT).show();
 
         //메인 화면으로 이동
