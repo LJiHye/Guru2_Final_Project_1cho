@@ -1,10 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -24,6 +19,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
