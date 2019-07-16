@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 final GoogleSignInAccount account = task.getResult(ApiException.class);
                 Toast.makeText(getBaseContext(), "구글 로그인 성공", Toast.LENGTH_SHORT).show();
 
-                userMail = mFirebaseAuth.getCurrentUser().getEmail();
+                userMail = account.getEmail();
                 String guid = JoinActivity.getUserIdFromUUID(userMail); // 고유 id
 
                 mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
