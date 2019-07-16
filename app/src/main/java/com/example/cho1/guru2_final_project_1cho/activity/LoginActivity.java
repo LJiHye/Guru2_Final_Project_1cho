@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+    private String userMail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,31 +128,35 @@ public class LoginActivity extends AppCompatActivity {
                 final GoogleSignInAccount account = task.getResult(ApiException.class);
                 Toast.makeText(getBaseContext(), "구글 로그인 성공", Toast.LENGTH_SHORT).show();
 
-                final String userMail = account.getEmail();
+                userMail = mFirebaseAuth.getCurrentUser().getEmail();
+                String guid = JoinActivity.getUserIdFromUUID(userMail); // 고유 id
 
-                mFirebaseDatabase.getReference().child("members").addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabase.getReference().child("member").child(guid).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean flag = false;
 
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             MemberBean bean = snapshot.getValue(MemberBean.class);
                             if(TextUtils.equals(bean.memId, userMail)) {
                                 //FileDB.addMember(LoginActivity.this, bean); 이거 말고
                                 //저장 setLoginMember
+                                flag = true;
                                 FileDB.setLoginMember(LoginActivity.this, bean);
                                 // firebase 로그인..?
                                 firebaseAuthWithGoogle(account);
-                                return;
-                                //break;
+                                break;
                             }
                         }
 
-                        // 회원이 없는 경우..?
-                        Intent i = new Intent(LoginActivity.this, JoinActivity.class);
-                        i.putExtra("userEmail", userMail);
-                        i.putExtra("tokenId", account.getIdToken());
-                        startActivity(i);
-                        finish();
+                        if(!flag) {
+                            // 회원이 없는 경우..?
+                            Intent i = new Intent(LoginActivity.this, JoinActivity.class);
+                            i.putExtra("userEmail", userMail);
+                            i.putExtra("tokenId", account.getIdToken());
+                            startActivity(i);
+                            finish();
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }

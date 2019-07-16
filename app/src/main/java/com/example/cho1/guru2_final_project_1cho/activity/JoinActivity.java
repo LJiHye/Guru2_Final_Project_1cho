@@ -2,9 +2,7 @@ package com.example.cho1.guru2_final_project_1cho.activity;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
@@ -87,9 +84,14 @@ public class JoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        checkPermission();
         setContentView(R.layout.activity_join);
+
+        //카메라를 사용하기 위한 퍼미션을 요청한다.
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+        }, 0);
 
         tokenId = getIntent().getStringExtra("tokenId");
         String email = getIntent().getStringExtra("userEmail");
@@ -102,13 +104,11 @@ public class JoinActivity extends AppCompatActivity {
 
         mMemberBean = FileDB.getLoginMember(this);
 
-        if(mBoardBean != null) {
-            mBoardBean.bmpTitle = getIntent().getParcelableExtra("titleBitmap");
-            if(mBoardBean.bmpTitle != null) {
-                mImgProfile.setImageBitmap(mBoardBean.bmpTitle);
+        if(mMemberBean != null) {
+            mMemberBean.bmpTitle = getIntent().getParcelableExtra("titleBitmap");
+            if(mMemberBean.bmpTitle != null) {
+                mImgProfile.setImageBitmap(mMemberBean.bmpTitle);
             }
-            mEdtMemo.setText(mBoardBean.contents);
-            mEdtTitle.setText(mBoardBean.title);
         }
 
         //카메라 버튼
@@ -135,28 +135,9 @@ public class JoinActivity extends AppCompatActivity {
             Toast.makeText(this, "사진을 찍어 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
+        firebaseAuthWithGoogle(tokenId);
 
-        StorageReference stroageRef = mFirebaseStorage.getReference();
-        final StorageReference imagesRef = stroageRef.child("images/"
-                + mCaptureUri.getLastPathSegment()); // images/파일날짜.jpg 로 들어감
 
-        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
-
-        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() { // Task<Uri> 입력하고 Alt+Enter
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-                return imagesRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                //database upload를 호출한다.
-                uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
-            }
-        });
         //MemberBean 생성
         //insert
         //firebase인증
@@ -181,10 +162,11 @@ public class JoinActivity extends AppCompatActivity {
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(mFirebaseAuth.getCurrentUser().getEmail());
 
-        dbRef.child("memo").child(guid).child(memberBean.id).setValue(memberBean);
+        dbRef.child("member").child(guid).setValue(memberBean);
         Toast.makeText(this, "멤버 저장 완료", Toast.LENGTH_SHORT).show();
 
-        firebaseAuthWithGoogle(tokenId);
+        //메인 화면으로 이동
+        startActivity(new Intent(JoinActivity.this, MainActivity.class));
         finish();
     }
 
@@ -203,8 +185,32 @@ public class JoinActivity extends AppCompatActivity {
                     //Firebase 로그인 성공
                     Toast.makeText(getBaseContext(), "FireBase 로그인 성공", Toast.LENGTH_SHORT).show();
                     //메인 화면으로 이동
-                    startActivity(new Intent(JoinActivity.this, MainActivity.class));
-                    finish();
+                    //startActivity(new Intent(JoinActivity.this, MainActivity.class));
+                    //finish();
+
+                    StorageReference stroageRef = mFirebaseStorage.getReference();
+                    final StorageReference imagesRef = stroageRef.child("images/"
+                            + mCaptureUri.getLastPathSegment()); // images/파일날짜.jpg 로 들어감
+
+                    UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
+
+                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() { // Task<Uri> 입력하고 Alt+Enter
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+                            return imagesRef.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            //database upload를 호출한다.
+                            uploadDB(task.getResult().toString(), mCaptureUri.getLastPathSegment());
+                        }
+                    });
+
+
                 } else {
                     // 로그인 실패
                     Toast.makeText(getBaseContext(), "FireBase 로그인 실패", Toast.LENGTH_SHORT).show();
@@ -251,7 +257,7 @@ public class JoinActivity extends AppCompatActivity {
 
         return imageFile;
     }
-
+/*
     private void checkPermission() {
         // Self 권한 체크
         if (ContextCompat.checkSelfPermission(this,
@@ -277,6 +283,7 @@ public class JoinActivity extends AppCompatActivity {
             }
         }
     } // End checkPermission
+    */
 
     // 사용자 권한동의 결과 획득
     @Override
@@ -410,33 +417,13 @@ public class JoinActivity extends AppCompatActivity {
     // 카메라, 앨범등의 처리결과
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        switch (requestCode) {
-            case REQ_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    mImgProfile.setImageURI(mProviderUri); // 사진촬영한 이미지 설정
-
-                } else {
-                    Toast.makeText(this, "사진촬영을 취소하였습니다.", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case REQ_TAKE_ALBUM:
-                if (resultCode == Activity.RESULT_OK) {
-                    File albumFile = createFileName();
-                    mPhotoUri = data.getData();
-                    mAlbumUri = Uri.fromFile(albumFile);
-
-                    mImgProfile.setImageURI(mPhotoUri);   // 앨범에서 선택한 이미지 설정
-                }
-                break;
-
-            //카메라로부터 오는 데이터를 취득한다.
-            case RESULT_OK :
-                if(requestCode == REQUEST_IMAGE_CAPTURE) {
-                    sendPicture();
-                }
-                break;
-        } // End switch
+        super.onActivityResult(requestCode, resultCode, data);
+        //카메라로부터 오는 데이터를 취득한다.
+        if(resultCode == RESULT_OK) {
+            if(requestCode == REQUEST_IMAGE_CAPTURE) {
+                sendPicture();
+            }
+        }
     }
 }//end class
 
