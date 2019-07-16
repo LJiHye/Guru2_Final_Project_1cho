@@ -87,8 +87,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_weight="2"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="210dp"/>
+        android:layout_marginTop="10dp" />
 </LinearLayout>

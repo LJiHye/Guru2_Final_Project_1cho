@@ -1,8 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -92,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(ii);
                     finish();
                     break;
-
+/*
                 case R.id.btnLogin:
                     String memId = mEdtId.getText().toString();
                     String memPw = mEdtPw.getText().toString();
@@ -112,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "패스워드가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    break;
+                    break;*/
             }
         }
     };
