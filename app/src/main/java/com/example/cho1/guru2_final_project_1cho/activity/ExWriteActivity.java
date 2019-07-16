@@ -164,7 +164,7 @@ public class ExWriteActivity extends AppCompatActivity {
         exBean.fault = mEdtFault.getText().toString(); // 하자
         exBean.expire = mEdtExpDate.getText().toString(); // 유통기한
         exBean.buyDate = mEdtBuyDate.getText().toString(); // 구매날짜
-        exBean.size = mEdtSize.getText().toString(); // 실측사이즈
+        exBean.size = mEdtSize.getText().toString(); // 사이즈
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         exBean.date = sdf.format(new Date()); // 게시글 올린 날짜
