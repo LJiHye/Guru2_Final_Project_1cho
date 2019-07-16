@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         mEdtPw = findViewById(R.id.edtPw);
 
         findViewById(R.id.btnLogin).setOnClickListener(mClicks);
-        findViewById(R.id.btnJoin).setOnClickListener(mClicks);
         findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
 
         // 구글 로그인 객체선언
@@ -75,10 +74,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        findViewById(R.id.btnLogin).setOnClickListener(mClicks);
-        findViewById(R.id.btnJoin).setOnClickListener(mClicks);
-        findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
-
     }//end onCreate()
 
     // 버튼 클릭 이벤트
@@ -88,12 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.btnGoogleSignIn:
                     googleSignIn();
-                    break;
-
-                case R.id.btnJoin:
-                    Intent ii = new Intent(LoginActivity.this, CameraCaptureActivity.class);
-                    startActivity(ii);
-                    finish();
                     break;
 
                /* case R.id.btnLogin:
