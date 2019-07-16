@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
@@ -19,7 +21,7 @@ public class SellDetailActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
-    private List<FleaBean> mFleaList;
+    private FleaBean mFleaBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +34,17 @@ public class SellDetailActivity extends AppCompatActivity {
         TextView txtSellDetailPrice = findViewById(R.id.txtSellDetailPrice); //희망가
         TextView txtSellDetailOption = findViewById(R.id.txtSellDetailOption); //희망 옵션
 
-        //FleaBean fleaBean = mFleaList;
+        LinearLayout layoutVisibility = findViewById(R.id.layoutVisibility); //수정, 삭제 버튼 감싼 레이아웃
+
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         txtSellDetailId.setText(mFirebaseAuth.getUid());
         //txtSellDetailDate.setText(mFirebaseDB.getReference().child("memo").);
 
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-        //if (TextUtils.equals(, mFirebaseAuth.getCurrentUser().getEmail()));
-
+        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+            layoutVisibility.setVisibility(View.VISIBLE);
+        }
         /*
         * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
         * 2. 기존에 올린 게시물에서 값 가져와서 setText
