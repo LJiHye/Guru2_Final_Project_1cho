@@ -9,14 +9,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
 
@@ -26,7 +28,9 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/clothes" />
+                android:src="@drawable/clothes_icon"
+                android:background="@drawable/border"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnBook"
@@ -34,7 +38,9 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/book" />
+                android:src="@drawable/book_icon"
+                android:background="@drawable/border"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnLife"
@@ -42,12 +48,15 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/life" />
+                android:src="@drawable/life_icon"
+                android:background="@drawable/border"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp">
 
 
             <TextView
@@ -56,7 +65,7 @@
                 android:layout_weight="1"
                 android:text="옷"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -64,7 +73,7 @@
                 android:layout_weight="1"
                 android:text="책"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -72,7 +81,7 @@
                 android:layout_weight="1"
                 android:text="생활용품"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,7 +98,9 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/gift" />
+                android:src="@drawable/gift_icon"
+                android:background="@drawable/border"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnData"
@@ -97,7 +108,9 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/data" />
+                android:src="@drawable/data_icon"
+                android:background="@drawable/border"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnTicket"
@@ -105,37 +118,40 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/ticket" />
+                android:src="@drawable/ticket_icon"
+                android:background="@drawable/border" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp">
 
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="옷"
+                android:text="기프티콘"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="책"
+                android:text="데이터"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="생활용품"
+                android:text="대리예매"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,7 +168,9 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/elecdevice" />
+                android:src="@drawable/elecdevice_icon"
+                android:background="@drawable/border"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnCosmetic"
@@ -160,7 +178,9 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/cosmetic" />
+                android:src="@drawable/cosmetic_icon"
+                android:background="@drawable/border"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnEtc"
@@ -168,37 +188,39 @@
                 android:layout_height="100dp"
                 android:scaleType="fitCenter"
                 android:layout_weight="1"
-                android:src="@drawable/etc" />
+                android:src="@drawable/etc_icon"
+                android:background="@drawable/border" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="옷"
+                android:text="전자기기"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="책"
+                android:text="화장품"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="생활용품"
+                android:text="기타"
                 android:textAlignment="center"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
         </LinearLayout>
     </LinearLayout>
 
