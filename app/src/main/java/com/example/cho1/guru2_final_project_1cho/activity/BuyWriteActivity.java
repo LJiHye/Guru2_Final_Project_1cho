@@ -270,7 +270,6 @@ public class BuyWriteActivity extends AppCompatActivity {
 
     // 새 게시글 작성
     private void upload() {
-
         if(mPhotoPath == null) {
             Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
             return;

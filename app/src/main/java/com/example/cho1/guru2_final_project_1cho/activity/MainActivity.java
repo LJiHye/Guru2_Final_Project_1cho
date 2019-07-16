@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
+        //상단 아이디 부분 로그인 된 아이디로 출력
+        txtUserID.setText(mFirebaseAuth.getCurrentUser().getEmail());
+
         //로그아웃 버튼
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(mClicks);

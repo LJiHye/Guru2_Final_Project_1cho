@@ -17,7 +17,7 @@
             android:id="@+id/imgProfile"
             android:layout_width="110dp"
             android:layout_height="114dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:src="@drawable/user" />
 
         <Button
             android:id="@+id/btnCamera"
