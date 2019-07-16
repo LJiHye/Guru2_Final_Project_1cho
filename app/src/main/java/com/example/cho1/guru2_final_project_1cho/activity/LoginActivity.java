@@ -1,6 +1,8 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
