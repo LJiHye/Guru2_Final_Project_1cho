@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                 userMail = mFirebaseAuth.getCurrentUser().getEmail();
                 String guid = JoinActivity.getUserIdFromUUID(userMail); // 고유 id
 
-                mFirebaseDatabase.getReference().child("member").child(guid).addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean flag = false;
