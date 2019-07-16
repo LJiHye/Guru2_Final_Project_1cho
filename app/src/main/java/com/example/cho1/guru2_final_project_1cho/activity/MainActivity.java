@@ -1,6 +1,9 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +16,15 @@ import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -51,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
+
+        //로그아웃 버튼
+        Button btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(mClicks);
+        btnLogout.setText("로그아웃( " + mFirebaseAuth.getCurrentUser().getEmail() + " )");
     } // end onCreate()
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -95,4 +107,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private View.OnClickListener mClicks = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btnLogout:
+                    logout();
+                    break;
+            }
+        }
+    };
+
+    //로그아웃 처리
+    private void logout() {
+        try{
+            mFirebaseAuth.signOut();
+            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
