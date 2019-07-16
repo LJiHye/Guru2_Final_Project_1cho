@@ -23,6 +23,11 @@ public class FleaAdapter extends BaseAdapter {
         mContext = context;
         mFleaList = fleaList;
     }
+
+    public void setList(List<FleaBean> fleaList) {
+        mFleaList = fleaList;
+    }
+
     @Override
     public int getCount() {
         return mFleaList.size();

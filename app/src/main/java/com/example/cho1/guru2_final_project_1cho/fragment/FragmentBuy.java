@@ -64,11 +64,14 @@ public class FragmentBuy extends Fragment {
                 mFleaList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    FleaBean bean = snapshot.getValue(FleaBean.class);
-                    mFleaList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
+                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
+                        FleaBean bean = snapshot2.getValue(FleaBean.class);
+                        mFleaList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
+                    }
                 }
                 //바뀐 데이터로 Refresh 한다
                 if(mFleaAdapter != null){
+                    mFleaAdapter.setList(mFleaList);
                     mFleaAdapter.notifyDataSetChanged();
                 }
 
