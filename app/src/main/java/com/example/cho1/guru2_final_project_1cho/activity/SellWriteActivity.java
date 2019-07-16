@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class SellWriteActivity extends AppCompatActivity {
 
@@ -103,7 +104,7 @@ public class SellWriteActivity extends AppCompatActivity {
                     upload();
                 }else{
                     //수정 업데이트
-                    update();
+                    //update();
                 }
             }
         });
@@ -155,9 +156,29 @@ public class SellWriteActivity extends AppCompatActivity {
         String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
         //데이터베이스에 저장한다.
+        FleaBean fleaBean = new FleaBean();
+        fleaBean.id = id;
+        fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
+        fleaBean.title = mEdtTitle.getText().toString();
+        fleaBean.wishprice = mEdtWishPrice.getText().toString();
+        fleaBean.wishoption = mEdtWishOption.getText().toString();
+        fleaBean.imgUrl = imgUrl;
+        fleaBean.imgName = imgName;
+        fleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
 
+        //고유번호를 생성한다
+        String guid = getUserIdFromUUID(fleaBean.userId);
+        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+        finish();
     }
 
+    public static String getUserIdFromUUID(String userEmail) {
+        long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
+        return String.valueOf(val);
+    }
+
+    //사진 찍기
     private void takePicture() {
 
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
