@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
+import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
 import com.google.android.material.tabs.TabLayout;
