@@ -15,7 +15,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
-import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
 import com.google.android.material.tabs.TabLayout;
@@ -31,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
+    MemberBean loginMember;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(getIntent().getSerializableExtra("loginMember") != null) {
+            loginMember = (MemberBean) getIntent().getSerializableExtra("loginMember");
+        }
 
         TextView txtUserID = findViewById(R.id.txtUserID);
 
@@ -65,12 +70,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //상단 아이디 부분 로그인 된 아이디로 출력
-        txtUserID.setText(mFirebaseAuth.getCurrentUser().getEmail());
+        if(loginMember != null)
+            txtUserID.setText(loginMember.memId);
+        else
+            txtUserID.setText(mFirebaseAuth.getCurrentUser().getEmail());
 
         //로그아웃 버튼
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(mClicks);
-        btnLogout.setText("로그아웃( " + mFirebaseAuth.getCurrentUser().getEmail() + " )");
+        if(loginMember != null)
+            btnLogout.setText("로그아웃( " + loginMember.memId + " )");
+        else
+            btnLogout.setText("로그아웃( " + mFirebaseAuth.getCurrentUser().getEmail() + " )");
     } // end onCreate()
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

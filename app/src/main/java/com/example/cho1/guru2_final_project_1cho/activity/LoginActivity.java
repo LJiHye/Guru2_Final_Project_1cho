@@ -52,7 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     private String userMail;
-
+    private String memId;
+    private String memPw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,30 +86,31 @@ public class LoginActivity extends AppCompatActivity {
                     googleSignIn();
                     break;
 
-               /* case R.id.btnLogin:
-                    String memId = mEdtId.getText().toString();
-                    String memPw = mEdtPw.getText().toString();
+                case R.id.btnLogin:
+                    memId = mEdtId.getText().toString();
+                    memPw = mEdtPw.getText().toString();
 
-                    String uuid = JoinActivity.getUserIdFromUUID(memId);
-
-                    mFirebaseAuth.signInWithEmailAndPassword(memId, memPw)
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d("TEST", "signInWithEmail:success");
-                                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                                        updateUI(user);
-                                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w("TEST", "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
+                    mFirebaseDatabase.getReference().child("member").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                MemberBean bean = snapshot.getValue(MemberBean.class);
+                                if (TextUtils.equals(bean.memId, memId) && TextUtils.equals(bean.memPw, memPw)) {
+                                    //googleSignIn();
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    i.putExtra("loginMember", bean);
+                                    startActivity(i);
+                                    finish();
                                 }
-                            });*/
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    break;
             }
         }
     };
