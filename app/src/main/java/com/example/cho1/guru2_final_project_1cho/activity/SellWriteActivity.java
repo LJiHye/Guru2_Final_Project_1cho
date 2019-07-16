@@ -47,10 +47,11 @@ import java.util.UUID;
 
 public class SellWriteActivity extends AppCompatActivity {
 
-    public static final String STORAGE_DB_URL = "https://guru2-final-project-1cho.firebaseio.com/";
+    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
 
     private ImageView mImgSellWrite;
     private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;
+    private Spinner mspinner1;  //카테고리
 
     //Firebase DB 저장 변수
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -87,16 +88,18 @@ public class SellWriteActivity extends AppCompatActivity {
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtWishPrice = findViewById(R.id.edtWishPrice);
         mEdtWishOption = findViewById(R.id.edtWishOption);
+        mspinner1 = findViewById(R.id.spinner1);
         Button mBtnImgReg = findViewById(R.id.btnImgReg);
+        Button mBtnReg = findViewById(R.id.btnReg);
 
-        mImgSellWrite.setOnClickListener(new View.OnClickListener() {
+        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });
 
-        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
+        mBtnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mFleaBean == null){
