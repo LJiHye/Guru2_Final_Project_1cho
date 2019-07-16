@@ -46,7 +46,7 @@ import java.util.Date;
 
 public class SellWriteActivity extends AppCompatActivity {
 
-    public static final String STORAGE_DB_URL = "https://guru2-final-project-1cho.firebaseio.com/"
+    public static final String STORAGE_DB_URL = "https://guru2-final-project-1cho.firebaseio.com/";
 
     private ImageView mImgSellWrite;
     private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;

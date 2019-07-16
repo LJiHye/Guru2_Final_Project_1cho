@@ -57,6 +57,10 @@ public class LoginActivity extends AppCompatActivity {
         mEdtId = findViewById(R.id.edtId);
         mEdtPw = findViewById(R.id.edtPw);
 
+        findViewById(R.id.btnLogin).setOnClickListener(mClicks);
+        findViewById(R.id.btnJoin).setOnClickListener(mClicks);
+        findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
+
         // 구글 로그인 객체선언
         GoogleSignInOptions googleSignInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -111,7 +115,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private void googleSignIn() {
+    //구글 로그인 처리
+    private void googleSignIn(){
         Intent i = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(i, 1004);
     }
