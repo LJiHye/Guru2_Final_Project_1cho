@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
+import com.example.cho1.guru2_final_project_1cho.activity.ExWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 
@@ -53,6 +54,15 @@ public class FragmentEx extends Fragment {
 
         mExAdapter = new ExAdapter(getActivity(), mExList);
         mLstEx.setAdapter(mExAdapter);
+
+        view.findViewById(R.id.btnWrite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ExWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         return view;
     }

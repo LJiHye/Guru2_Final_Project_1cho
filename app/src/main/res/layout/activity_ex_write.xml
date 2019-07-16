@@ -15,18 +15,18 @@
 
         <ImageView
             android:id="@+id/imgItem"
-            android:layout_width="300dp"
-            android:layout_height="250dp"
-            android:scaleType="fitXY"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitXY"
             app:srcCompat="@mipmap/ic_launcher" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.6"
         android:orientation="vertical"
         android:layout_marginTop="40dp">
 
@@ -70,50 +70,56 @@
                 android:spinnerMode="dropdown"/>
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/edtBuyDate"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="구매일"
-            android:inputType="textPersonName" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edtExpDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="유통기한"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/edtBuyDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="구매일"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/edtFault"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="하자유무:"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/edtExpDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="유통기한"
+                android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/edtSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="실제 측정 사이즈:"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/edtFault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="하자유무:"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edtSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="실제 측정 사이즈:"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="bottom"
+                android:text="작성 완료" />
+
+        </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1">
 
-        <Button
-            android:id="@+id/btnWrite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="작성 완료" />
-    </LinearLayout>
 </LinearLayout>
