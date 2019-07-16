@@ -1,10 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -25,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.google.android.gms.tasks.Continuation;
@@ -43,13 +43,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class SellWriteActivity extends AppCompatActivity {
 
-    public static final String STORAGE_DB_URL = "https://guru2-final-project-1cho.firebaseio.com/";
+    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
 
     private ImageView mImgSellWrite;
     private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;
+    private Spinner mspinner1;  //카테고리
 
     //Firebase DB 저장 변수
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -86,16 +88,18 @@ public class SellWriteActivity extends AppCompatActivity {
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtWishPrice = findViewById(R.id.edtWishPrice);
         mEdtWishOption = findViewById(R.id.edtWishOption);
+        mspinner1 = findViewById(R.id.spinner1);
         Button mBtnImgReg = findViewById(R.id.btnImgReg);
+        Button mBtnSellReg = findViewById(R.id.btnSellReg);
 
-        mImgSellWrite.setOnClickListener(new View.OnClickListener() {
+        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });
 
-        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
+        mBtnSellReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mFleaBean == null){
@@ -103,7 +107,7 @@ public class SellWriteActivity extends AppCompatActivity {
                     upload();
                 }else{
                     //수정 업데이트
-     //               update();
+                    //update();
                 }
             }
         });
@@ -155,9 +159,29 @@ public class SellWriteActivity extends AppCompatActivity {
         String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
         //데이터베이스에 저장한다.
+        FleaBean fleaBean = new FleaBean();
+        fleaBean.id = id;
+        fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
+        fleaBean.title = mEdtTitle.getText().toString();
+        fleaBean.wishprice = mEdtWishPrice.getText().toString();
+        fleaBean.wishoption = mEdtWishOption.getText().toString();
+        fleaBean.imgUrl = imgUrl;
+        fleaBean.imgName = imgName;
+        fleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
 
+        //고유번호를 생성한다
+        String guid = getUserIdFromUUID(fleaBean.userId);
+        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+        finish();
     }
 
+    public static String getUserIdFromUUID(String userEmail) {
+        long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
+        return String.valueOf(val);
+    }
+
+    //사진 찍기
     private void takePicture() {
 
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
