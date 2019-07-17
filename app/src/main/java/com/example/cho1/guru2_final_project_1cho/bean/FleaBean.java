@@ -3,6 +3,8 @@ package com.example.cho1.guru2_final_project_1cho.bean;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FleaBean implements Serializable {
 
@@ -29,4 +31,6 @@ public class FleaBean implements Serializable {
     public transient Bitmap bmpTitle;
 
     public String date; // 게시물 올린 날짜
+
+    public List<CommentBean> commentList = new ArrayList<>();
 }
