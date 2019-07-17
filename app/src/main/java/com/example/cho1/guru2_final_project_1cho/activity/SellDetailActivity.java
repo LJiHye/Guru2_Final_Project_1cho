@@ -1,5 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class SellDetailActivity extends AppCompatActivity {
 
@@ -51,6 +53,19 @@ public class SellDetailActivity extends AppCompatActivity {
         Button btnModify = findViewById(R.id.btnModify);
         Button btnDel = findViewById(R.id.btnDel);
 
+        btnModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),SellModifyActivity.class);
+                startActivity(i);
+            }
+        });
+        btnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //delete();
+            }
+        });
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
@@ -62,7 +77,7 @@ public class SellDetailActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        if(TextUtils.equals(bean.id,mFleaBean.id)) {
+                        if(TextUtils.equals(bean.id, mFleaBean.id)) {
                             txtSellTitle.setText(bean.selltitle);
                             txtSellDetailOption.setText(bean.wishoption);
                             txtSellDetailPrice.setText(bean.wishprice);
@@ -75,7 +90,6 @@ public class SellDetailActivity extends AppCompatActivity {
                         }
                     }
                 }
-
                 if (mSellAdapter != null) {
                     mSellAdapter.setList(mFleaList);
                     mSellAdapter.notifyDataSetChanged();
@@ -87,11 +101,6 @@ public class SellDetailActivity extends AppCompatActivity {
             }
         });
     }
-
-        /*
-         * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-         * 2. 기존에 올린 게시물에서 값 가져와서 setText    */
-
 
         /* 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
          * */
