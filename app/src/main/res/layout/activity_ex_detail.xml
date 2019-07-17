@@ -238,6 +238,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
                         android:singleLine="false"
+                        android:background="@drawable/border_edittext"
+                        android:padding="10dp"
+                        android:layout_marginStart="5dp"
                         android:hint="댓글을 입력하세요" />
 
                     <LinearLayout
