@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +76,7 @@ public class ExDetailActivity extends AppCompatActivity {
                         if(TextUtils.equals(bean.id,mExBean.id)) {
                             txtExDetailTitle.setText(bean.mine);
                             txtExDetailWant.setText(bean.want);
-                        //    txtExDetailPrice.setText(bean.wishprice);
+                            txtExDetailPrice.setText(bean.price);
                             txtExDetailState.setText(bean.state);
                             txtExDetailFault.setText(bean.fault);
                             txtExDetailBuyDate.setText(bean.buyDate);

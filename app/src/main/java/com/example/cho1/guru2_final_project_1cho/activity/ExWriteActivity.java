@@ -55,6 +55,7 @@ public class ExWriteActivity extends AppCompatActivity {
     private ImageView mImgItem;
     private EditText mEdtTitle;
     private  EditText mEdtItem;
+    private  EditText mEdtPrice;
     private EditText mEdtBuyDate;
     private EditText mEdtExpDate;
     private EditText mEdtFault;
@@ -86,6 +87,7 @@ public class ExWriteActivity extends AppCompatActivity {
         mImgItem = findViewById(R.id.imgItem);
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtItem = findViewById(R.id.edtItem);
+        mEdtPrice = findViewById(R.id.edtPrice);
         mEdtBuyDate = findViewById(R.id.edtBuyDate);
         mEdtExpDate = findViewById(R.id.edtExpDate);
         mEdtFault = findViewById(R.id.edtFault);
@@ -160,6 +162,7 @@ public class ExWriteActivity extends AppCompatActivity {
         exBean.imgName = imgName;
         exBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
         exBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
+        exBean.price = mEdtPrice.getText().toString(); // 내 물건 원가
         exBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
         exBean.fault = mEdtFault.getText().toString(); // 하자
         exBean.expire = mEdtExpDate.getText().toString(); // 유통기한

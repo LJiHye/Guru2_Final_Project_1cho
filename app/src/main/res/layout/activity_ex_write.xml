@@ -77,10 +77,18 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/edtPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="25dp"
+                android:inputType="textPersonName"
+                android:hint="원가" />
+
+            <EditText
                 android:id="@+id/edtBuyDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:ems="10"
                 android:hint="구매일"
                 android:inputType="textPersonName" />
