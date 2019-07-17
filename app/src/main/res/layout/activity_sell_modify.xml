@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:text="제목"
+        android:hint="제목"
         android:layout_weight="1"/>
 
     <EditText
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:text="희망가"
+        android:hint="희망가"
         android:layout_weight="1"/>
 
     <EditText
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:text="희망옵션"
+        android:hint="희망옵션"
         android:layout_weight="1"/>
 
     <Button
