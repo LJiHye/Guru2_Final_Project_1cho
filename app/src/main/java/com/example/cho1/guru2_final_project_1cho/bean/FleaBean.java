@@ -21,6 +21,8 @@ public class FleaBean implements Serializable {
     public String expire; // 유통기한
     public String size; // 사이즈
 
+    //팔아주세요
+    public String selltitle;    //팔아주세요-제목
     public String wishprice;    //팔아주세요-희망가
     public String wishoption;   //팔아주세요-희망 옵션
 

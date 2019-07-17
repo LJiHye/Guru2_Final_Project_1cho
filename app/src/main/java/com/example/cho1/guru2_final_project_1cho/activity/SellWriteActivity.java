@@ -83,7 +83,6 @@ public class SellWriteActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA
         }, 0);
 
-        //사진찍기
         mImgSellWrite = findViewById(R.id.imgSellWrite);
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtWishPrice = findViewById(R.id.edtWishPrice);
@@ -118,8 +117,8 @@ public class SellWriteActivity extends AppCompatActivity {
             if(mFleaBean.bmpTitle != null){
                 mImgSellWrite.setImageBitmap(mFleaBean.bmpTitle);
             }
-            mEdtTitle.setText(mFleaBean.title);
-            mEdtWishPrice.setText(mFleaBean.wishoption);
+            mEdtTitle.setText(mFleaBean.selltitle);
+            mEdtWishPrice.setText(mFleaBean.wishprice);
             mEdtWishOption.setText(mFleaBean.wishoption);
         }
     }  //end onCreate()
@@ -162,16 +161,16 @@ public class SellWriteActivity extends AppCompatActivity {
         FleaBean fleaBean = new FleaBean();
         fleaBean.id = id;
         fleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
-        fleaBean.title = mEdtTitle.getText().toString();
+        fleaBean.selltitle = mEdtTitle.getText().toString();
         fleaBean.wishprice = mEdtWishPrice.getText().toString();
         fleaBean.wishoption = mEdtWishOption.getText().toString();
         fleaBean.imgUrl = imgUrl;
         fleaBean.imgName = imgName;
-        fleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
+        fleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(fleaBean.userId);
-        dbRef.child("memo").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        dbRef.child("sell").child( guid ).child( fleaBean.id ).setValue(fleaBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
         finish();
     }

@@ -51,12 +51,17 @@ public class DownloadImgTaskFlea extends AsyncTask<URL, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) { // doInBackground 후 실행
-        if(bitmap != null) {
-            // 이미지 다운로드 성공
-            mImageView.get().setImageBitmap(bitmap);
-            // 리스트 갱신 저장
-            mFleaList.get(mPosition).bmpTitle = bitmap;
+        if(bitmap != null && mImageView != null) {
+            try {
+                // 이미지 다운로드 성공
+                mImageView.get().setImageBitmap(bitmap);
+                // 리스트 갱신 저장
+                if(mFleaList != null) {
+                    mFleaList.get(mPosition).bmpTitle = bitmap;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        //super.onPostExecute(bitmap);
     }
 }
