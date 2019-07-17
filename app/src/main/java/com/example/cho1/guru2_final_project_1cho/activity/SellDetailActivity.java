@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +36,8 @@ public class SellDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_detail);
 
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+
         final TextView txtSellDetailId = findViewById(R.id.txtSellDetailId); //아이디
         final TextView txtSellDetailDate = findViewById(R.id.txtSellDetailDate); //날짜
 
@@ -49,20 +52,6 @@ public class SellDetailActivity extends AppCompatActivity {
 
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
-        txtSellDetailId.setText(mFirebaseAuth.getUid());
-        //txtSellDetailDate.setText(mFirebaseDB.getReference().child("memo").);
-
-        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-//        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
-//            layoutVisibility.setVisibility(View.VISIBLE);
-//        }
-        /*
-         * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-         * 2. 기존에 올린 게시물에서 값 가져와서 setText    */
-
-
-        /* 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
-         * */
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -72,11 +61,13 @@ public class SellDetailActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        txtSellTitle.setText(bean.selltitle);
-                        txtSellDetailOption.setText(bean.wishoption);
-                        txtSellDetailPrice.setText(bean.wishprice);
-                        txtSellDetailId.setText(bean.userId);
-                        txtSellDetailDate.setText(bean.date);
+                        if(TextUtils.equals(bean.id,mFleaBean.id)) {
+                            txtSellTitle.setText(bean.selltitle);
+                            txtSellDetailOption.setText(bean.wishoption);
+                            txtSellDetailPrice.setText(bean.wishprice);
+                            txtSellDetailId.setText(bean.userId);
+                            txtSellDetailDate.setText(bean.date);
+                        }
                     }
                 }
 
@@ -91,4 +82,16 @@ public class SellDetailActivity extends AppCompatActivity {
             }
         });
     }
+        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+//        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+//            layoutVisibility.setVisibility(View.VISIBLE);
+//        }
+        /*
+         * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+         * 2. 기존에 올린 게시물에서 값 가져와서 setText    */
+
+
+        /* 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
+         * */
+
 }
