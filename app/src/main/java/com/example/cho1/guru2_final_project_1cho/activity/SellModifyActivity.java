@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,12 +28,16 @@ import android.widget.Toast;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,7 +47,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class SellModifyActivity extends AppCompatActivity {
@@ -64,6 +71,12 @@ public class SellModifyActivity extends AppCompatActivity {
     public static final int REQUEST_IMAGE_CAPTURE = 200;
 
     private FleaBean mFleaBean;
+
+    private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
+
+    private List<FleaBean> mFleaList = new ArrayList<>();
+    private SellAdapter mSellAdapter;
+    FleaBean mCurrentFleaBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +130,35 @@ public class SellModifyActivity extends AppCompatActivity {
             mEdtWishOption.setText(mFleaBean.wishoption);
 
         }
+
+        mCurrentFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+
+        mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                mFleaList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                        FleaBean bean = snapshot2.getValue(FleaBean.class);
+                        //if(TextUtils.equals(bean.id, mCurrentFleaBean.id)) {  //bean.id - null에러,,
+                            mEdtTitle.setText(bean.selltitle);
+                            mEdtWishOption.setText(bean.wishoption);
+                            mEdtWishPrice.setText(bean.wishprice);
+
+                    }
+                }
+                if (mSellAdapter != null) {
+                    mSellAdapter.setList(mFleaList);
+                    mSellAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }//end onCreate()
 
     //수정하기
