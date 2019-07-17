@@ -51,6 +51,7 @@ public class ExAdapter extends BaseAdapter {
         TextView txtExMine = view.findViewById(R.id.txtExMine);
         TextView txtExWant = view.findViewById(R.id.txtExWant);
         TextView txtExDate = view.findViewById(R.id.txtExDate);
+        TextView txtExId = view.findViewById(R.id.txtExId);
 
         final ExBean exBean = mExList.get(i);
 
@@ -67,6 +68,7 @@ public class ExAdapter extends BaseAdapter {
         txtExMine.setText(exBean.mine);
         txtExWant.setText(exBean.want);
         txtExDate.setText(exBean.date);
+        txtExId.setText(exBean.userId);
 
         return view;
     }
