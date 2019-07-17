@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -52,6 +53,10 @@ public class BuyDetailActivity extends AppCompatActivity {
         txtBuyDetailDate = findViewById(R.id.txtBuyDetailDate); //날짜
 
         imgDetail = findViewById(R.id.imgDetail); //이미지
+        GradientDrawable drawable=
+                (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        imgDetail.setBackground(drawable);
+        imgDetail.setClipToOutline(true);
         txtBuyDetailProduct = findViewById(R.id.txtBuyDetailProduct); //제품명
         txtBuyDetailPrice = findViewById(R.id.txtBuyDetailPrice); //정가
         txtBuyDetailFinalPrice = findViewById(R.id.txtBuyDetailFinalPrice); //판매가

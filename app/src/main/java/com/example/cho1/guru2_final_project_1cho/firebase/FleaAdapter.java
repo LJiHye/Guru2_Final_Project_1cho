@@ -2,6 +2,7 @@ package com.example.cho1.guru2_final_project_1cho.firebase;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,11 @@ public class FleaAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.view_buy_item, null);
 
         ImageView imgBuy = view.findViewById(R.id.imgBuy);
+        GradientDrawable drawable=
+                (GradientDrawable) mContext.getDrawable(R.drawable.background_rounding);
+        imgBuy.setBackground(drawable);
+        imgBuy.setClipToOutline(true);
+
         TextView txtBuyTitle = view.findViewById(R.id.txtBuyTitle);
         TextView txtBuySubTitle = view.findViewById(R.id.txtBuyExplain);
         TextView txtBuyPrice = view.findViewById(R.id.txtBuyPrice);

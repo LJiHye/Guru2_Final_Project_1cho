@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.firebase;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,11 @@ public class ExAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.view_ex_item, null);
 
         ImageView imgEx = view.findViewById(R.id.imgEx);
+        GradientDrawable drawable=
+                (GradientDrawable) mContext.getDrawable(R.drawable.background_rounding);
+        imgEx.setBackground(drawable);
+        imgEx.setClipToOutline(true);
+
         TextView txtExMine = view.findViewById(R.id.txtExMine);
         TextView txtExWant = view.findViewById(R.id.txtExWant);
         TextView txtExDate = view.findViewById(R.id.txtExDate);

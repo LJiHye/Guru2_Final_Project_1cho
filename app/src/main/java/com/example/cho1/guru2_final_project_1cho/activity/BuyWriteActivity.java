@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.GradientDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -91,6 +92,11 @@ public class BuyWriteActivity extends AppCompatActivity {
 
 
         mimgBuyWrite = findViewById(R.id.imgBuyWrite);
+        GradientDrawable drawable=
+                (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        mimgBuyWrite.setBackground(drawable);
+        mimgBuyWrite.setClipToOutline(true);
+
         Button mbtnImgReg = findViewById(R.id.btnImgReg);
         //사진찍기
         mbtnImgReg.setOnClickListener(new View.OnClickListener() {
