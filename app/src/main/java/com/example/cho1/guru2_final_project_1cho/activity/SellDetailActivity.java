@@ -88,7 +88,7 @@ public class SellDetailActivity extends AppCompatActivity {
                         txtSellDetailDate.setText(bean.date);
                     }
                 }
-                //바뀐 데이터로 Refresh 한다.
+
                 if (mSellAdapter != null) {
                     mSellAdapter.setList(mFleaList);
                     mSellAdapter.notifyDataSetChanged();
