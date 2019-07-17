@@ -65,16 +65,12 @@ public class BuyDetailActivity extends AppCompatActivity {
         Button btnModify = findViewById(R.id.btnModify);
         Button btnDel = findViewById(R.id.btnDel);
 
-
-        //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
-        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-        final String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
-
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-//        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
-//            layoutVisibility.setVisibility(View.VISIBLE);
-//        }
+        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+            layoutVisibility.setVisibility(View.VISIBLE);
+        }
 
+        //상단 아이디바(아이디, 날짜), 글 내용 불러와 출력
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -127,8 +123,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 
     /*
      * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-     * 2. 기존에 올린 게시물에서 값 가져와서 setText
-     * 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
+     * 2. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
      * */
 
 
