@@ -2,8 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/user"/>
+
+        <TextView
+            android:id="@+id/txtBuyId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="아이디"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,12 +41,15 @@
             android:layout_width="0dp"
             android:layout_weight="6"
             android:layout_height="match_parent"
+            android:weightSum="5"
+            android:gravity="center_vertical"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/txtBuyTitle"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="bottom"
                 android:paddingBottom="10dp"
                 android:textStyle="bold"
@@ -37,7 +59,7 @@
                 android:id="@+id/txtBuyExplain"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="SubTitle" />
         </LinearLayout>
         <TextView
@@ -49,4 +71,14 @@
             android:layout_marginLeft="5dp"
             android:text="Price" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtBuyDate"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAlignment="viewEnd"
+        android:text="2000-00-00 00:00:00"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"/>
 </LinearLayout>

@@ -54,6 +54,8 @@ public class FleaAdapter extends BaseAdapter {
         TextView txtBuyTitle = view.findViewById(R.id.txtBuyTitle);
         TextView txtBuySubTitle = view.findViewById(R.id.txtBuyExplain);
         TextView txtBuyPrice = view.findViewById(R.id.txtBuyPrice);
+        TextView txtBuyId = view.findViewById(R.id.txtBuyId);
+        TextView txtBuyDate = view.findViewById(R.id.txtBuyDate);
 
         final FleaBean fleaBean = mFleaList.get(i);
 
@@ -72,6 +74,9 @@ public class FleaAdapter extends BaseAdapter {
         txtBuyTitle.setText(fleaBean.title);
         txtBuySubTitle.setText(fleaBean.subtitle);
         txtBuyPrice.setText(fleaBean.saleprice);
+        txtBuyId.setText(fleaBean.userId);
+        txtBuyDate.setText(fleaBean.date);
+
 
         //리스트 항목 누르면 디테일 페이지로
         view.setOnClickListener(new View.OnClickListener() {
