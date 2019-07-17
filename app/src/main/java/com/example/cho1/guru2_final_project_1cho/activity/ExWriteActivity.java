@@ -171,7 +171,7 @@ public class ExWriteActivity extends AppCompatActivity {
 
         //고유번호를 생성한다
         String guid = getUserIdFromUUID(exBean.userId);
-        dbRef.child("memo").child( guid ).child( exBean.id ).setValue(exBean);
+        dbRef.child("ex").child( guid ).child( exBean.id ).setValue(exBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
         finish();
     }

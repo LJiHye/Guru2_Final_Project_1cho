@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
+import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 
 import java.net.URL;
 import java.util.List;
@@ -18,6 +19,10 @@ public class ExAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<ExBean> mExList;
+
+    public void setList(List<ExBean> exList) {
+        mExList = exList;
+    }
 
     public ExAdapter(Context context, List<ExBean> exList) {
         mContext = context;

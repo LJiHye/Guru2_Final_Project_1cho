@@ -49,14 +49,14 @@ public class ExModifyActivity extends AppCompatActivity {
 
    public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
 
-    private ImageView mImgItem;
-    private EditText mEdtTitle;
-    private  EditText mEdtItem;
-    private EditText mEdtBuyDate;
-    private EditText mEdtExpDate;
-    private EditText mEdtFault;
-    private EditText mEdtSize;
-    private Spinner mSprState;
+    private ImageView mImgItem; // 내 물건
+    private EditText mEdtTitle; // 내 물건명
+    private  EditText mEdtItem; // 교환하고자 하는 물건명
+    private EditText mEdtBuyDate; // 구매한 날짜
+    private EditText mEdtExpDate; // 유통기한
+    private EditText mEdtFault; // 결함
+    private EditText mEdtSize; // 사이즈
+    private Spinner mSprState; // 상태
 
     ExBean mExBean = new ExBean();
 
