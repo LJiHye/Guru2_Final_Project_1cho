@@ -27,7 +27,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
     private Button mBtnModify, mBtnLogout;
     private ImageView mImgDetailProfile;
 
-    private String id, name, pw, kakaoId, imgUrl, uuid;
+    private String id, name, kakaoId, imgUrl, uuid;
     private boolean googleLoginFlag;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -121,7 +121,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
         }
 
         loginMember.memKakaoId = mEdtDetailKakakoId.getText().toString();
-        String uuid = JoinActivity.getUserIdFromUUID(loginMember.memId);
+        uuid = JoinActivity.getUserIdFromUUID(loginMember.memId);
 
         mFirebaseDatabase.getReference().child("member").child(uuid).setValue(loginMember);
         Toast.makeText(ModifyMemberActivity.this, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
