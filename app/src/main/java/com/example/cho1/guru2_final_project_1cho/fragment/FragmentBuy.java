@@ -1,5 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.activity.BuyDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.SellWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
@@ -47,6 +49,7 @@ public class FragmentBuy extends Fragment {
         mLstFlea.setAdapter(mFleaAdapter);
 
         return view;
+
     }  //end onCreateView
 
     @Override

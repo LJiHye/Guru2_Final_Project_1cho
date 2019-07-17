@@ -18,41 +18,28 @@
         android:layout_marginBottom="50dp"
         android:layout_gravity="center"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <EditText
+        android:id="@+id/edtId"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:background="@drawable/border_edittext"
+        android:drawableStart="@drawable/id_icon"
+        android:hint="아이디 입력"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:layout_gravity="center"/>
 
-        <EditText
-            android:id="@+id/edtId"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_edittext"
-            android:drawableStart="@drawable/id_icon"
-            android:hint="아이디 입력"
-            android:inputType="textPersonName"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/edtPw"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
-
-        <EditText
-            android:id="@+id/edtPw"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_edittext"
-            android:drawableStart="@drawable/password_icon"
-            android:hint="비밀번호 입력"
-            android:inputType="textPassword" />
-    </LinearLayout>
+        android:background="@drawable/border_edittext"
+        android:drawableStart="@drawable/password_icon"
+        android:hint="비밀번호 입력"
+        android:inputType="textPassword"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,8 +68,5 @@
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center" />
-
     </LinearLayout>
-
-
 </LinearLayout>

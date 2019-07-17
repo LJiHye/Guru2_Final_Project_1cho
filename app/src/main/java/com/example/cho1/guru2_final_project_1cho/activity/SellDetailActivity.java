@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,10 +33,13 @@ public class SellDetailActivity extends AppCompatActivity {
         TextView txtSellDetailId = findViewById(R.id.txtSellDetailId); //아이디
         TextView txtSellDetailDate = findViewById(R.id.txtSellDetailDate); //날짜
 
+        ImageView imgDetail = findViewById(R.id.imgDetail);
         TextView txtSellDetailPrice = findViewById(R.id.txtSellDetailPrice); //희망가
         TextView txtSellDetailOption = findViewById(R.id.txtSellDetailOption); //희망 옵션
 
         LinearLayout layoutVisibility = findViewById(R.id.layoutVisibility); //수정, 삭제 버튼 감싼 레이아웃
+        Button btnModify = findViewById(R.id.btnModify);
+        Button btnDel = findViewById(R.id.btnDel);
 
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력

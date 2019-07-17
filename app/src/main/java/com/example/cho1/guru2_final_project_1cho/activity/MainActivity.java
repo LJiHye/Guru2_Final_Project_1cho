@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
+import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
 import com.google.android.material.tabs.TabLayout;
@@ -30,16 +31,16 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
-    MemberBean loginMember;
+    private MemberBean loginMember;
+    private boolean googleLoginFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(getIntent().getSerializableExtra("loginMember") != null) {
-            loginMember = (MemberBean) getIntent().getSerializableExtra("loginMember");
-        }
+        loginMember = FileDB.getLoginMember(this);
+        googleLoginFlag = getIntent().getBooleanExtra("googleLogin", false);
 
         TextView txtUserID = findViewById(R.id.txtUserID);
 
@@ -69,11 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
-        //상단 아이디 부분 로그인 된 아이디로 출력
-        if(loginMember != null)
-            txtUserID.setText(loginMember.memId);
-        else
-            txtUserID.setText(mFirebaseAuth.getCurrentUser().getEmail());
+        txtUserID.setText(loginMember.memId);
 
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         linearLayout.setOnClickListener(mClicks);
@@ -128,9 +125,15 @@ public class MainActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.linearLayout:
                     Intent i = new Intent(MainActivity.this, ModifyMemberActivity.class);
-                    i.putExtra("loginMember", loginMember);
+                    i.putExtra("googleLogin", googleLoginFlag);
                     startActivity(i);
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginMember = FileDB.getLoginMember(this);
+    }
 }

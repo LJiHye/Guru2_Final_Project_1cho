@@ -69,7 +69,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +129,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_gravity="bottom"
-            android:text="수정 완료" />
+            android:text="수정 완료"
+            android:textStyle="bold"
+            android:background="@drawable/border_button"/>
     </LinearLayout>
 
 </LinearLayout>

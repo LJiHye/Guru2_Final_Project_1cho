@@ -22,20 +22,6 @@ public class FileDB {
         return sp;
     }
 
-    /** 새로운 멤버추가 */
-   /* public static void addMember(Context context, MemberBean memberBean){
-        //1.기존의 멤버 리스트를 불러온다.
-        List<MemberBean> memberList = getMemberList(context);
-        //2.기존의 멤버 리스트에 추가한다.
-        memberList.add(memberBean);
-        //3.멤버 리스트를 저장한다.
-        String listStr = mGson.toJson(memberList);
-        //4.저장한다.
-        SharedPreferences.Editor editor = getSP(context).edit();
-        editor.putString("memberList", listStr);
-        editor.commit();
-    }*/
-
     public static List<MemberBean> getMemberList(Context context) {
         String listStr = getSP(context).getString("memberList", null);
         //저장된 리스트가 없을 경우에 새로운 리스트를 리턴한다.
@@ -93,6 +79,7 @@ public class FileDB {
         editor.putString("memberList", jsonStr);
         editor.commit();
     }
+
     //로그인한 MemberBean 을 취득한다.
     public static MemberBean getLoginMember(Context context) {
         String str = getSP(context).getString("loginMemberBean", null);

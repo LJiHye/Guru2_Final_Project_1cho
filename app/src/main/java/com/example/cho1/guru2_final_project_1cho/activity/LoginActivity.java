@@ -89,13 +89,24 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 MemberBean bean = snapshot.getValue(MemberBean.class);
+                                // 아이디 또는 패스워드를 입력하지 않은 경우
+                                if (TextUtils.isEmpty(memId) || TextUtils.isEmpty(memPw)) {
+                                    Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                // 아이디, 비밀번호가 Database 상의 것과 일치하는지 검사
                                 if (TextUtils.equals(bean.memId, memId) && TextUtils.equals(bean.memPw, memPw)) {
                                     //googleSignIn();
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    i.putExtra("loginMember", bean);
+                                    FileDB.setLoginMember(LoginActivity.this, bean);
+                                    Toast.makeText(LoginActivity.this, "로그인이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                                    i.putExtra("googleLogin", false);
                                     startActivity(i);
                                     finish();
                                 }
+                                // 일치하지 않는 경우
+                                Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                                return;
                             }
                         }
 
@@ -125,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // 구글 로그인 성공
                 final GoogleSignInAccount account = task.getResult(ApiException.class);
-                Toast.makeText(getBaseContext(), "구글 로그인 성공", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "구글 로그인이 완료되었습니다", Toast.LENGTH_SHORT).show();
 
                 userMail = account.getEmail();
                 String guid = JoinActivity.getUserIdFromUUID(userMail); // 고유 id
@@ -138,7 +149,6 @@ public class LoginActivity extends AppCompatActivity {
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             MemberBean bean = snapshot.getValue(MemberBean.class);
                             if(TextUtils.equals(bean.memId, userMail)) {
-                                //FileDB.addMember(LoginActivity.this, bean); 이거 말고
                                 //저장 setLoginMember
                                 flag = true;
                                 FileDB.setLoginMember(LoginActivity.this, bean);
@@ -174,13 +184,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     //Firebase 로그인 성공
-                    Toast.makeText(getBaseContext(), "FireBase 로그인 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Firebase 로그인이 완료되었습니다", Toast.LENGTH_SHORT).show();
                     //메인 화면으로 이동
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra("googleLogin", true);
+                    startActivity(i);
                     finish();
                 } else {
                     // 로그인 실패
-                    Toast.makeText(getBaseContext(), "FireBase 로그인 실패", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "FireBase 로그인이 실패하였습니다", Toast.LENGTH_SHORT).show();
                     Log.w("TEST", "인증실패: " + task.getException());
                 }
             }

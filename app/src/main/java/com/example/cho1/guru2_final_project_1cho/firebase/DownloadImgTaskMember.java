@@ -6,29 +6,25 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
-import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.URL;
-import java.util.List;
 
-public class DownloadImgTask extends AsyncTask<URL, Void, Bitmap> { // <URL, Void, Bitmap> 타이핑
+public class DownloadImgTaskMember extends AsyncTask<URL, Void, Bitmap> { // <URL, Void, Bitmap> 타이핑
 
     private Context mContext;
     private WeakReference<ImageView> mImageView = null;
 
-    private List<ExBean> mExList;
-    private List<FleaBean> mFleaList;
+    private MemberBean mMemberBean;
     private int mPosition;
 
     //생성자
-    public DownloadImgTask(Context context, ImageView imageView, List<ExBean> exList, int position) {
+    public DownloadImgTaskMember(Context context, ImageView imageView, MemberBean memberBean) {
         mContext = context;
         mImageView = new WeakReference<>(imageView);
-        mExList = exList;
-        mPosition = position;
+        mMemberBean = memberBean;
     }
 
 
@@ -57,7 +53,7 @@ public class DownloadImgTask extends AsyncTask<URL, Void, Bitmap> { // <URL, Voi
             // 이미지 다운로드 성공
             mImageView.get().setImageBitmap(bitmap);
             // 리스트 갱신 저장
-            mExList.get(mPosition).bmpTitle = bitmap;
+            mMemberBean.bmpTitle = bitmap;
         }
         //super.onPostExecute(bitmap);
     }
