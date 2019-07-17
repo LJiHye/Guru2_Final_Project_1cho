@@ -278,8 +278,8 @@
                 android:id="@+id/edtBuyComment"
                 android:layout_weight="7"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="댓글을 입력해주세요."
+                android:layout_height="match_parent"
+                android:hint="    댓글을 입력해주세요."
                 android:textSize="15dp"
                 android:background="@drawable/border_edittext"/>
                 android:singleLine="false"
