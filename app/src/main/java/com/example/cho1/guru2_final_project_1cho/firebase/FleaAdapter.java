@@ -85,6 +85,8 @@ public class FleaAdapter extends BaseAdapter {
                 Intent intent = new Intent(mContext, BuyDetailActivity.class);
                 intent.putExtra("INDEX", i); //원본데이터의 순번
                 intent.putExtra("ITEM", fleaBean); //상세표시할 원본 데이터
+                intent.putExtra("TITLE", fleaBean.title);
+                intent.putExtra("EXPLAIN", fleaBean.subtitle);
                 mContext.startActivity(intent);
             }
         });
