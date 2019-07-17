@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.firebase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.activity.BuyDetailActivity;
+import com.example.cho1.guru2_final_project_1cho.activity.SellDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 
 import java.net.URL;
@@ -60,9 +63,20 @@ public class SellAdapter extends BaseAdapter {
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+        //ui에 원본 데이터 적용
         txtBuyTitle.setText(fleaBean.title);
         txtBuySubTitle.setText(fleaBean.subtitle);
         txtBuyPrice.setText(fleaBean.wishprice);
+
+        //리스트 항목 누르면 디테일 페이지로
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, SellDetailActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
 
         return view;
     }
