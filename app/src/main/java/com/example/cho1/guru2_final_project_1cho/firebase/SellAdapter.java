@@ -55,8 +55,8 @@ public class SellAdapter extends BaseAdapter {
         TextView txtSellTitle = view.findViewById(R.id.txtSellTitle);
         TextView txtSellSubTitle = view.findViewById(R.id.txtSellExplain);
         TextView txtSellPrice = view.findViewById(R.id.txtSellPrice);
-        TextView txtSellId = view.findViewById(R.id.txtSellId);
-        TextView txtSellDate = view.findViewById(R.id.txtSellDate);
+        TextView txtSellId = view.findViewById(R.id.txtReplyId);
+        TextView txtSellDate = view.findViewById(R.id.txtReplyDate);
 
         final FleaBean fleaBean = mFleaList.get(i);
 
