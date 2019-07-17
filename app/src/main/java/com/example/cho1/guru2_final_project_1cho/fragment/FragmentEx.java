@@ -17,7 +17,6 @@ import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.ExWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,23 +42,6 @@ public class FragmentEx extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ex, container, false);
 
         mLstEx = view.findViewById(R.id.lstEx);
-
-
-        view.findViewById(R.id.detailTest).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), ExDetailActivity.class);
-                startActivity(i);
-            }
-        });
-
-         /* view.findViewById(R.id.btnExModify).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), ExModifyActivity.class);
-                startActivity(i);
-            }
-        }); */
 
         mExAdapter = new ExAdapter(getActivity(), mExList);
         mLstEx.setAdapter(mExAdapter);
