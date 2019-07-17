@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.ExWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
+import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
+import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +37,7 @@ public class FragmentEx extends Fragment {
     private ExAdapter mExAdapter;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
+    private MemberBean loginMember;
 
 
     @Nullable
@@ -42,9 +46,11 @@ public class FragmentEx extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ex, container, false);
 
         mLstEx = view.findViewById(R.id.lstEx);
-
+        setListViewHeightBasedOnChildren(mLstEx);
         mExAdapter = new ExAdapter(getActivity(), mExList);
         mLstEx.setAdapter(mExAdapter);
+
+        loginMember = FileDB.getLoginMember(getActivity());
 
         view.findViewById(R.id.btnWrite).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,13 +73,32 @@ public class FragmentEx extends Fragment {
         return view;
     } // onCreate()
 
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
 
         //데이터 취득
-        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        String userEmail = loginMember.memId;
         String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
         mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
             @Override

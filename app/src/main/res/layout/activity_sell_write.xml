@@ -9,12 +9,11 @@
 
     <ImageView
         android:id="@+id/imgSellWrite"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#C8D3CECE"
-        android:layout_marginTop="50dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_weight="2"/>
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/photo"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/btnImgReg"
@@ -26,7 +25,7 @@
         android:textColor="#5b5b5b"
         android:background="@drawable/border_button"
         android:layout_marginTop="15dp"
-        android:layout_weight="1"
+
         />
 
     <Spinner

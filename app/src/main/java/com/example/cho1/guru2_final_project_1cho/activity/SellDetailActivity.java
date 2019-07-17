@@ -40,6 +40,11 @@ public class SellDetailActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
+    private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
+    private ImageView imgDetail;
+    private LinearLayout layoutSellVisibility;
+    private Button btnModify, btnDel;
+
     private FleaBean mFleaBean;
     private List<FleaBean> mFleaList = new ArrayList<>();
     private SellAdapter mSellAdapter;
@@ -59,22 +64,28 @@ public class SellDetailActivity extends AppCompatActivity {
 
         mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
         mLoginMember = FileDB.getLoginMember(this);
-
-        final TextView txtSellDetailId = findViewById(R.id.txtSellDetailId); //아이디
-        final TextView txtSellDetailDate = findViewById(R.id.txtSellDetailDate); //날짜
-
-        ImageView imgDetail = findViewById(R.id.imgDetail);
-        final TextView txtSellTitle = findViewById(R.id.txtSellTitle);
-        final TextView txtSellDetailPrice = findViewById(R.id.txtSellDetailPrice); //희망가
-        final TextView txtSellDetailOption = findViewById(R.id.txtSellDetailOption); //희망 옵션
-
-        final LinearLayout layoutVisibility = findViewById(R.id.layoutVisibility); //수정, 삭제 버튼 감싼 레이아웃
-        Button btnModify = findViewById(R.id.btnModify);
-        Button btnDel = findViewById(R.id.btnDel);
+        CommentAdapter.setFleaBean(mFleaBean);
 
         lstSellComment = findViewById(R.id.lstSellComment);
-        btnSellComment = findViewById(R.id.btnSellComment);
-        edtSellComment = findViewById(R.id.edtSellComment);
+        // Header, Footer 생성 및 등록
+        View header = getLayoutInflater().inflate(R.layout.activity_sell_detail_header, null, false);
+        View footer = getLayoutInflater().inflate(R.layout.activity_sell_detail_footer, null, false);
+
+        lstSellComment.addHeaderView(header);
+        lstSellComment.addFooterView(footer);
+
+        txtSellDetailId = header.findViewById(R.id.txtSellDetailId); //아이디
+        txtSellDetailDate = header.findViewById(R.id.txtSellDetailDate); //날짜
+        imgDetail = header.findViewById(R.id.imgDetail);
+        txtSellTitle = header.findViewById(R.id.txtSellTitle);
+        txtSellDetailPrice = header.findViewById(R.id.txtSellDetailPrice); //희망가
+        txtSellDetailOption = header.findViewById(R.id.txtSellDetailOption); //희망 옵션
+
+        layoutSellVisibility = footer.findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
+        btnModify = footer.findViewById(R.id.btnModify);
+        btnDel = footer.findViewById(R.id.btnDel);
+        btnSellComment = footer.findViewById(R.id.btnSellComment);
+        edtSellComment = footer.findViewById(R.id.edtSellComment);
 
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstSellComment.setAdapter(mCommentAdapter);
@@ -111,7 +122,7 @@ public class SellDetailActivity extends AppCompatActivity {
                             txtSellDetailDate.setText(bean.date);
                             //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
                             if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
-                                layoutVisibility.setVisibility(View.VISIBLE);
+                                layoutSellVisibility.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -138,12 +149,14 @@ public class SellDetailActivity extends AppCompatActivity {
                 commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                 commentBean.userId = mLoginMember.memId;
                 commentBean.id = id;
+                commentBean.flag = 2;
 
                 //고유번호를 생성한다
                 String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
                 String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").child(uuid).setValue(commentBean);
-                Toast.makeText(SellDetailActivity.this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+                dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                Toast.makeText(SellDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
+                edtSellComment.setText(null);
 
                 dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -153,7 +166,7 @@ public class SellDetailActivity extends AppCompatActivity {
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             CommentBean bean = snapshot.getValue(CommentBean.class);
-                            mCommentList.add(0, bean);
+                            mCommentList.add(bean);
                         }
                         //바뀐 데이터로 Refresh 한다.
                         if (mCommentAdapter != null) {
@@ -166,6 +179,36 @@ public class SellDetailActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //데이터 취득
+        //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
+        DatabaseReference dbRef = mFirebaseDB.getReference();
+        String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
+        dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                mCommentList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    CommentBean bean = snapshot.getValue(CommentBean.class);
+                    mCommentList.add(bean);
+                }
+                //바뀐 데이터로 Refresh 한다.
+                if (mCommentAdapter != null) {
+                    mCommentAdapter.setList(mCommentList);
+                    mCommentAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 

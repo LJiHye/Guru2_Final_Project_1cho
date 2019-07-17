@@ -1,14 +1,19 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.graphics.drawable.GradientDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +46,8 @@ public class BuyDetailActivity extends AppCompatActivity {
 
     private FleaBean mFleaBean;
     private ImageView imgDetail;
-    private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice, txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize; //제품명
+    private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
+            txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize;
     private ListView lstBuyComment;
     private Button btnBuyComment;
     private EditText edtBuyComment;
@@ -59,40 +65,50 @@ public class BuyDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buy_detail);
 
         mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+        CommentAdapter.setFleaBean(mFleaBean);
         mLoginMember = FileDB.getLoginMember(this);
 
-        txtBuyDetailId = findViewById(R.id.txtBuyDetailId); //아이디
-        txtBuyDetailDate = findViewById(R.id.txtBuyDetailDate); //날짜
+        lstBuyComment = findViewById(R.id.lstBuyComment);
 
-        imgDetail = findViewById(R.id.imgDetail); //이미지
+        // Header, Footer 생성 및 등록
+        View header = getLayoutInflater().inflate(R.layout.activity_buy_detail_header, null, false);
+        View footer = getLayoutInflater().inflate(R.layout.activity_buy_detail_footer, null, false);
+
+        lstBuyComment.addHeaderView(header);
+        lstBuyComment.addFooterView(footer);
+
+        btnBuyComment = footer.findViewById(R.id.btnBuyComment);
+        edtBuyComment = footer.findViewById(R.id.edtBuyComment);
+
+        txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
+        txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜
+        imgDetail = header.findViewById(R.id.imgDetail); //이미지
         GradientDrawable drawable=
                 (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
         imgDetail.setBackground(drawable);
         imgDetail.setClipToOutline(true);
-        txtBuyDetailProduct = findViewById(R.id.txtBuyDetailProduct); //제품명
-        txtBuyDetailPrice = findViewById(R.id.txtBuyDetailPrice); //정가
-        txtBuyDetailFinalPrice = findViewById(R.id.txtBuyDetailFinalPrice); //판매가
-        txtBuyDetailState = findViewById(R.id.txtBuyDetailState); //제품상태
-        txtBuyDetailFault = findViewById(R.id.txtBuyDetailFault); //하자유무
-        txtBuyDetailBuyDate = findViewById(R.id.txtBuyDetailBuyDate); //구매일
-        txtBuyDetailExpire = findViewById(R.id.txtBuyDetailExpire); //유통기한
-        txtBuyDetailSize = findViewById(R.id.txtBuyDetailSize); //실측사이즈
-        lstBuyComment = findViewById(R.id.lstBuyComment);
-        btnBuyComment = findViewById(R.id.btnBuyComment);
-        edtBuyComment = findViewById(R.id.edtBuyComment);
+        txtBuyDetailProduct = header.findViewById(R.id.txtBuyDetailProduct); //제품명
+        txtBuyDetailPrice = header.findViewById(R.id.txtBuyDetailPrice); //정가
+        txtBuyDetailFinalPrice = header.findViewById(R.id.txtBuyDetailFinalPrice); //판매가
+        txtBuyDetailState = header.findViewById(R.id.txtBuyDetailState); //제품상태
+        txtBuyDetailFault = header.findViewById(R.id.txtBuyDetailFault); //하자유무
+        txtBuyDetailBuyDate = header.findViewById(R.id.txtBuyDetailBuyDate); //구매일
+        txtBuyDetailExpire = header.findViewById(R.id.txtBuyDetailExpire); //유통기한
+        txtBuyDetailSize = header.findViewById(R.id.txtBuyDetailSize); //실측사이즈
 
-        LinearLayout layoutVisibility = findViewById(R.id.layoutVisibility); //수정, 삭제 버튼 감싼 레이아웃
-        Button btnModify = findViewById(R.id.btnModify);
-        Button btnDel = findViewById(R.id.btnDel);
+
+        mCommentAdapter = new CommentAdapter(this, mCommentList);
+        lstBuyComment.setAdapter(mCommentAdapter);
+
+
+        LinearLayout layoutBuyVisibility = findViewById(R.id.layoutBuyVisibility); //수정, 삭제 버튼 감싼 레이아웃
+        Button btnModify = footer.findViewById(R.id.btnModify);
+        Button btnDel = footer.findViewById(R.id.btnDel);
 
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
         if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
-            layoutVisibility.setVisibility(View.VISIBLE);
+            layoutBuyVisibility.setVisibility(View.VISIBLE);
         }
-
-        //상단 아이디바(아이디, 날짜), 글 내용 불러와 출력
-        mCommentAdapter = new CommentAdapter(this, mCommentList);
-        lstBuyComment.setAdapter(mCommentAdapter);
 
 
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
@@ -143,12 +159,14 @@ public class BuyDetailActivity extends AppCompatActivity {
                 commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                 commentBean.userId = mLoginMember.memId;
                 commentBean.id = id;
+                commentBean.flag = 1;
 
                 //고유번호를 생성한다
                 String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
                 String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").child(uuid).setValue(commentBean);
-                Toast.makeText(BuyDetailActivity.this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
+                dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                Toast.makeText(BuyDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
+                edtBuyComment.setText(null);
 
                 dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -158,7 +176,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             CommentBean bean = snapshot.getValue(CommentBean.class);
-                            mCommentList.add(0, bean);
+                            mCommentList.add(bean);
                         }
                         //바뀐 데이터로 Refresh 한다.
                         if (mCommentAdapter != null) {
@@ -173,37 +191,35 @@ public class BuyDetailActivity extends AppCompatActivity {
         });
     }
 
-/*    @Override
+   @Override
     protected void onResume() {
         super.onResume();
 
         //데이터 취득
         //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
-        mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //데이터를 받아와서 List에 저장.
-                mFleaList.clear();
+       DatabaseReference dbRef = mFirebaseDB.getReference();
+       String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
+       dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               //데이터를 받아와서 List에 저장.
+               mCommentList.clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        CommentBean bean = snapshot2.getValue(CommentBean.class);
-                        if(TextUtils.equals(mFleaBean.id, bean.id))
-                            mCommentList.add(0, bean);
-                    }
-                }
-                //바뀐 데이터로 Refresh 한다.
-                if (mCommentAdapter != null) {
-                    mCommentAdapter.setList(mCommentList);
-                    mCommentAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-    }*/
+               for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                   CommentBean bean = snapshot.getValue(CommentBean.class);
+                   mCommentList.add(bean);
+               }
+               //바뀐 데이터로 Refresh 한다.
+               if (mCommentAdapter != null) {
+                   mCommentAdapter.setList(mCommentList);
+                   mCommentAdapter.notifyDataSetChanged();
+               }
+           }
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {}
+       });
+    }
 
     /*
      * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
