@@ -67,9 +67,6 @@ public class BuyDetailActivity extends AppCompatActivity {
         String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         final String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
 
-        //txtBuyDetailId.setText(mFirebaseDB.getReference());
-        //txtBuyDetailDate.setText(mFirebaseDB.getReference().child("buy").child(uuid).child(mFleaBean.date));
-
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
 //        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
 //            layoutVisibility.setVisibility(View.VISIBLE);
@@ -95,7 +92,7 @@ public class BuyDetailActivity extends AppCompatActivity {
                             txtBuyDetailSize.setText(bean.size);
 
                             txtBuyDetailDate.setText(bean.date);
-                            txtBuyDetailId.setText(bean.id);
+                            txtBuyDetailId.setText(bean.userId);
                         }
                     }
                 }
