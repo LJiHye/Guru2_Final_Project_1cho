@@ -142,7 +142,7 @@ public class SellModifyActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        //if(TextUtils.equals(bean.id, mCurrentFleaBean.id)) {
+                        //if(TextUtils.equals(bean.id, mCurrentFleaBean.id)) {  //bean.id - null에러,,
                             mEdtTitle.setText(bean.selltitle);
                             mEdtWishOption.setText(bean.wishoption);
                             mEdtWishPrice.setText(bean.wishprice);
