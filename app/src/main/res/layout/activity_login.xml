@@ -21,19 +21,23 @@
 
     <EditText
         android:id="@+id/edtId"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_gravity="center"
         android:background="@drawable/border_edittext"
         android:drawableStart="@drawable/id_icon"
         android:hint="아이디 입력"
         android:inputType="textPersonName"
-        android:padding="10dp"
-        android:layout_gravity="center"/>
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/edtPw"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="@drawable/border_edittext"
         android:drawableStart="@drawable/password_icon"
         android:hint="비밀번호 입력"
