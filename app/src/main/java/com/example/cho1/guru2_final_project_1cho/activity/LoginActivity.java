@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     memId = mEdtId.getText().toString();
                     memPw = mEdtPw.getText().toString();
 
-                    mFirebaseDatabase.getReference().child("member").addValueEventListener(new ValueEventListener() {
+                    mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
