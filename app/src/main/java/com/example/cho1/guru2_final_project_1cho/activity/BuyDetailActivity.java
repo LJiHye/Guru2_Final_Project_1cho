@@ -1,9 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -170,11 +166,6 @@ public class BuyDetailActivity extends AppCompatActivity {
                             mCommentAdapter.notifyDataSetChanged();
                         }
                     }
-
-
-    } //end onCreate
-
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
@@ -218,6 +209,5 @@ public class BuyDetailActivity extends AppCompatActivity {
      * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
      * 2. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
      * */
-
-
+    
 }
