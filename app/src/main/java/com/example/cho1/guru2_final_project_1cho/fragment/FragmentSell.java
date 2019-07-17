@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.activity.SellDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.SellWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
@@ -49,7 +51,6 @@ public class FragmentSell extends Fragment {
                 startActivity(intent);
             }
         });
-
         return view;
     }//end onCreate()
 

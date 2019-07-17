@@ -1,5 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,10 +15,14 @@ import android.widget.TextView;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BuyDetailActivity extends AppCompatActivity {
-
+    private TextView txtBuyDetailDate;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
@@ -29,7 +34,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buy_detail);
 
         TextView txtBuyDetailId = findViewById(R.id.txtBuyDetailId); //아이디
-        TextView txtBuyDetailDate = findViewById(R.id.txtBuyDetailDate); //날짜
+       txtBuyDetailDate = findViewById(R.id.txtBuyDetailDate);
 
         ImageView imgDetail = findViewById(R.id.imgDetail); //이미지
         TextView txtBuyDetailProduct = findViewById(R.id.txtBuyDetailProduct); //제품명
@@ -48,7 +53,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-        String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
+        final String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
 
         //txtBuyDetailId.setText(mFirebaseDB.getReference());
         //txtBuyDetailDate.setText(mFirebaseDB.getReference().child("buy").child(uuid).child(mFleaBean.date));
@@ -57,6 +62,21 @@ public class BuyDetailActivity extends AppCompatActivity {
 //        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
 //            layoutVisibility.setVisibility(View.VISIBLE);
 //        }
+
+        DatabaseReference userDBRef = FirebaseDatabase.getInstance().getReference();
+        userDBRef.child("buy").child(uuid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                FleaBean fleaOption = dataSnapshot.child(uuid).getValue(FleaBean.class);
+                txtBuyDetailDate.setText(fleaOption.date);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         Intent intent = getIntent(); //던진 인텐트 받기
         FleaBean fleaOption;
