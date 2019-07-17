@@ -2,6 +2,7 @@ package com.example.cho1.guru2_final_project_1cho.firebase;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,11 @@ public class SellAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.view_sell_item, null);
 
         ImageView imgSell = view.findViewById(R.id.imgSell);
+        GradientDrawable drawable=
+                (GradientDrawable) mContext.getDrawable(R.drawable.background_rounding);
+        imgSell.setBackground(drawable);
+        imgSell.setClipToOutline(true);
+
         TextView txtSellTitle = view.findViewById(R.id.txtSellTitle);
         TextView txtSellSubTitle = view.findViewById(R.id.txtSellExplain);
         TextView txtSellPrice = view.findViewById(R.id.txtSellPrice);
