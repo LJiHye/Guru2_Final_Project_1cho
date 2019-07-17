@@ -23,6 +23,12 @@ public class SellAdapter extends BaseAdapter {
         mContext = context;
         mFleaList = fleaList;
     }
+
+
+    public void setList(List<FleaBean> fleaList) {
+        mFleaList = fleaList;
+    }
+
     @Override
     public int getCount() {
         return mFleaList.size();
@@ -43,26 +49,30 @@ public class SellAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.view_sell_item, null);
 
-        ImageView imgBuy = view.findViewById(R.id.imgSell);
-        TextView txtBuyTitle = view.findViewById(R.id.txtSellTitle);
-        TextView txtBuySubTitle = view.findViewById(R.id.txtSellSubTitle);
-        TextView txtBuyPrice = view.findViewById(R.id.txtSellPrice);
+        ImageView imgSell = view.findViewById(R.id.imgSell);
+        TextView txtSellTitle = view.findViewById(R.id.txtSellTitle);
+        TextView txtSellSubTitle = view.findViewById(R.id.txtSellExplain);
+        TextView txtSellPrice = view.findViewById(R.id.txtSellPrice);
+        TextView txtSellId = view.findViewById(R.id.txtSellId);
+        TextView txtSellDate = view.findViewById(R.id.txtSellDate);
 
         final FleaBean fleaBean = mFleaList.get(i);
 
         // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
         try{
             if(fleaBean.bmpTitle == null) {
-                new DownloadImgTaskFlea(mContext, imgBuy, mFleaList, i).execute(new URL(fleaBean.imgUrl));
+                new DownloadImgTaskFlea(mContext, imgSell, mFleaList, i).execute(new URL(fleaBean.imgUrl));
             } else {
-                imgBuy.setImageBitmap(fleaBean.bmpTitle);
+                imgSell.setImageBitmap(fleaBean.bmpTitle);
             }
         } catch(Exception e) {
             e.printStackTrace();
         }
-        txtBuyTitle.setText(fleaBean.title);
-        txtBuySubTitle.setText(fleaBean.subtitle);
-        txtBuyPrice.setText(fleaBean.wishprice);
+        txtSellTitle.setText(fleaBean.selltitle);
+        txtSellSubTitle.setText(fleaBean.wishoption);
+        txtSellPrice.setText(fleaBean.wishprice);
+        txtSellId.setText(fleaBean.userId);
+        txtSellDate.setText(fleaBean.date);
 
         return view;
     }

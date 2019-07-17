@@ -2,7 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/user"/>
+
+        <TextView
+            android:id="@+id/txtSellId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="아이디"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,45 +33,52 @@
         <ImageView
             android:id="@+id/imgSell"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:layout_margin = "10dp"
             app:srcCompat="@mipmap/ic_launcher" />
-
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="6"
+            android:layout_height="match_parent"
+            android:weightSum="5"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtSellTitle"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="bottom"
                 android:paddingBottom="10dp"
-                android:text="타이틀"
+                android:textStyle="bold"
                 android:textSize="25dp"
-                android:textStyle="bold" />
-
+                android:text="Title" />
             <TextView
-                android:id="@+id/txtSellSubTitle"
+                android:id="@+id/txtSellExplain"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="설명설명설명" />
-
+                android:layout_weight="2"
+                android:text="SubTitle" />
         </LinearLayout>
-
         <TextView
             android:id="@+id/txtSellPrice"
-            android:layout_width="65dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:layout_weight="2"
-            android:text="가격" />
+            android:text="Price" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtSellDate"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAlignment="viewEnd"
+        android:text="2000-00-00 00:00:00"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"/>
 </LinearLayout>
