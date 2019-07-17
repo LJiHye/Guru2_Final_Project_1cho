@@ -47,7 +47,7 @@ public class SellAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.view_sell_item, null);
 
@@ -80,10 +80,10 @@ public class SellAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(mContext, SellDetailActivity.class);
-                i.putExtra("INDEX", i); //원본데이터의 순번
-                i.putExtra("ITEM", fleaBean); //상세표시할 원본 데이터
-                mContext.startActivity(i);
+                Intent intent = new Intent(mContext, SellDetailActivity.class);
+                intent.putExtra("INDEX", i); //원본데이터의 순번
+                intent.putExtra("ITEM", fleaBean); //상세표시할 원본 데이터
+                mContext.startActivity(intent);
             }
         });
 

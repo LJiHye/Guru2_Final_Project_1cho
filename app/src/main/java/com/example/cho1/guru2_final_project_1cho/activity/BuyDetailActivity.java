@@ -69,7 +69,7 @@ public class BuyDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 FleaBean fleaOption = dataSnapshot.child(uuid).getValue(FleaBean.class);
-                txtBuyDetailDate.setText(fleaOption.date);
+                //txtBuyDetailDate.setText(fleaOption.date);
             }
 
             @Override
