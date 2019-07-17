@@ -52,7 +52,7 @@ public class CommentAdapter extends BaseAdapter {
 
         txtComment.setText(commentBean.comment);
         txtCommentDate.setText(commentBean.date);
-        txtCommentId.setText(commentBean.id);
+        txtCommentId.setText(commentBean.userId);
 
         imgCommentDelete.setOnClickListener(new View.OnClickListener() {
             @Override

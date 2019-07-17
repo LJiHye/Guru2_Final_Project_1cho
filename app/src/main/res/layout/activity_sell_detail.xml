@@ -197,6 +197,14 @@
             android:background="@drawable/border_button"/>
     </LinearLayout>
 
+    <ListView
+        android:id="@+id/lstSellComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </ListView>
+
     <!--- 수정, 삭제 버튼 -->
     <LinearLayout
         android:id="@+id/layoutVisibility"

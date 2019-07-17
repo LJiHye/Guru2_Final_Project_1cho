@@ -276,12 +276,12 @@
 
             <EditText
                 android:id="@+id/edtBuyComment"
-                android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:background="@drawable/border_edittext"
                 android:hint="    댓글을 입력해주세요."
-                android:textSize="15dp"
-                android:background="@drawable/border_edittext"/>
+                android:textSize="15dp" />
                 android:singleLine="false"
                 android:padding="10dp"
                 android:layout_marginStart="5dp"/>
@@ -314,6 +314,13 @@
                 android:textColor="#5b5b5b"
                 android:background="@drawable/border_button"/>
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/lstBuyComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
 
     <!--- 수정, 삭제 버튼 -->
     <LinearLayout
