@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                                     i.putExtra("googleLogin", false);
                                     startActivity(i);
                                     finish();
+                                    return;
                                 }
                                 // 일치하지 않는 경우
                                 Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();

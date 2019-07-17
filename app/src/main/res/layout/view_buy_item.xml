@@ -40,7 +40,8 @@
             android:orientation="horizontal"
             android:weightSum="10"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <ImageView
                 android:id="@+id/imgBuy"
@@ -96,6 +97,4 @@
             android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
-
-
 </LinearLayout>
