@@ -271,13 +271,13 @@
             android:layout_marginTop="50dp">
 
             <EditText
-                android:id="@+id/edtComment"
+                android:id="@+id/edtBuyComment"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:hint="댓글을 입력해주세요." />
 
             <Button
-                android:id="@+id/btnComment"
+                android:id="@+id/btnBuyComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
