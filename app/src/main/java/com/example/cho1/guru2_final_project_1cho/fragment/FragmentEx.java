@@ -54,15 +54,16 @@ public class FragmentEx extends Fragment {
             }
         });
 
-        mLstEx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*mLstEx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+               ExAdapter exAdapter = new ExAdapter(getActivity(),mExList);
                 Intent intent = new Intent(getActivity(), ExDetailActivity.class);
+                intent.putExtra("")
                 startActivity(intent);
             }
-        });
-
-
+        });*/
         return view;
     } // onCreate()
 

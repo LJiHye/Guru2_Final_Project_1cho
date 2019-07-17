@@ -25,6 +25,7 @@ public class FragmentFlea extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), FleaActivity.class);
+
                 startActivity(i);
             }
         });

@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.firebase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
+import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
+import com.example.cho1.guru2_final_project_1cho.activity.SellDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 
 import java.net.URL;
 import java.util.List;
+
 
 public class ExAdapter extends BaseAdapter {
 
@@ -44,7 +48,7 @@ public class ExAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.view_ex_item, null);
 
@@ -75,6 +79,17 @@ public class ExAdapter extends BaseAdapter {
         txtExWant.setText(exBean.want);
         txtExDate.setText(exBean.date);
         txtExId.setText(exBean.userId);
+
+        //리스트 항목 누르면 디테일 페이지로
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ExDetailActivity.class);
+                intent.putExtra("INDEX", i); //원본데이터의 순번
+                intent.putExtra("ITEM", exBean); //상세표시할 원본 데이터
+                mContext.startActivity(intent);
+            }
+        });
 
         return view;
     }
