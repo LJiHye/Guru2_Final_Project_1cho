@@ -34,7 +34,6 @@ public class FragmentBuy extends Fragment {
     private List<FleaBean> mFleaList = new ArrayList<>();
     private FleaAdapter mFleaAdapter;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
