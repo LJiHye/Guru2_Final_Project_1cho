@@ -1,12 +1,16 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,8 +81,10 @@ public class BuyDetailActivity extends AppCompatActivity {
         lstBuyComment.addHeaderView(header);
         lstBuyComment.addFooterView(footer);
 
-        btnBuyComment = footer.findViewById(R.id.btnBuyComment);
-        edtBuyComment = footer.findViewById(R.id.edtBuyComment);
+        btnBuyComment = findViewById(R.id.btnBuyComment);
+        edtBuyComment = findViewById(R.id.edtBuyComment);
+
+        //edtBuyComment.requestFocus();
 
         txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
         txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜
@@ -151,42 +157,54 @@ public class BuyDetailActivity extends AppCompatActivity {
         btnBuyComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference dbRef = mFirebaseDB.getReference();
-                String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
+                if(!TextUtils.isEmpty(edtBuyComment.getText().toString())) {
+                    DatabaseReference dbRef = mFirebaseDB.getReference();
+                    String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
-                CommentBean commentBean = new CommentBean();
-                commentBean.comment = edtBuyComment.getText().toString();
-                commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                commentBean.userId = mLoginMember.memId;
-                commentBean.id = id;
-                commentBean.flag = 1;
+                    CommentBean commentBean = new CommentBean();
+                    commentBean.comment = edtBuyComment.getText().toString();
+                    commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                    commentBean.userId = mLoginMember.memId;
+                    commentBean.id = id;
+                    commentBean.flag = 1;
 
-                //고유번호를 생성한다
-                String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-                String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
-                Toast.makeText(BuyDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
-                edtBuyComment.setText(null);
-
-                dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //데이터를 받아와서 List에 저장.
-                        mCommentList.clear();
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            CommentBean bean = snapshot.getValue(CommentBean.class);
-                            mCommentList.add(bean);
-                        }
-                        //바뀐 데이터로 Refresh 한다.
-                        if (mCommentAdapter != null) {
-                            mCommentAdapter.setList(mCommentList);
-                            mCommentAdapter.notifyDataSetChanged();
-                        }
+                    //고유번호를 생성한다
+                    String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
+                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
+                    dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                    Toast.makeText(BuyDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
+                    edtBuyComment.setText(null);
+                    if(view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+
+                    dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            //데이터를 받아와서 List에 저장.
+                            mCommentList.clear();
+                        /*mFleaBean.commentList.clear();
+                        mLoginMember.commentList.clear();*/
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                CommentBean bean = snapshot.getValue(CommentBean.class);
+                                mCommentList.add(bean);
+                            /*mFleaBean.commentList.add(bean);
+                            mLoginMember.commentList.add(bean);*/
+                            }
+                            //바뀐 데이터로 Refresh 한다.
+                            if (mCommentAdapter != null) {
+                                mCommentAdapter.setList(mCommentList);
+                                mCommentAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                } else {
+                    Toast.makeText(BuyDetailActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

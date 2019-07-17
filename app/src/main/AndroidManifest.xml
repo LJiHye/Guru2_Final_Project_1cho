@@ -27,9 +27,9 @@
 
         <activity android:name=".activity.ExModifyActivity" />
         <activity android:name=".activity.ExWriteActivity" />
-        <activity android:name=".activity.SellDetailActivity" />
+        <activity android:name=".activity.SellDetailActivity"/>
         <activity android:name=".activity.BuyDetailActivity" />
-        <activity android:name=".activity.ExDetailActivity" />
+        <activity android:name=".activity.ExDetailActivity"/>
         <activity android:name=".activity.FleaActivity" />
         <activity android:name=".activity.JoinActivity" />
         <activity android:name=".activity.CameraCaptureActivity" />

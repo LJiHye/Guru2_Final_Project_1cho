@@ -35,34 +35,5 @@
             android:background="@drawable/border_button"/>
     </LinearLayout> <!-- 수정 삭제 버튼 -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:weightSum="10" >
-
-        <EditText
-            android:id="@+id/edtExComment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:background="@drawable/border_edittext"
-            android:hint="댓글을 입력하세요"
-            android:textSize="15dp"
-            android:singleLine="false"
-            android:padding="10dp"
-            android:layout_marginStart="5dp" />
-
-        <Button
-            android:id="@+id/btnExComment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="작성"
-            android:textStyle="bold"
-            android:textColor="#5b5b5b"
-            android:background="@drawable/border_button"/>
-    </LinearLayout> <!-- 댓글 입력 -->
+    <!-- 댓글 입력 -->
 </LinearLayout>

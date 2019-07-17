@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -90,8 +91,8 @@ public class ExDetailActivity extends AppCompatActivity {
         txtExDetailExpire = header.findViewById(R.id.txtExDetailExpire); // 유통기한
         txtExDetailSize = header.findViewById(R.id.txtExDetailSize); // 사이즈
 
-        btnExComment = footer.findViewById(R.id.btnExComment);
-        edtExComment = footer.findViewById(R.id.edtExComment);
+        btnExComment = findViewById(R.id.btnExComment);
+        edtExComment = findViewById(R.id.edtExComment);
         layoutExVisibility = footer.findViewById(R.id.layoutExVisibility);
 
         mCommentAdapter = new CommentAdapter(this, mCommentList);
@@ -142,42 +143,54 @@ public class ExDetailActivity extends AppCompatActivity {
         btnExComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference dbRef = mFirebaseDB.getReference();
-                String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
+                if(!TextUtils.isEmpty(edtExComment.getText().toString())) {
+                    DatabaseReference dbRef = mFirebaseDB.getReference();
+                    String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
-                CommentBean commentBean = new CommentBean();
-                commentBean.comment = edtExComment.getText().toString();
-                commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                commentBean.userId = mLoginMember.memId;
-                commentBean.id = id;
-                commentBean.flag = 3;
+                    CommentBean commentBean = new CommentBean();
+                    commentBean.comment = edtExComment.getText().toString();
+                    commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                    commentBean.userId = mLoginMember.memId;
+                    commentBean.id = id;
+                    commentBean.flag = 3;
 
-                //고유번호를 생성한다
-                String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
-                String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").child(id).setValue(commentBean);
-                Toast.makeText(ExDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
-                edtExComment.setText(null);
-
-                dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //데이터를 받아와서 List에 저장.
-                        mCommentList.clear();
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            CommentBean bean = snapshot.getValue(CommentBean.class);
-                            mCommentList.add(bean);
-                        }
-                        //바뀐 데이터로 Refresh 한다.
-                        if (mCommentAdapter != null) {
-                            mCommentAdapter.setList(mCommentList);
-                            mCommentAdapter.notifyDataSetChanged();
-                        }
+                    //고유번호를 생성한다
+                    String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
+                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
+                    dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").child(id).setValue(commentBean);
+                    Toast.makeText(ExDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
+                    edtExComment.setText(null);
+                    if(view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+
+                    dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            //데이터를 받아와서 List에 저장.
+                            mCommentList.clear();
+                       /* mExBean.commentList.clear();
+                        mLoginMember.commentList.clear();*/
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                CommentBean bean = snapshot.getValue(CommentBean.class);
+                                mCommentList.add(bean);
+                           /* mExBean.commentList.add(bean);
+                            mLoginMember.commentList.add(bean);*/
+                            }
+                            //바뀐 데이터로 Refresh 한다.
+                            if (mCommentAdapter != null) {
+                                mCommentAdapter.setList(mCommentList);
+                                mCommentAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                } else {
+                    Toast.makeText(ExDetailActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

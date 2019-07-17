@@ -1,9 +1,11 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,8 +86,8 @@ public class SellDetailActivity extends AppCompatActivity {
         layoutSellVisibility = footer.findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
         btnModify = footer.findViewById(R.id.btnModify);
         btnDel = footer.findViewById(R.id.btnDel);
-        btnSellComment = footer.findViewById(R.id.btnSellComment);
-        edtSellComment = footer.findViewById(R.id.edtSellComment);
+        btnSellComment = findViewById(R.id.btnSellComment);
+        edtSellComment = findViewById(R.id.edtSellComment);
 
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstSellComment.setAdapter(mCommentAdapter);
@@ -143,43 +145,55 @@ public class SellDetailActivity extends AppCompatActivity {
         btnSellComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference dbRef = mFirebaseDB.getReference();
-                String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
+                if(!TextUtils.isEmpty(edtSellComment.getText().toString())) {
+                    DatabaseReference dbRef = mFirebaseDB.getReference();
+                    String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
-                CommentBean commentBean = new CommentBean();
-                commentBean.comment = edtSellComment.getText().toString();
-                commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                commentBean.userId = mLoginMember.memId;
-                commentBean.id = id;
-                commentBean.flag = 2;
+                    CommentBean commentBean = new CommentBean();
+                    commentBean.comment = edtSellComment.getText().toString();
+                    commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                    commentBean.userId = mLoginMember.memId;
+                    commentBean.id = id;
+                    commentBean.flag = 2;
 
-                //고유번호를 생성한다
-                String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-                String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
-                Toast.makeText(SellDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
-                edtSellComment.setText(null);
-
-                dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //데이터를 받아와서 List에 저장.
-                        mCommentList.clear();
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            CommentBean bean = snapshot.getValue(CommentBean.class);
-                            mCommentList.add(bean);
-                        }
-                        //바뀐 데이터로 Refresh 한다.
-                        if (mCommentAdapter != null) {
-                            mCommentAdapter.setList(mCommentList);
-                            mCommentAdapter.notifyDataSetChanged();
-                        }
+                    //고유번호를 생성한다
+                    String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
+                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
+                    dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                    Toast.makeText(SellDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
+                    edtSellComment.setText(null);
+                    if(view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            //데이터를 받아와서 List에 저장.
+                            mCommentList.clear();
+                        /*mFleaBean.commentList.clear();
+                        mLoginMember.commentList.clear();*/
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                CommentBean bean = snapshot.getValue(CommentBean.class);
+                                mCommentList.add(bean);
+                            /*mFleaBean.commentList.add(bean);
+                            mLoginMember.commentList.add(bean);*/
+                            }
+                            //바뀐 데이터로 Refresh 한다.
+                            if (mCommentAdapter != null) {
+                                mCommentAdapter.setList(mCommentList);
+                                mCommentAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                } else {
+                    Toast.makeText(SellDetailActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
