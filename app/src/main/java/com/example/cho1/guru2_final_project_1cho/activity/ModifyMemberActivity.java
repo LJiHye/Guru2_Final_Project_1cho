@@ -14,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskMember;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.net.URL;
 
 public class ModifyMemberActivity extends AppCompatActivity {
 
@@ -54,6 +57,16 @@ public class ModifyMemberActivity extends AppCompatActivity {
         kakaoId = loginMember.memKakaoId;
         imgUrl = loginMember.imgUrl;
 
+        // imtTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+        try{
+            if(loginMember.bmpTitle == null) {
+                new DownloadImgTaskMember(this, mImgDetailProfile, loginMember).execute(new URL(loginMember.imgUrl));
+            } else {
+                mImgDetailProfile.setImageBitmap(loginMember.bmpTitle);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         mEdtDetailId.setText(id);
         mEdtDetailId.setEnabled(false);
@@ -88,22 +101,25 @@ public class ModifyMemberActivity extends AppCompatActivity {
         String pw2 = mEdtDetailPw2.getText().toString();
         String pw = mEdtDetailPw.getText().toString();
 
-        if(!TextUtils.equals(pw, loginMember.memPw)) {
-            Toast.makeText(ModifyMemberActivity.this, "현재 패스워드가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
-            return;
+        if(!TextUtils.isEmpty(pw) || !TextUtils.isEmpty(pw1) || !TextUtils.isEmpty(pw2)) { // 패스워드 칸에 뭐라도 입력한 경우
+            if (!TextUtils.equals(pw, loginMember.memPw)) {
+                Toast.makeText(ModifyMemberActivity.this, "현재 패스워드가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (TextUtils.isEmpty(pw1) || TextUtils.isEmpty(pw2)) {
+                Toast.makeText(ModifyMemberActivity.this, "변경할 패스워드를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!TextUtils.equals(pw1, pw2)) {
+                Toast.makeText(ModifyMemberActivity.this, "변경할 패스워드가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            loginMember.memPw = mEdtDetailPw1.getText().toString();
         }
 
-        if(TextUtils.isEmpty(pw1) || TextUtils.isEmpty(pw2)) {
-            Toast.makeText(ModifyMemberActivity.this, "변경할 패스워드를 입력해 주세요", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(!TextUtils.equals(pw1, pw2)) {
-            Toast.makeText(ModifyMemberActivity.this, "변경할 패스워드가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        loginMember.memPw = mEdtDetailPw1.getText().toString();
         loginMember.memKakaoId = mEdtDetailKakakoId.getText().toString();
         String uuid = JoinActivity.getUserIdFromUUID(loginMember.memId);
 

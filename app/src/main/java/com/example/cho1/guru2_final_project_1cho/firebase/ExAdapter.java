@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 
 import java.net.URL;
 import java.util.List;
@@ -58,7 +57,7 @@ public class ExAdapter extends BaseAdapter {
         // imtTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
         try{
             if(exBean.bmpTitle == null) {
-                new DownloadImgTask(mContext, imgEx, mExList, i).execute(new URL(exBean.imgUrl));
+                new DownloadImgTaskEx(mContext, imgEx, mExList, i).execute(new URL(exBean.imgUrl));
             } else {
                 imgEx.setImageBitmap(exBean.bmpTitle);
             }

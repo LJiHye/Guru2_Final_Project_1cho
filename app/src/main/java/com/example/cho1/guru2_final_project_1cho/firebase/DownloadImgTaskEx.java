@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.List;
 
-public class DownloadImgTask extends AsyncTask<URL, Void, Bitmap> { // <URL, Void, Bitmap> 타이핑
+public class DownloadImgTaskEx extends AsyncTask<URL, Void, Bitmap> { // <URL, Void, Bitmap> 타이핑
 
     private Context mContext;
     private WeakReference<ImageView> mImageView = null;
@@ -24,7 +24,7 @@ public class DownloadImgTask extends AsyncTask<URL, Void, Bitmap> { // <URL, Voi
     private int mPosition;
 
     //생성자
-    public DownloadImgTask(Context context, ImageView imageView, List<ExBean> exList, int position) {
+    public DownloadImgTaskEx(Context context, ImageView imageView, List<ExBean> exList, int position) {
         mContext = context;
         mImageView = new WeakReference<>(imageView);
         mExList = exList;
