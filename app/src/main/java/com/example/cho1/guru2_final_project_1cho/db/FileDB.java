@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
+import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -87,7 +88,6 @@ public class FileDB {
         MemberBean memberBean = mGson.fromJson(str, MemberBean.class);
         return memberBean;
     }
-
 
     /* 물물교환 */
     // 물물교환게시글을 추가

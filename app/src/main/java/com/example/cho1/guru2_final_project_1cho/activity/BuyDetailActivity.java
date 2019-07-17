@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.FleaAdapter;
@@ -105,9 +108,21 @@ public class BuyDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-    }
+
+        //수정 버튼 클릭 이벤트
+        findViewById(R.id.btnModify).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+                startActivity(i);
+            }
+        });
+
+    } //end onCreate
+
 
 
     /*
@@ -115,4 +130,6 @@ public class BuyDetailActivity extends AppCompatActivity {
      * 2. 기존에 올린 게시물에서 값 가져와서 setText
      * 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
      * */
+
+
 }

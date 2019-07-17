@@ -32,5 +32,5 @@ public class FleaBean implements Serializable {
 
     public String date; // 게시물 올린 날짜
 
-    public List<CommentBean> commentList = new ArrayList<>();
+    //public List<CommentBean> commentList = new ArrayList<>();
 }
