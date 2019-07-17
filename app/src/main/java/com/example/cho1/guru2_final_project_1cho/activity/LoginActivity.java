@@ -92,7 +92,9 @@ public class LoginActivity extends AppCompatActivity {
                                 if (TextUtils.equals(bean.memId, memId) && TextUtils.equals(bean.memPw, memPw)) {
                                     //googleSignIn();
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    i.putExtra("loginMember", bean);
+                                    FileDB.setLoginMember(LoginActivity.this, bean);
+                                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                                    i.putExtra("googleLogin", false);
                                     startActivity(i);
                                     finish();
                                 }
@@ -138,7 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             MemberBean bean = snapshot.getValue(MemberBean.class);
                             if(TextUtils.equals(bean.memId, userMail)) {
-                                //FileDB.addMember(LoginActivity.this, bean); 이거 말고
                                 //저장 setLoginMember
                                 flag = true;
                                 FileDB.setLoginMember(LoginActivity.this, bean);
@@ -176,7 +177,9 @@ public class LoginActivity extends AppCompatActivity {
                     //Firebase 로그인 성공
                     Toast.makeText(getBaseContext(), "FireBase 로그인 성공", Toast.LENGTH_SHORT).show();
                     //메인 화면으로 이동
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra("googleLogin", true);
+                    startActivity(i);
                     finish();
                 } else {
                     // 로그인 실패
