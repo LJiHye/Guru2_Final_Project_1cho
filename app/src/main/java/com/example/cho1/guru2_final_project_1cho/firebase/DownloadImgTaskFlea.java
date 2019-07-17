@@ -62,6 +62,6 @@ public class DownloadImgTaskFlea extends AsyncTask<URL, Void, Bitmap> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }//충돌 해결
     }
 }
