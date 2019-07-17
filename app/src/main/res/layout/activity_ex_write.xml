@@ -128,7 +128,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_gravity="bottom"
-            android:text="작성 완료" />
+            android:text="작성 완료"
+            android:textStyle="bold"
+            android:background="@drawable/border_button"/>
     </LinearLayout>
 
 </LinearLayout>
