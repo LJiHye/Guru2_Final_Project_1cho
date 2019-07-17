@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -12,9 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
-import com.example.cho1.guru2_final_project_1cho.activity.BuyDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
-import com.example.cho1.guru2_final_project_1cho.activity.SellWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.FleaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +45,17 @@ public class FragmentBuy extends Fragment {
         //최초 데이터 세팅
         mFleaAdapter = new FleaAdapter(getActivity(), mFleaList);
         mLstFlea.setAdapter(mFleaAdapter);
+
+        //글등록 버튼 눌러 페이지 이동
+        Button mbtnOk = view.findViewById(R.id.btnOk);
+
+        mbtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), BuyWriteActivity.class);
+                startActivity(i);
+            }
+        });
 
         return view;
 

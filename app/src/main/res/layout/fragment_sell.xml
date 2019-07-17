@@ -4,20 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.FragmentSell"
+    android:weightSum="10"
     android:orientation="vertical">
 
     <ListView
         android:id="@+id/lstSell"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_weight="9"
         >
     </ListView>
 
     <Button
         android:id="@+id/btnSellWrite"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="글 등록"
         android:textStyle="bold"
         android:background="@drawable/border_button"/>

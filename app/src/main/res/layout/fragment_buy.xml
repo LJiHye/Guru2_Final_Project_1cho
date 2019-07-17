@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="10"
     tools:context=".fragment.FragmentBuy">
 
     <ListView
         android:id="@+id/lstBuy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="0dp"
+        android:layout_weight="9">
     </ListView>
+
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="글 등록"
+        android:layout_weight="1"
+        android:textStyle="bold"
+        android:textColor="#5b5b5b"
+        android:background="@drawable/border_button"/>
 
 </LinearLayout>

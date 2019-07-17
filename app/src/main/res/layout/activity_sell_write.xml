@@ -22,6 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="사진 등록"
+        android:textStyle="bold"
+        android:textColor="#5b5b5b"
+        android:background="@drawable/border_button"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
         />
@@ -66,6 +69,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginTop="15dp"
+        android:textStyle="bold"
+        android:textColor="#5b5b5b"
+        android:background="@drawable/border_button"
         android:text="작성 완료" />
 
 </LinearLayout>

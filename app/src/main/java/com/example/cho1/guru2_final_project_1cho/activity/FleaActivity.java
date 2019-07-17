@@ -1,9 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -50,7 +47,7 @@ public class FleaActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
-        //글등록 버튼 눌러 페이지 이동
+        /*//글등록 버튼 눌러 페이지 이동
         Button mbtnOk = findViewById(R.id.btnOk);
 
         mbtnOk.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +56,7 @@ public class FleaActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), BuyWriteActivity.class);
                 startActivity(i);
             }
-        });
+        });*/
     }  //end onCreate
 
     static class ViewPagerAdapter extends FragmentPagerAdapter {
