@@ -2,6 +2,7 @@ package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +47,7 @@ public class SellDetailActivity extends AppCompatActivity {
         final TextView txtSellDetailPrice = findViewById(R.id.txtSellDetailPrice); //희망가
         final TextView txtSellDetailOption = findViewById(R.id.txtSellDetailOption); //희망 옵션
 
-        LinearLayout layoutVisibility = findViewById(R.id.layoutVisibility); //수정, 삭제 버튼 감싼 레이아웃
+        final LinearLayout layoutVisibility = findViewById(R.id.layoutVisibility); //수정, 삭제 버튼 감싼 레이아웃
         Button btnModify = findViewById(R.id.btnModify);
         Button btnDel = findViewById(R.id.btnDel);
 
@@ -67,6 +68,10 @@ public class SellDetailActivity extends AppCompatActivity {
                             txtSellDetailPrice.setText(bean.wishprice);
                             txtSellDetailId.setText(bean.userId);
                             txtSellDetailDate.setText(bean.date);
+                            //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+                            if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+                                layoutVisibility.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 }
@@ -82,10 +87,7 @@ public class SellDetailActivity extends AppCompatActivity {
             }
         });
     }
-        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-//        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
-//            layoutVisibility.setVisibility(View.VISIBLE);
-//        }
+
         /*
          * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
          * 2. 기존에 올린 게시물에서 값 가져와서 setText    */
