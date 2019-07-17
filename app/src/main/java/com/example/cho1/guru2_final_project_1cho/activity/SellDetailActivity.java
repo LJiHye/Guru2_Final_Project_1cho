@@ -114,15 +114,17 @@ public class SellDetailActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        if(TextUtils.equals(bean.id, mFleaBean.id)) {
-                            txtSellTitle.setText(bean.selltitle);
-                            txtSellDetailOption.setText(bean.wishoption);
-                            txtSellDetailPrice.setText(bean.wishprice);
-                            txtSellDetailId.setText(bean.userId);
-                            txtSellDetailDate.setText(bean.date);
-                            //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-                            if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
-                                layoutSellVisibility.setVisibility(View.VISIBLE);
+                        if(bean != null) {
+                            if (TextUtils.equals(bean.id, mFleaBean.id)) {
+                                txtSellTitle.setText(bean.selltitle);
+                                txtSellDetailOption.setText(bean.wishoption);
+                                txtSellDetailPrice.setText(bean.wishprice);
+                                txtSellDetailId.setText(bean.userId);
+                                txtSellDetailDate.setText(bean.date);
+                                //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+                                if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
+                                    layoutSellVisibility.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
                     }
@@ -185,7 +187,6 @@ public class SellDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         //데이터 취득
         //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
