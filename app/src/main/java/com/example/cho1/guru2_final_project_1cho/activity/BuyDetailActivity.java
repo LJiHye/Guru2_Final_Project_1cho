@@ -108,14 +108,6 @@ public class BuyDetailActivity extends AppCompatActivity {
             }
         });
 
-        //수정 버튼 클릭 이벤트
-        findViewById(R.id.btnModify).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
-                startActivity(i);
-            }
-        });
 
     } //end onCreate
 

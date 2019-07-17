@@ -65,7 +65,7 @@ public class BuyModifyActivity extends AppCompatActivity {
     private Spinner mspinner1;  //카테고리
     private Spinner mspinner2;  //제품 상태
 
-    FleaBean mFleaBean = new FleaBean();
+    private FleaBean mFleaBean;
 
     //사진이 저장된 경로 - onActivityResult()로부터 받는 데이터
     private Uri mCaptureUri;
@@ -144,6 +144,7 @@ public class BuyModifyActivity extends AppCompatActivity {
         String[] items2 = new String[]{"상", "중", "하"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);
+
     }  //end onCreate
 
     //게시물 수정
@@ -160,6 +161,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             mFleaBean.size = medtSize.getText().toString();  //실제 측정 사이즈
             mFleaBean.category = mspinner1.getSelectedItem().toString();  //카테고리
             mFleaBean.state = mspinner2.getSelectedItem().toString();  //제품 상태
+            mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());  //글 올린 날짜
 
             //DB 업로드
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
