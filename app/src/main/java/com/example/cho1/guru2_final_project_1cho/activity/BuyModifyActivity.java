@@ -79,6 +79,9 @@ public class BuyModifyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+
         setContentView(R.layout.activity_buy_modify);
         //카메라를 사용하기 위한 퍼미션을 요청한다.
         ActivityCompat.requestPermissions(this, new String[]{
