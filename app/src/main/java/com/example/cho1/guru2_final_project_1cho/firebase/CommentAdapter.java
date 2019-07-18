@@ -59,7 +59,7 @@ public class CommentAdapter extends BaseAdapter {
     public long getItemId(int i) { return i; }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.view_comment_item, null);
 
@@ -68,7 +68,7 @@ public class CommentAdapter extends BaseAdapter {
         TextView txtCommentId = view.findViewById(R.id.txtCommentId);
         final ImageView imgCommentDelete = view.findViewById(R.id.imgCommentDelete);
 
-        mCommentBean = mCommentList.get(i);
+        mCommentBean = mCommentList.get(position);
 
         txtComment.setText(mCommentBean.comment);
         txtCommentDate.setText(mCommentBean.date);
@@ -88,6 +88,7 @@ public class CommentAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         MemberBean loginMember = FileDB.getLoginMember(mContext);
+                        mCommentBean = mCommentList.get(position);
                         if(TextUtils.equals(loginMember.memId, mCommentBean.userId)) {
                             if (mCommentBean.flag == 1) {
                                 String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
