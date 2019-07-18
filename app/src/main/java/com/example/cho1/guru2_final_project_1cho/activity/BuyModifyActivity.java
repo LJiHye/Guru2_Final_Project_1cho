@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -29,6 +30,7 @@ import androidx.core.content.FileProvider;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,6 +48,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,9 +61,9 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
-    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
+
+    private List<FleaBean> mBuyAdapter = new ArrayList<>();
     private List<FleaBean> mBuyList = new ArrayList<>();
     private BuyAdapter mFleaAdapter;
 //    FleaBean mWriterFleaBean;
@@ -84,13 +87,16 @@ public class BuyModifyActivity extends AppCompatActivity {
     public String mPhotoPath;
     public static final int REQUEST_IMAGE_CAPTURE = 200;
 
+    private List<FleaBean> mFleaList = new ArrayList<>();
+    private Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_modify);
 
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
+        //mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
 //        FleaAdapter.setFleaBean(mFleaBean);
 
         //카메라를 사용하기 위한 퍼미션을 요청한다.
@@ -129,56 +135,71 @@ public class BuyModifyActivity extends AppCompatActivity {
             }
         });
 
-        //글 내용 불러와 출력
-        mFleaAdapter = new BuyAdapter(this, mBuyList);
-        //어디다가..? xml 자체에..?
-
         /** ... **/
         mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
-        if (mFleaBean != null) {
-            getIntent().getParcelableArrayExtra("titleBitmap");
-            if (mFleaBean.bmpTitle != null) {
-                mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
-            }
-            medtTitle.setText(mFleaBean.title);
-            medtExplain.setText(mFleaBean.subtitle);
-            medtPrice.setText(mFleaBean.price);
-            medtSalePrice.setText(mFleaBean.saleprice);
-            medtBuyDay.setText(mFleaBean.buyday);
-            medtExprieDate.setText(mFleaBean.expire);
-            medtDefect.setText(mFleaBean.fault);
-            medtSize.setText(mFleaBean.size);
-            mFleaBean.category = mspinner1.getSelectedItem().toString();
-            mFleaBean.state = mspinner2.getSelectedItem().toString();
-
-        }
+//        if (mFleaBean != null) {
+//            getIntent().getParcelableArrayExtra("titleBitmap");
+//            if (mFleaBean.bmpTitle != null) {
+//                mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
+//            }
+//            medtTitle.setText(mFleaBean.title);
+//            medtExplain.setText(mFleaBean.subtitle);
+//            medtPrice.setText(mFleaBean.price);
+//            medtSalePrice.setText(mFleaBean.saleprice);
+//            medtBuyDay.setText(mFleaBean.buyday);
+//            medtExprieDate.setText(mFleaBean.expire);
+//            medtDefect.setText(mFleaBean.fault);
+//            medtSize.setText(mFleaBean.size);
+//            mFleaBean.category = mspinner1.getSelectedItem().toString();
+//            mFleaBean.state = mspinner2.getSelectedItem().toString();
+//
+//        }
         //mWriterFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
         //mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
 
+        //기존 데이터 가져와 뿌려주기
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //데이터를 받아와서 List에 저장.
+                //mBuyAdapter.clear();
+                mFleaList.clear();
                 mBuyList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    /*for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                        FleaBean bean = snapshot2.getValue(FleaBean.class); //파이어베이스 이중구조 처리방법*/
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    if (TextUtils.equals(bean.id, mFleaBean.id)) {
-                        medtTitle.setText(mFleaBean.title);
-                        medtExplain.setText(mFleaBean.subtitle);
-                        medtPrice.setText(mFleaBean.price);
-                        medtSalePrice.setText(mFleaBean.saleprice);
-                        medtBuyDay.setText(mFleaBean.buyday);
-                        medtExprieDate.setText(mFleaBean.expire);
-                        medtDefect.setText(mFleaBean.fault);
-                        medtSize.setText(mFleaBean.size);
-                        mFleaBean.category = mspinner1.getSelectedItem().toString();
-                        mFleaBean.state = mspinner2.getSelectedItem().toString();
+
+                    // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+                    try {
+                        if (bean.bmpTitle == null) {
+                            new DownloadImgTaskFlea(mContext, mimgBuyWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
+                        } else {
+                            mimgBuyWrite.setImageBitmap(bean.bmpTitle);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    if (mFleaAdapter != null) {
-                        mFleaAdapter.setList(mBuyList);
-                        mFleaAdapter.notifyDataSetChanged();
-                    }
+
+                    medtTitle.setText(bean.title);
+                    medtExplain.setText(bean.subtitle);
+                    medtPrice.setText(bean.price);
+                    medtSalePrice.setText(bean.saleprice);
+                    medtBuyDay.setText(bean.buyday);
+                    medtExprieDate.setText(bean.expire);
+                    medtDefect.setText(bean.fault);
+                    medtSize.setText(bean.size);
+                    //mspinner1.setSelected(bean.category);
+
+
+                    mFleaBean.category = mspinner1.getSelectedItem().toString();
+                    mFleaBean.state = mspinner2.getSelectedItem().toString();
+
+//                    if (mFleaAdapter != null) {
+//                        mFleaAdapter.setList(mBuyList);
+//                        mFleaAdapter.notifyDataSetChanged();
+//                    }
                 }
             }
 
@@ -218,7 +239,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());  //글 올린 날짜
 
             //DB 업로드
-            DatabaseReference dbRef = mFirebaseDatabase.getReference();
+            DatabaseReference dbRef = mFirebaseDB.getReference();
             String uuid = getUserIdFromUUID(mFleaBean.userId);
             //동일 ID 로 데이터 수정
             dbRef.child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
@@ -271,7 +292,7 @@ public class BuyModifyActivity extends AppCompatActivity {
                 mFleaBean.date = sdf.format(new Date());
 
                 String uuid = getUserIdFromUUID(mFleaBean.userId);
-                mFirebaseDatabase.getReference().child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
+                mFirebaseDB.getReference().child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정 되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
@@ -327,7 +348,6 @@ public class BuyModifyActivity extends AppCompatActivity {
         }
 
         i.putExtra(MediaStore.EXTRA_OUTPUT, mCaptureUri);
-
         startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
     }
 
