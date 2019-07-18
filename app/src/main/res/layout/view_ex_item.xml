@@ -49,32 +49,95 @@
             android:layout_height="match_parent"
             android:src="@drawable/photo" />
 
-        <TextView
-            android:id="@+id/txtExMine"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_weight="3"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="25dp"
-            android:text="Title" />
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:weightSum="5">
 
-        <ImageView
+            <TextView
+                android:id="@+id/txtExMineTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:text="나" />
+
+            <TextView
+                android:id="@+id/txtExMine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="Title" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/exchange"/>
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:weightSum="5">
 
-        <TextView
-            android:id="@+id/txtExWant"
+            <TextView
+                android:id="@+id/blank"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:text="" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/exchange"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:gravity="center"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:text="Want" />
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+            <TextView
+                android:id="@+id/txtExWantTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:text="슈니" />
+
+            <TextView
+                android:id="@+id/txtExWant"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="Want" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
