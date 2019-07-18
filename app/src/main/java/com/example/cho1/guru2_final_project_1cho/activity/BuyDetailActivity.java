@@ -1,11 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.CommentBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
-import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.CommentAdapter;
@@ -38,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,7 +64,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_detail);
 
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
         CommentAdapter.setFleaBean(mFleaBean);
         mLoginMember = FileDB.getLoginMember(this);
 

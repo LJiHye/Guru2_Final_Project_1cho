@@ -88,7 +88,7 @@ public class SellAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, SellDetailActivity.class);
                 intent.putExtra("INDEX", i); //원본데이터의 순번
-                intent.putExtra("ITEM", fleaBean); //상세표시할 원본 데이터
+                intent.putExtra("SELLITEM", fleaBean); //상세표시할 원본 데이터
                 mContext.startActivity(intent);
             }
         });

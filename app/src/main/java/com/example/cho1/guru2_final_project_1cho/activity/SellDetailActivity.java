@@ -64,7 +64,7 @@ public class SellDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_detail);
 
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
         mLoginMember = FileDB.getLoginMember(this);
         CommentAdapter.setFleaBean(mFleaBean);
 

@@ -97,7 +97,9 @@ public class CommentAdapter extends BaseAdapter {
                                 FirebaseDatabase.getInstance().getReference().child("ex").child(guid).child(mExBean.id).child("comments").child(mCommentBean.id).removeValue();
                                 notifyDataSetChanged();
                             }
-                            Toast.makeText(mContext, "삭제 되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "삭제 되었습니다", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "본인의 댓글만 삭제할 수 있습니다", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

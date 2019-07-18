@@ -90,11 +90,9 @@ public class FleaAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, BuyDetailActivity.class);
                 intent.putExtra("INDEX", i); //원본데이터의 순번
-                intent.putExtra("ITEM", fleaBean); //상세표시할 원본 데이터
+                intent.putExtra("BUYITEM", fleaBean); //상세표시할 원본 데이터
                 intent.putExtra("TITLE", fleaBean.title);
                 mContext.startActivity(intent);
-
-
             }
         });
 
