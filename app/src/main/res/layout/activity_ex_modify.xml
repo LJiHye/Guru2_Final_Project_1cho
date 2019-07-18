@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imgItem"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:src="@drawable/photo" />
+
+        <Button
+            android:id="@+id/btnImgEx"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="사진 등록"
+            android:textStyle="bold"
+            android:textColor="#5b5b5b"
+            android:background="@drawable/border_button"
+            android:layout_marginTop="15dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.6"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/edtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="2dp"
             android:ems="10"
             android:hint="제목"
+
             android:inputType="textPersonName" />
 
         <EditText
@@ -69,20 +76,27 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown"
-                />
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="5dp"
+                android:inputType="textPersonName"
+                android:hint="원가" />
 
             <EditText
                 android:id="@+id/edtBuyDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:ems="10"
                 android:hint="구매일"
                 android:inputType="textPersonName" />
@@ -117,19 +131,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/btnModify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="bottom"
             android:text="수정 완료"
             android:textStyle="bold"
             android:background="@drawable/border_button"/>
+
+
     </LinearLayout>
 
 </LinearLayout>

@@ -51,6 +51,7 @@ public class ExModifyActivity extends AppCompatActivity {
 
     private ImageView mImgItem; // 내 물건
     private EditText mEdtTitle; // 내 물건명
+    private Button mBtnImgEx; // 사진찍기 버튼
     private  EditText mEdtItem; // 교환하고자 하는 물건명
     private EditText mEdtBuyDate; // 구매한 날짜
     private EditText mEdtExpDate; // 유통기한
@@ -86,6 +87,7 @@ public class ExModifyActivity extends AppCompatActivity {
         }, 0);
 
         mImgItem = findViewById(R.id.imgItem);
+        mBtnImgEx = findViewById(R.id.btnImgEx);
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtItem = findViewById(R.id.edtItem);
         mEdtBuyDate = findViewById(R.id.edtBuyDate);
@@ -112,7 +114,7 @@ public class ExModifyActivity extends AppCompatActivity {
         }
 
 
-        mImgItem.setOnClickListener(new View.OnClickListener() {
+        mBtnImgEx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 takePicture();

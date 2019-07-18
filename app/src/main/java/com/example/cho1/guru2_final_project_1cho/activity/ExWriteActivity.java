@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -53,6 +54,7 @@ public class ExWriteActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     private ImageView mImgItem;
+    private Button mBtnImgEx;
     private EditText mEdtTitle;
     private  EditText mEdtItem;
     private  EditText mEdtPrice;
@@ -85,6 +87,7 @@ public class ExWriteActivity extends AppCompatActivity {
         }, 0);
 
         mImgItem = findViewById(R.id.imgItem);
+        mBtnImgEx = findViewById(R.id.btnImgEx);
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtItem = findViewById(R.id.edtItem);
         mEdtPrice = findViewById(R.id.edtPrice);
@@ -94,7 +97,7 @@ public class ExWriteActivity extends AppCompatActivity {
         mEdtSize = findViewById(R.id.edtSize);
         mSprState = findViewById(R.id.sprState);
 
-        mImgItem.setOnClickListener(new View.OnClickListener() {
+        mBtnImgEx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 takePicture();
