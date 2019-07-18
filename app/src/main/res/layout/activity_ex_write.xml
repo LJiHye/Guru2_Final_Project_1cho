@@ -6,7 +6,7 @@
     tools:context=".activity.ExWriteActivity"
     android:orientation="vertical">
 
-    <TextView
+<!--    <TextView
         android:id="@+id/titleExWrite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:gravity="center"
         android:textSize="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"/>-->
 
     <ScrollView
         android:layout_width="match_parent"

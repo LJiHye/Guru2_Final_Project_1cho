@@ -202,9 +202,7 @@ public class SellDetailActivity extends AppCompatActivity {
                     commentBean.flag = 2;
 
                     //고유번호를 생성한다
-                    String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                    dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                    dbRef.child("sell").child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(SellDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtSellComment.setText(null);
                     if(view != null) {
@@ -215,7 +213,7 @@ public class SellDetailActivity extends AppCompatActivity {
                     lstSellComment.setSelection(mCommentAdapter.getCount() - 1);
                     lstSellComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
-                    dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("sell").child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //데이터를 받아와서 List에 저장.
@@ -263,7 +261,8 @@ public class SellDetailActivity extends AppCompatActivity {
     //수정
     private void modify() {
         //처리
-        Intent intent = new Intent(SellDetailActivity.this, BuyModifyActivity.class);
+        Intent intent = new Intent(SellDetailActivity.this, SellModifyActivity.class);
+        intent.putExtra("SELLITEM", mFleaBean);
         startActivity(intent);
     }
 
@@ -303,8 +302,7 @@ public class SellDetailActivity extends AppCompatActivity {
         //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
         DatabaseReference dbRef = mFirebaseDB.getReference();
-        String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-        dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+        dbRef.child("sell").child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //데이터를 받아와서 List에 저장.

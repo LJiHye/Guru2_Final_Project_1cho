@@ -28,6 +28,8 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
+import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,10 +79,15 @@ public class SellModifyActivity extends AppCompatActivity {
     private List<FleaBean> mFleaList = new ArrayList<>();
     private SellAdapter mSellAdapter;
 
+    private MemberBean mLoginMember;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_modify);
+
+        mLoginMember = FileDB.getLoginMember(this);
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
 
         //카테고리 드롭다운 스피너 추가
         Spinner dropdown = (Spinner)findViewById(R.id.spinCategory);
@@ -118,7 +125,6 @@ public class SellModifyActivity extends AppCompatActivity {
             }
         });
 
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
         //mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
         if (mFleaBean != null) {
             getIntent().getParcelableArrayExtra("titleBitmap");
@@ -145,10 +151,10 @@ public class SellModifyActivity extends AppCompatActivity {
                         mEdtWishPrice.setText(bean.wishprice);
                     }
                 }
-                if (mSellAdapter != null) {
+/*                if (mSellAdapter != null) {
                     mSellAdapter.setList(mFleaList);
                     mSellAdapter.notifyDataSetChanged();
-                }
+                }*/
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -161,7 +167,7 @@ public class SellModifyActivity extends AppCompatActivity {
         // 사진을 찍었을 경우, 안 찍었을 경우
         if(mPhotoPath == null) {
             //사진을 새로 안찍었을 경우
-            mFleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
+            mFleaBean.userId = mLoginMember.memId;
             mFleaBean.title = mEdtTitle.getText().toString();
             mFleaBean.wishprice = mEdtWishPrice.getText().toString();
             mFleaBean.wishoption = mEdtWishOption.getText().toString();
@@ -169,7 +175,6 @@ public class SellModifyActivity extends AppCompatActivity {
 
             // DB 업로드
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
-            String uuid = getUserIdFromUUID(mFleaBean.userId);
             // 동일 ID로 데이터 수정
             dbRef.child("sell").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
@@ -202,13 +207,12 @@ public class SellModifyActivity extends AppCompatActivity {
 
                 mFleaBean.imgUrl = task.getResult().toString();
                 mFleaBean.imgName = mCaptureUri.getLastPathSegment();
-                mFleaBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
+                mFleaBean.userId = mLoginMember.memId;
                 mFleaBean.title = mEdtTitle.getText().toString();
                 mFleaBean.wishprice = mEdtWishPrice.getText().toString();
                 mFleaBean.wishoption = mEdtWishOption.getText().toString();
                 mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
 
-                String uuid = getUserIdFromUUID(mFleaBean.userId);
                 mFirebaseDatabase.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();

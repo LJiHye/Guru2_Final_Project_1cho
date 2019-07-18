@@ -88,7 +88,7 @@ public class ExAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ExDetailActivity.class);
                 intent.putExtra("INDEX", i); //원본데이터의 순번
-                intent.putExtra("ITEM", exBean); //상세표시할 원본 데이터
+                intent.putExtra("EXITEM", exBean); //상세표시할 원본 데이터
                 mContext.startActivity(intent);
 
             }

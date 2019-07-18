@@ -29,7 +29,6 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
-import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -241,9 +240,8 @@ public class BuyModifyActivity extends AppCompatActivity {
 
             //DB 업로드
             DatabaseReference dbRef = mFirebaseDB.getReference();
-            String uuid = getUserIdFromUUID(mFleaBean.userId);
             //동일 ID 로 데이터 수정
-            dbRef.child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
+            dbRef.child("buy").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -292,7 +290,6 @@ public class BuyModifyActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 mFleaBean.date = sdf.format(new Date());
 
-                String uuid = getUserIdFromUUID(mFleaBean.userId);
                 mFirebaseDB.getReference().child("buy").child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정 되었습니다.", Toast.LENGTH_SHORT).show();

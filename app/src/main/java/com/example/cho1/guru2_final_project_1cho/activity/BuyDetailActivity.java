@@ -199,9 +199,7 @@ public class BuyDetailActivity extends AppCompatActivity {
                     commentBean.flag = 1;
 
                     //고유번호를 생성한다
-                    String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                    dbRef.child("buy").child(guid).child(mFleaBean.id).child("comments").child(id).setValue(commentBean);
+                    dbRef.child("buy").child(mFleaBean.id).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(BuyDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtBuyComment.setText(null);
                     if (view != null) {
@@ -212,7 +210,7 @@ public class BuyDetailActivity extends AppCompatActivity {
                     lstBuyComment.setSelection(mCommentAdapter.getCount() - 1);
                     lstBuyComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
-                    dbRef.child("buy").child(guid).child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("buy").child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //데이터를 받아와서 List에 저장.
@@ -276,9 +274,6 @@ public class BuyDetailActivity extends AppCompatActivity {
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                String uuid = BuyWriteActivity.getUserIdFromUUID(email);
-
                 //DB에서 삭제처리
                 FirebaseDatabase.getInstance().getReference().child("buy").child(mFleaBean.id).removeValue();
                 //Storage 삭제처리
@@ -302,11 +297,8 @@ public class BuyDetailActivity extends AppCompatActivity {
         super.onResume();
 
         //데이터 취득
-        //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-        //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
         DatabaseReference dbRef = mFirebaseDB.getReference();
-        String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-        dbRef.child("buy").child(guid).child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
+        dbRef.child("buy").child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //데이터를 받아와서 List에 저장.

@@ -121,7 +121,7 @@ public class ExModifyActivity extends AppCompatActivity {
 
             mEdtTitle.setText(mExBean.mine); // 내 물건
             mEdtItem.setText(mExBean.want); // 상대방 물건
-            mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+            //mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
             mEdtPrice.setText(mExBean.price); // 원가
             mEdtFault.setText(mExBean.fault); // 하자
             mEdtExpDate.setText(mExBean.expire); // 유통기한
@@ -222,6 +222,7 @@ public class ExModifyActivity extends AppCompatActivity {
             // 동일 ID로 데이터 수정
             dbRef.child("ex").child(mExBean.id).setValue(mExBean);
             Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_LONG).show();
+
             finish();
             return;
 
