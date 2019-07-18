@@ -53,7 +53,7 @@ import java.util.UUID;
 public class JoinActivity extends AppCompatActivity {
     //멤버변수
     private ImageView mImgProfile;
-    private EditText mEdtId, mEdtName, mEdtKakao, mEdtPw1, mEdtPw2;
+    private EditText mEdtId, mEdtName, mEdtPw1, mEdtPw2;
 
     private String mCurrentImageFilePath = null;
 
@@ -92,7 +92,6 @@ public class JoinActivity extends AppCompatActivity {
         mEdtId.setText(email);
         mEdtId.setEnabled(false);
         mEdtName = findViewById(R.id.edtName);
-        mEdtKakao = findViewById(R.id.edtKakaoId);
         mEdtPw1 = findViewById(R.id.edtPw1);
         mEdtPw2 = findViewById(R.id.edtPw2);
 
@@ -152,7 +151,6 @@ public class JoinActivity extends AppCompatActivity {
         memberBean.memId = mFirebaseAuth.getCurrentUser().getEmail();
         memberBean.memName = mEdtName.getText().toString();
         memberBean.memPw = mEdtPw1.getText().toString();
-        memberBean.memKakaoId = mEdtKakao.getText().toString();
         memberBean.imgUrl = imgUrl;
         memberBean.imgName = imgName;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

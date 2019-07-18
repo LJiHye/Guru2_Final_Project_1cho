@@ -12,7 +12,6 @@ public class MemberBean implements Serializable {
     public String memId;
     public String memName;
     public String memPw;
-    public String memKakaoId;
     public String imgUrl;
     public String imgName;
     public String date;

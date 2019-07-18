@@ -43,7 +43,7 @@ public class CameraCaptureActivity extends AppCompatActivity {
     public static final int REQUEST_IMAGE_CAPTURE = 200;
 
     //멤버변수
-    private EditText mEdtId, mEdtName, mEdtPw1, mEdtPw2, mEdtKakaoId;
+    private EditText mEdtId, mEdtName, mEdtPw1, mEdtPw2;
 
 
     @Override
@@ -72,7 +72,6 @@ public class CameraCaptureActivity extends AppCompatActivity {
         mEdtName = findViewById(R.id.edtName);
         mEdtPw1 = findViewById(R.id.edtPw1);
         mEdtPw2 = findViewById(R.id.edtPw2);
-        mEdtKakaoId = findViewById(R.id.edtKakaoId);
 
         //회원가입 버튼
         findViewById(R.id.btnJoin).setOnClickListener(new View.OnClickListener() {

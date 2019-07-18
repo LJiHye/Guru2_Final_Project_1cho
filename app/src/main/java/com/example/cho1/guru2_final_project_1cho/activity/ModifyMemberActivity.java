@@ -24,11 +24,11 @@ import java.net.URL;
 public class ModifyMemberActivity extends AppCompatActivity {
 
     private MemberBean loginMember;
-    private EditText mEdtDetailId, mEdtDetailName, mEdtDetailPw, mEdtDetailPw1, mEdtDetailPw2, mEdtDetailKakakoId;
+    private EditText mEdtDetailId, mEdtDetailName, mEdtDetailPw, mEdtDetailPw1, mEdtDetailPw2;
     private Button mBtnModify, mBtnLogout;
     private ImageView mImgDetailProfile;
 
-    private String id, name, kakaoId, imgUrl, uuid;
+    private String id, name, imgUrl, uuid;
     private boolean googleLoginFlag;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -47,7 +47,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mEdtDetailPw = findViewById(R.id.edtDetailPw);
         mEdtDetailPw1 = findViewById(R.id.edtDetailPw1);
         mEdtDetailPw2 = findViewById(R.id.edtDetailPw2);
-        mEdtDetailKakakoId = findViewById(R.id.edtDetailKakaoId);
         mBtnModify = findViewById(R.id.btnModify);
         mBtnLogout = findViewById(R.id.btnLogout);
         mImgDetailProfile = findViewById(R.id.imgDetailProfile);
@@ -59,7 +58,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
         id = loginMember.memId;
         name = loginMember.memName;
         //pw = loginMember.memPw;
-        kakaoId = loginMember.memKakaoId;
         imgUrl = loginMember.imgUrl;
 
         // imtTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
@@ -77,7 +75,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mEdtDetailId.setEnabled(false);
         mEdtDetailName.setText(name);
         mEdtDetailName.setEnabled(false);
-        mEdtDetailKakakoId.setText(kakaoId);
 
         //로그아웃 버튼
         mBtnLogout.setOnClickListener(mClicks);
@@ -123,16 +120,15 @@ public class ModifyMemberActivity extends AppCompatActivity {
             }
 
             loginMember.memPw = mEdtDetailPw1.getText().toString();
+            uuid = JoinActivity.getUserIdFromUUID(loginMember.memId);
+
+            mFirebaseDatabase.getReference().child("member").child(uuid).setValue(loginMember);
+            Toast.makeText(ModifyMemberActivity.this, "수정이 완료되었습니다", Toast.LENGTH_SHORT).show();
+            FileDB.setLoginMember(this, loginMember);
+            finish();
+        } else {
+            Toast.makeText(ModifyMemberActivity.this, "변경할 정보가 없습니다", Toast.LENGTH_SHORT).show();
         }
-
-        loginMember.memKakaoId = mEdtDetailKakakoId.getText().toString();
-        uuid = JoinActivity.getUserIdFromUUID(loginMember.memId);
-
-        mFirebaseDatabase.getReference().child("member").child(uuid).setValue(loginMember);
-        Toast.makeText(ModifyMemberActivity.this, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-        FileDB.setLoginMember(this, loginMember);
-
-        finish();
     }
 
     //버튼 클릭 이벤트
