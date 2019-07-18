@@ -53,6 +53,7 @@ public class ExModifyActivity extends AppCompatActivity {
     private EditText mEdtTitle; // 내 물건명
     private Button mBtnImgEx; // 사진찍기 버튼
     private  EditText mEdtItem; // 교환하고자 하는 물건명
+    private  EditText mEdtPrice; // 원가
     private EditText mEdtBuyDate; // 구매한 날짜
     private EditText mEdtExpDate; // 유통기한
     private EditText mEdtFault; // 결함
@@ -90,6 +91,7 @@ public class ExModifyActivity extends AppCompatActivity {
         mBtnImgEx = findViewById(R.id.btnImgEx);
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtItem = findViewById(R.id.edtItem);
+        mEdtPrice = findViewById(R.id.edtPrice);
         mEdtBuyDate = findViewById(R.id.edtBuyDate);
         mEdtExpDate = findViewById(R.id.edtExpDate);
         mEdtFault = findViewById(R.id.edtFault);
@@ -106,6 +108,7 @@ public class ExModifyActivity extends AppCompatActivity {
             mEdtTitle.setText(mExBean.mine); // 내 물건
             mEdtItem.setText(mExBean.want); // 상대방 물건
             mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+            mEdtPrice.setText(mExBean.price); // 원가
             mEdtFault.setText(mExBean.fault); // 하자
             mEdtExpDate.setText(mExBean.expire); // 유통기한
             mEdtBuyDate.setText(mExBean.buyDate); // 구매한 날짜
@@ -146,6 +149,8 @@ public class ExModifyActivity extends AppCompatActivity {
             mExBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
             mExBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
             mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+
+            mExBean.price = mEdtPrice.getText().toString(); // 원가
             mExBean.fault = mEdtFault.getText().toString(); // 하자
             mExBean.expire = mEdtExpDate.getText().toString(); // 유통기한
             mExBean.buyDate = mEdtBuyDate.getText().toString(); // 구매날짜
@@ -154,7 +159,7 @@ public class ExModifyActivity extends AppCompatActivity {
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
             String uuid = getUserIdFromUUID(mExBean.userId);
             // 동일 ID로 데이터 수정
-            dbRef.child("memo").child(uuid).child(mExBean.id).setValue(mExBean);
+            dbRef.child("ex").child(uuid).child(mExBean.id).setValue(mExBean);
             Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -191,6 +196,7 @@ public class ExModifyActivity extends AppCompatActivity {
                 mExBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
                 mExBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
                 mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+                mExBean.price = mEdtPrice.getText().toString(); // 원가 
                 mExBean.fault = mEdtFault.getText().toString(); // 하자
                 mExBean.expire = mEdtExpDate.getText().toString(); // 유통기한
                 mExBean.buyDate = mEdtBuyDate.getText().toString(); // 구매날짜
