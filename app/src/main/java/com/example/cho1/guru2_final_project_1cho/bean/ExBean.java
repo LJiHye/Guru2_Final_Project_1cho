@@ -15,6 +15,7 @@ public class ExBean implements Serializable {
     public String imgName;
     public String mine; // 내 물건
     public String want; // 교환하고 싶은 물건
+    public String price; // 내 물건 원가
     public String state; // 물건 상태
     public String fault; // 하자
     public String expire; // 유통기한

@@ -7,6 +7,7 @@ public class CommentBean implements Serializable {
     public String userId;
     public String comment;
     public String date;
+    public int flag;
     //public Boolean secret;
     //public List<CommentBean> replyLIst;
 }
