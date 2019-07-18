@@ -22,15 +22,10 @@ public class BuyAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<FleaBean> mFleaList;
-    private static FleaBean fleaBean;
 
     public BuyAdapter(Context context, List<FleaBean> fleaList) {
         mContext = context;
         mFleaList = fleaList;
-    }
-
-    public static void setFleaBean(FleaBean fleaBean) {
-        BuyAdapter.fleaBean = fleaBean;
     }
 
     public void setList(List<FleaBean> fleaList) {

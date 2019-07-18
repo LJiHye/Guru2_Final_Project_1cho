@@ -64,7 +64,6 @@ public class BuyModifyActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private List<FleaBean> mFleaList = new ArrayList<>();
-    private List<FleaBean> mBuyList = new ArrayList<>();
 
     private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
     private int itemNum2 = 0;
@@ -142,18 +141,13 @@ public class BuyModifyActivity extends AppCompatActivity {
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //데이터를 받아와서 List에 저장.
-                //mBuyAdapter.clear();
-                mFleaList.clear();
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    mFleaList.add(0, bean);
                     if (TextUtils.equals(mFleaBean.id, bean.id)) {
                         // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
                         try {
                             if (bean.bmpTitle == null) {
-                                new DownloadImgTaskFlea(mContext, mimgBuyWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                new DownloadImgTaskFlea(BuyModifyActivity.this, mimgBuyWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
                             } else {
                                 mimgBuyWrite.setImageBitmap(bean.bmpTitle);
                             }
@@ -199,12 +193,6 @@ public class BuyModifyActivity extends AppCompatActivity {
                         //알아낸 위치로 기본 선택값 변경
                         mspinner1.setSelection(itemNum);
                         mspinner2.setSelection(itemNum2);
-
-
-//                    if (mFleaAdapter != null) {
-//                        mFleaAdapter.setList(mBuyList);
-//                        mFleaAdapter.notifyDataSetChanged();
-//                    }
                     }
                 }
             }
@@ -288,40 +276,11 @@ public class BuyModifyActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), "수정 되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
+                return;
             }
         });
 
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        //데이터 취득
-//        //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-//        //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
-//        DatabaseReference dbRef = mFirebaseDB.getReference();
-//        String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-//        dbRef.child("buy").child( guid ).child( mFleaBean.id ).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                //데이터를 받아와서 List에 저장.
-//                mFleaList.clear();
-//
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    CommentBean bean = snapshot.getValue(CommentBean.class);
-//                    mFleaList.add(FleaBean);
-//                }
-//                //바뀐 데이터로 Refresh 한다.
-//                if (mFleaAdapter != null) {
-//                    mFleaAdapter.setList(mFleaList);
-//                    mFleaAdapter.notifyDataSetChanged();
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {}
-//        });
-//    }
 
     public static String getUserIdFromUUID(String userEmail) {
         long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();

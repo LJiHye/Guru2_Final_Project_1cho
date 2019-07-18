@@ -304,8 +304,6 @@ public class SellDetailActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //데이터 취득
-        //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-        //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
         DatabaseReference dbRef = mFirebaseDB.getReference();
         dbRef.child("sell").child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
             @Override

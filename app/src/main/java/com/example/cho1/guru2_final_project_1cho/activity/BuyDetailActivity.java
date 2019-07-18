@@ -222,8 +222,6 @@ public class BuyDetailActivity extends AppCompatActivity {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 CommentBean bean = snapshot.getValue(CommentBean.class);
                                 mCommentList.add(bean);
-                            /*mFleaBean.commentList.add(bean);
-                            mLoginMember.commentList.add(bean);*/
                             }
                             //바뀐 데이터로 Refresh 한다.
                             if (mCommentAdapter != null) {

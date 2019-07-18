@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
-import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
-import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,15 +34,12 @@ public class FragmentBuy extends Fragment {
     private List<FleaBean> mFleaList = new ArrayList<>();
     private BuyAdapter mBuyAdapter;
 
-    private MemberBean mLoginMember;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy, container, false);
 
         mLstBuy = view.findViewById(R.id.lstBuy);
-        mLoginMember = FileDB.getLoginMember(getActivity());
 
         //최초 데이터 세팅
         mBuyAdapter = new BuyAdapter(getActivity(), mFleaList);
@@ -70,8 +65,6 @@ public class FragmentBuy extends Fragment {
         super.onResume();
 
         //데이터 취득
-        String userEmail = mLoginMember.memId;
-        String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,11 +72,7 @@ public class FragmentBuy extends Fragment {
                 //data를 받아와서 List에 저장
                 mFleaList.clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
-                    /*for(DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        mFleaList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
-                    }*/
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     FleaBean bean = snapshot.getValue(FleaBean.class);
                     mFleaList.add(0, bean);
                 }
@@ -92,7 +81,6 @@ public class FragmentBuy extends Fragment {
                     mBuyAdapter.setList(mFleaList);
                     mBuyAdapter.notifyDataSetChanged();
                 }
-
             }
 
             @Override

@@ -31,7 +31,7 @@ public class FragmentSell extends Fragment {
 
     public ListView mLstSell;
     private List<FleaBean> mFleaList = new ArrayList<>();
-    private SellAdapter mSellAdapter;
+    public SellAdapter mSellAdapter;
 
     @Nullable
     @Override
@@ -58,31 +58,30 @@ public class FragmentSell extends Fragment {
         super.onResume();
 
         //데이터 취득
-        //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-        //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //데이터를 받아와서 List에 저장.
+                //data가 바뀔 때마다 이벤트가 들어옴
+                //data를 받아와서 List에 저장
                 mFleaList.clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                   /* for(DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        mFleaList.add(0, bean);
-                    }*/
-                   FleaBean bean = snapshot.getValue(FleaBean.class);
-                   mFleaList.add(0, bean);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    mFleaList.add(0, bean);
                 }
-                //바뀐 데이터로 Refresh 한다.
-                if (mSellAdapter != null) {
+                //바뀐 데이터로 Refresh 한다
+                if(mSellAdapter != null){
                     mSellAdapter.setList(mFleaList);
                     mSellAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
+
+        //어댑터 생성
     }
 }

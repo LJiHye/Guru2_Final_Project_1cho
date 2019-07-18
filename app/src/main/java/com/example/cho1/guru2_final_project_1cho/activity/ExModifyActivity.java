@@ -29,9 +29,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskEx;
-import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -112,36 +110,14 @@ public class ExModifyActivity extends AppCompatActivity {
         mEdtSize = findViewById(R.id.edtSize);
         mSprState = findViewById(R.id.sprState);
 
-        //mExBean = (ExBean) getIntent().getSerializableExtra(ExBean.class.getName());
-       /* if (mExBean != null) {
-            mExBean.bmpTitle = getIntent().getParcelableExtra("titleBitmap");
-            if(mExBean.bmpTitle != null){
-                mImgItem.setImageBitmap(mExBean.bmpTitle);
-            }
-
-            mEdtTitle.setText(mExBean.mine); // 내 물건
-            mEdtItem.setText(mExBean.want); // 상대방 물건
-            //mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
-            mEdtPrice.setText(mExBean.price); // 원가
-            mEdtFault.setText(mExBean.fault); // 하자
-            mEdtExpDate.setText(mExBean.expire); // 유통기한
-            mEdtBuyDate.setText(mExBean.buyDate); // 구매한 날짜
-            mEdtSize.setText(mExBean.size); // 사이즈
-
-        }*/
-
         //기존 데이터 가져와 뿌려주기
         mFirebaseDatabase.getReference().child("ex").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //데이터를 받아와서 List에 저장.
-                //mExAdapter.clear();
                 mExList.clear();
                 mExList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    /*for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        ExBean bean = snapshot2.getValue(ExBean.class); //파이어베이스 이중구조 처리방법*/
                     ExBean bean = snapshot.getValue(ExBean.class);
                     if(TextUtils.equals(mExBean.id, bean.id)) {
                         // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
@@ -163,11 +139,6 @@ public class ExModifyActivity extends AppCompatActivity {
                         mEdtExpDate.setText(bean.expire); // 유통기한
                         mEdtBuyDate.setText(bean.buyDate); // 구매한 날짜
                         mEdtSize.setText(bean.size); // 사이즈
-
-//                    if (mExAdapter != null) {
-//                        mExAdapter.setList(mExList);
-//                        mExAdapter.notifyDataSetChanged();
-//                    }
                     }
                 }
             }
@@ -210,7 +181,6 @@ public class ExModifyActivity extends AppCompatActivity {
             mExBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
             mExBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
             mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
-
             mExBean.price = mEdtPrice.getText().toString(); // 원가
             mExBean.fault = mEdtFault.getText().toString(); // 하자
             mExBean.expire = mEdtExpDate.getText().toString(); // 유통기한
@@ -218,7 +188,6 @@ public class ExModifyActivity extends AppCompatActivity {
             mExBean.size = mEdtSize.getText().toString(); // 실측사이즈
             // DB 업로드
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
-            String uuid = getUserIdFromUUID(mExBean.userId);
             // 동일 ID로 데이터 수정
             dbRef.child("ex").child(mExBean.id).setValue(mExBean);
             Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_LONG).show();
@@ -268,7 +237,6 @@ public class ExModifyActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 mExBean.date = sdf.format(new Date());
 
-                String uuid = getUserIdFromUUID(mExBean.userId);
                 mFirebaseDatabase.getReference().child("ex").child(mExBean.id).setValue(mExBean);
 
                 Toast.makeText(getBaseContext(), "수정되었습니다.", Toast.LENGTH_LONG).show();

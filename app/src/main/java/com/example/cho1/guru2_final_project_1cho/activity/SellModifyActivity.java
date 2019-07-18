@@ -39,7 +39,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -105,7 +104,7 @@ public class SellModifyActivity extends AppCompatActivity {
         }, 0);
 
         //사진찍기
-        mImgSellWrite = findViewById(R.id.imgSellWrite);
+        mImgSellWrite = findViewById(R.id.sellWriteImgView);
         mEdtTitle = findViewById(R.id.edtTitle);
         mEdtWishPrice = findViewById(R.id.edtWishPrice);
         mEdtWishOption = findViewById(R.id.edtWishOption);
@@ -127,46 +126,25 @@ public class SellModifyActivity extends AppCompatActivity {
             }
         });
 
-       /* //mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
-        if (mFleaBean != null) {
-            getIntent().getParcelableArrayExtra("titleBitmap");
-            if (mFleaBean.bmpTitle != null) {
-                mImgSellWrite.setImageBitmap(mFleaBean.bmpTitle);
-            }
-            mEdtTitle.setText(mFleaBean.title);
-            mEdtWishPrice.setText(mFleaBean.wishoption);
-            mEdtWishOption.setText(mFleaBean.wishoption);
-
-        }*/
-
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //데이터를 받아와서 List에 저장.
-                mFleaList.clear();
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    mFleaList.add(0, bean);
-                    if (TextUtils.equals(bean.id, mFleaBean.id)) {  //bean.id - null에러,,
+                    if (TextUtils.equals(bean.id, mFleaBean.id)) {
                         try {
                             if (bean.bmpTitle == null) {
-                                new DownloadImgTaskFlea(mContext, mImgSellWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                new DownloadImgTaskFlea(SellModifyActivity.this, mImgSellWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
                             } else {
                                 mImgSellWrite.setImageBitmap(bean.bmpTitle);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                         mEdtTitle.setText(bean.selltitle);
                         mEdtWishOption.setText(bean.wishoption);
                         mEdtWishPrice.setText(bean.wishprice);
                     }
-                }
-                if (mSellAdapter != null) {
-                    mSellAdapter.setList(mFleaList);
-                    mSellAdapter.notifyDataSetChanged();
                 }
             }
             @Override
@@ -181,15 +159,13 @@ public class SellModifyActivity extends AppCompatActivity {
         // 사진을 찍었을 경우, 안 찍었을 경우
         if(mPhotoPath == null) {
             //사진을 새로 안찍었을 경우
-            mFleaBean.title = mEdtTitle.getText().toString();
+            mFleaBean.selltitle = mEdtTitle.getText().toString();
             mFleaBean.wishprice = mEdtWishPrice.getText().toString();
             mFleaBean.wishoption = mEdtWishOption.getText().toString();
-            mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
+            mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
-            // DB 업로드
-            DatabaseReference dbRef = mFirebaseDB.getReference();
             // 동일 ID로 데이터 수정
-            dbRef.child("sell").child(mFleaBean.id).setValue(mFleaBean);
+            mFirebaseDB.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -220,16 +196,17 @@ public class SellModifyActivity extends AppCompatActivity {
 
                 mFleaBean.imgUrl = task.getResult().toString();
                 mFleaBean.imgName = mCaptureUri.getLastPathSegment();
-                mFleaBean.userId = mLoginMember.memId;
-                mFleaBean.title = mEdtTitle.getText().toString();
+                //mFleaBean.title = mEdtTitle.getText().toString();
+                mFleaBean.selltitle = mEdtTitle.getText().toString();
                 mFleaBean.wishprice = mEdtWishPrice.getText().toString();
                 mFleaBean.wishoption = mEdtWishOption.getText().toString();
-                mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
+                mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
                 mFirebaseDB.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
                 finish();
+                return;
             }
         });
     }
@@ -369,5 +346,4 @@ public class SellModifyActivity extends AppCompatActivity {
             }
         }
     }
-    //사진찍기완료
 }

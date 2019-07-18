@@ -22,7 +22,6 @@ public class SellAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<FleaBean> mFleaList;
-    private static FleaBean fleaBean;
 
     public SellAdapter(Context context, List<FleaBean> fleaList) {
         mContext = context;
