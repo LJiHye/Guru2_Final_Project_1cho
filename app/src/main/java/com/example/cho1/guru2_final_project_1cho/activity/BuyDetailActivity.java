@@ -1,6 +1,8 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -33,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -54,7 +57,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
-    private Button btnBuyComment;
+    private Button btnBuyComment, btnModify, btnDel;
     private EditText edtBuyComment;
 
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -87,12 +90,16 @@ public class BuyDetailActivity extends AppCompatActivity {
         btnBuyComment = findViewById(R.id.btnBuyComment);
         edtBuyComment = findViewById(R.id.edtBuyComment);
 
+        //수정, 삭제 버튼에 클릭리스너 달아주기
+        footer.findViewById(R.id.btnModify).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnDel).setOnClickListener(BtnClick);
+
         //edtBuyComment.requestFocus();
 
         txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
         txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜
         imgDetail = header.findViewById(R.id.imgDetail); //이미지
-        GradientDrawable drawable= (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
         imgDetail.setBackground(drawable);
         imgDetail.setClipToOutline(true);
         txtBuyDetailProduct = header.findViewById(R.id.txtBuyDetailProduct); //제품명
@@ -180,7 +187,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         btnBuyComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(edtBuyComment.getText().toString())) {
+                if (!TextUtils.isEmpty(edtBuyComment.getText().toString())) {
                     DatabaseReference dbRef = mFirebaseDB.getReference();
                     String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
@@ -194,10 +201,10 @@ public class BuyDetailActivity extends AppCompatActivity {
                     //고유번호를 생성한다
                     String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
                     String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                    dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                    dbRef.child("buy").child(guid).child(mFleaBean.id).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(BuyDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtBuyComment.setText(null);
-                    if(view != null) {
+                    if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
@@ -205,7 +212,7 @@ public class BuyDetailActivity extends AppCompatActivity {
                     lstBuyComment.setSelection(mCommentAdapter.getCount() - 1);
                     lstBuyComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
-                    dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("buy").child(guid).child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //데이터를 받아와서 List에 저장.
@@ -225,8 +232,10 @@ public class BuyDetailActivity extends AppCompatActivity {
                                 mCommentAdapter.notifyDataSetChanged();
                             }
                         }
+
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
                     });
                 } else {
                     Toast.makeText(BuyDetailActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
@@ -234,15 +243,15 @@ public class BuyDetailActivity extends AppCompatActivity {
             }
         });
 
-        //수정버튼
-        btnModify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
-                intent.putExtra("BUYITEM", mFleaBean);
-                startActivity(intent);
-            }
-        });
+
+//        //수정버튼
+//        btnModify.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
 //        //삭제버튼
 //        btnDel.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +269,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 //                        String uuid = BuyWriteActivity.getUserIdFromUUID(email);
 //
 //                        //DB에서 삭제처리
-//                        FirebaseDatabase.getInstance().getReference().child("buy").child(uuid).child(FleaBean.id).removeValue();
+//                        FirebaseDatabase.getInstance().getReference().child("buy").child(FleaBean.id).removeValue();
 //                        //Storage 삭제처리
 //                        if(FleaBean.imgName != null) {
 //                            try {
@@ -271,6 +280,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 //                        }
 //
 //                        Toast.makeText(mContext, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+//                        finish();
 //                    }
 //                });
 //                builder.create().show();
@@ -278,33 +288,86 @@ public class BuyDetailActivity extends AppCompatActivity {
 //        });
     }  //end onCreate()
 
-   @Override
+    View.OnClickListener BtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btnModify:
+                    modify();
+                    break;
+                case R.id.btnDel:
+                    delete();
+                    break;
+            }
+        }
+    };
+
+    //수정
+    private void modify() {
+        //처리
+        Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+        startActivity(intent);
+    }
+
+    //삭제
+    private void delete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("삭제");
+        builder.setMessage("삭제하시겠습니까?");
+        builder.setNegativeButton("아니오", null);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                String uuid = BuyWriteActivity.getUserIdFromUUID(email);
+
+                //DB에서 삭제처리
+                FirebaseDatabase.getInstance().getReference().child("buy").child(mFleaBean.id).removeValue();
+                //Storage 삭제처리
+                if (mFleaBean.imgName != null) {
+                    try {
+                        FirebaseStorage.getInstance("gs://guru2-final-project-1cho.appspot.com/").getReference().child("images").child(mFleaBean.imgName).delete();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+        builder.create().show();
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
 
         //데이터 취득
         //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
-       DatabaseReference dbRef = mFirebaseDB.getReference();
-       String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-       dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               //데이터를 받아와서 List에 저장.
-               mCommentList.clear();
+        DatabaseReference dbRef = mFirebaseDB.getReference();
+        String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
+        dbRef.child("buy").child(guid).child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                mCommentList.clear();
 
-               for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                   CommentBean bean = snapshot.getValue(CommentBean.class);
-                   mCommentList.add(bean);
-               }
-               //바뀐 데이터로 Refresh 한다.
-               if (mCommentAdapter != null) {
-                   mCommentAdapter.setList(mCommentList);
-                   mCommentAdapter.notifyDataSetChanged();
-               }
-           }
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {}
-       });
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    CommentBean bean = snapshot.getValue(CommentBean.class);
+                    mCommentList.add(bean);
+                }
+                //바뀐 데이터로 Refresh 한다.
+                if (mCommentAdapter != null) {
+                    mCommentAdapter.setList(mCommentList);
+                    mCommentAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 }
