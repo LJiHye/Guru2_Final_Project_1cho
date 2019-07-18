@@ -23,6 +23,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.CommentAdapter;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,6 +53,8 @@ public class SellDetailActivity extends AppCompatActivity {
     private FleaBean mFleaBean;
     private List<FleaBean> mFleaList = new ArrayList<>();
     private SellAdapter mSellAdapter;
+
+    private Context mContext;
 
     private List<CommentBean> mCommentList = new ArrayList<>();
     private CommentAdapter mCommentAdapter;
@@ -115,10 +119,20 @@ public class SellDetailActivity extends AppCompatActivity {
                 mFleaList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        FleaBean bean = snapshot2.getValue(FleaBean.class);
+                        FleaBean bean = snapshot.getValue(FleaBean.class);
                         if(bean != null) {
                             if (TextUtils.equals(bean.id, mFleaBean.id)) {
+                                // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+                                try {
+                                    if (bean.bmpTitle == null) {
+                                        new DownloadImgTaskFlea(mContext, imgDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                    } else {
+                                        imgDetail.setImageBitmap(bean.bmpTitle);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                                 txtSellTitle.setText(bean.selltitle);
                                 txtSellDetailOption.setText(bean.wishoption);
                                 txtSellDetailPrice.setText(bean.wishprice);
@@ -133,7 +147,7 @@ public class SellDetailActivity extends AppCompatActivity {
                             }
                         }
                     }
-                }
+
                 if (mSellAdapter != null) {
                     mSellAdapter.setList(mFleaList);
                     mSellAdapter.notifyDataSetChanged();
