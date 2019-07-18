@@ -1,5 +1,10 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -20,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.CommentBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.CommentAdapter;
@@ -32,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +47,8 @@ public class BuyDetailActivity extends AppCompatActivity {
     private TextView txtBuyDetailDate;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
+
+    private Context mContext;
 
     private FleaBean mFleaBean;
     private ImageView imgDetail;
@@ -95,7 +104,6 @@ public class BuyDetailActivity extends AppCompatActivity {
         txtBuyDetailExpire = header.findViewById(R.id.txtBuyDetailExpire); //유통기한
         txtBuyDetailSize = header.findViewById(R.id.txtBuyDetailSize); //실측사이즈
 
-
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstBuyComment.setAdapter(mCommentAdapter);
 
@@ -110,6 +118,11 @@ public class BuyDetailActivity extends AppCompatActivity {
         }
 
 
+        //상단 아이디바(아이디, 날짜), 글 내용 불러와 출력
+        mCommentAdapter = new CommentAdapter(this, mCommentList);
+        lstBuyComment.setAdapter(mCommentAdapter);
+
+
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -120,6 +133,21 @@ public class BuyDetailActivity extends AppCompatActivity {
                     for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
                         if (TextUtils.equals(bean.id, mFleaBean.id)) {
+                            imgDetail.setImageBitmap(bean.bmpTitle);
+                            //imgDetail.setImageURI(bean.imgUrl);
+//                            final FleaBean fleaBean = mFleaList.get(i);
+//
+//                            // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+//                            try{
+//                                if(fleaBean.bmpTitle == null) {
+//                                    new DownloadImgTaskFlea(mContext, imgDetail, mFleaList, ).execute(new URL(fleaBean.imgUrl));
+//                                } else {
+//                                    imgDetail.setImageBitmap(fleaBean.bmpTitle);
+//                                }
+//                            } catch(Exception e) {
+//                                e.printStackTrace();
+//                            }
+
                             txtBuyDetailProduct.setText(bean.title);
                             txtBuyDetailPrice.setText(bean.price);
                             txtBuyDetailFinalPrice.setText(bean.saleprice);
@@ -203,6 +231,15 @@ public class BuyDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //수정버튼
+        btnModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
    @Override
@@ -234,10 +271,4 @@ public class BuyDetailActivity extends AppCompatActivity {
            public void onCancelled(@NonNull DatabaseError databaseError) {}
        });
     }
-
-    /*
-     * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-     * 2. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
-     * */
-
 }
