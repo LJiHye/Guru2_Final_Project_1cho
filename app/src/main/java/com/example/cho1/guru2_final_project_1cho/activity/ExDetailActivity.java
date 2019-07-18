@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.CommentAdapter;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskEx;
 import com.example.cho1.guru2_final_project_1cho.firebase.ExAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +54,7 @@ public class ExDetailActivity extends AppCompatActivity {
     private Button btnExComment;
     private EditText edtExComment;
     private LinearLayout layoutExVisibility;
+    private ImageView imgExDetail;
 
     private Context mContext;
     private ExBean mExBean;
@@ -78,6 +84,12 @@ public class ExDetailActivity extends AppCompatActivity {
 
         lstExComment.addHeaderView(header);
         lstExComment.addFooterView(footer);
+
+
+        imgExDetail = header.findViewById(R.id.imgExDetail); // 내 물건 이미지
+        GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        imgExDetail.setBackground(drawable);
+        imgExDetail.setClipToOutline(true);
 
         txtExDetailId = header.findViewById(R.id.txtExDetailId); //아이디
         txtExDetailDate = header.findViewById(R.id.txtExDetailDate); //날짜
@@ -111,19 +123,33 @@ public class ExDetailActivity extends AppCompatActivity {
                     //for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         ExBean bean = snapshot.getValue(ExBean.class);
                         if(TextUtils.equals(bean.id,mExBean.id)) {
-                            txtExDetailTitle.setText(bean.mine);
-                            txtExDetailWant.setText(bean.want);
-                            txtExDetailPrice.setText(bean.price);
-                            txtExDetailState.setText(bean.state);
-                            txtExDetailFault.setText(bean.fault);
-                            txtExDetailBuyDate.setText(bean.buyDate);
-                            txtExDetailExpire.setText(bean.expire);
-                            txtExDetailSize.setText(bean.size);
+                            if (mExBean != null) {
+                                // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로 비동기로 표시한다.
+                                try {
+                                    if (bean.bmpTitle == null) {
+                                        new DownloadImgTaskEx(mContext, imgExDetail, mExList, 0).execute(new URL(bean.imgUrl));
+                                    } else {
+                                        imgExDetail.setImageBitmap(bean.bmpTitle);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
 
-                            StringTokenizer tokens = new StringTokenizer(bean.userId);
-                            String userId = tokens.nextToken("@") ;
-                            txtExDetailId.setText(userId);
-                            txtExDetailDate.setText(bean.date);
+                                txtExDetailTitle.setText(bean.mine);
+                                txtExDetailWant.setText(bean.want);
+                                txtExDetailPrice.setText(bean.price);
+                                txtExDetailState.setText(bean.state);
+                                txtExDetailFault.setText(bean.fault);
+                                txtExDetailBuyDate.setText(bean.buyDate);
+                                txtExDetailExpire.setText(bean.expire);
+                                txtExDetailSize.setText(bean.size);
+
+                                StringTokenizer tokens = new StringTokenizer(bean.userId);
+                                String userId = tokens.nextToken("@") ;
+                                txtExDetailId.setText(userId);
+                                txtExDetailDate.setText(bean.date);
+                            }
+
                             //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
                             if (TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
                               layoutExVisibility.setVisibility(View.VISIBLE);
@@ -235,11 +261,11 @@ public class ExDetailActivity extends AppCompatActivity {
         public void onClick(View view) {
             //어떤 버튼이 클릭 됐는지 구분한다
             switch (view.getId()) {
-                case R.id.btnExModify:
+                case R.id.btnExModify: // 수정
                     modEx();
                     break;
 
-                case R.id.btnExDel:
+                case R.id.btnExDel: // 삭제
                     //처리
                     delEx();
                     break;
@@ -247,13 +273,13 @@ public class ExDetailActivity extends AppCompatActivity {
         }
     };
 
-    private void modEx() {
+    private void modEx() { // 게시글 수정
         //처리
         Intent intent = new Intent(getApplicationContext(), ExModifyActivity.class);
         intent.putExtra("EXITEM", mExBean);
         startActivity(intent);
     }
-    private void delEx() {
+    private void delEx() { // 게시글 삭제
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("삭제");
         builder.setMessage("삭제하시겠습니까?");

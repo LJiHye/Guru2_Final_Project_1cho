@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,12 +29,18 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
+import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskEx;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -41,8 +49,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class ExModifyActivity extends AppCompatActivity {
@@ -60,7 +71,9 @@ public class ExModifyActivity extends AppCompatActivity {
     private EditText mEdtSize; // 사이즈
     private Spinner mSprState; // 상태
 
-    ExBean mExBean = new ExBean();
+    private ExBean mExBean;
+    private List<ExBean> mExList = new ArrayList<>();
+    private Context mContext;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
@@ -100,7 +113,7 @@ public class ExModifyActivity extends AppCompatActivity {
         mSprState = findViewById(R.id.sprState);
 
         //mExBean = (ExBean) getIntent().getSerializableExtra(ExBean.class.getName());
-        if (mExBean != null) {
+       /* if (mExBean != null) {
             mExBean.bmpTitle = getIntent().getParcelableExtra("titleBitmap");
             if(mExBean.bmpTitle != null){
                 mImgItem.setImageBitmap(mExBean.bmpTitle);
@@ -115,7 +128,54 @@ public class ExModifyActivity extends AppCompatActivity {
             mEdtBuyDate.setText(mExBean.buyDate); // 구매한 날짜
             mEdtSize.setText(mExBean.size); // 사이즈
 
-        }
+        }*/
+
+        //기존 데이터 가져와 뿌려주기
+        mFirebaseDatabase.getReference().child("ex").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                //mExAdapter.clear();
+                mExList.clear();
+                mExList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    /*for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                        ExBean bean = snapshot2.getValue(ExBean.class); //파이어베이스 이중구조 처리방법*/
+                    ExBean bean = snapshot.getValue(ExBean.class);
+                    if(TextUtils.equals(mExBean.id, bean.id)) {
+                        // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+                        try {
+                            if (bean.bmpTitle == null) {
+                                new DownloadImgTaskEx(mContext, mImgItem, mExList, 0).execute(new URL(bean.imgUrl));
+                            } else {
+                                mImgItem.setImageBitmap(bean.bmpTitle);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        mEdtTitle.setText(bean.mine); // 내 물건
+                        mEdtItem.setText(bean.want); // 상대방 물건
+                        mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
+                        mEdtPrice.setText(bean.price); // 원가
+                        mEdtFault.setText(bean.fault); // 하자
+                        mEdtExpDate.setText(bean.expire); // 유통기한
+                        mEdtBuyDate.setText(bean.buyDate); // 구매한 날짜
+                        mEdtSize.setText(bean.size); // 사이즈
+
+//                    if (mExAdapter != null) {
+//                        mExAdapter.setList(mExList);
+//                        mExAdapter.notifyDataSetChanged();
+//                    }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
 
         mBtnImgEx.setOnClickListener(new View.OnClickListener() {
