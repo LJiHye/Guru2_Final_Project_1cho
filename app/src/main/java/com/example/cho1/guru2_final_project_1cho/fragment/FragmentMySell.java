@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
+import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.MySellAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,12 +35,15 @@ public class FragmentMySell extends Fragment {
     private List<FleaBean> mSellList = new ArrayList<>();
     private MySellAdapter mSellAdapter;
 
+    private MemberBean mLoginMember;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_sell, container, false);
 
         mLstMySell = view.findViewById(R.id.lstMySell);
+        mLoginMember = FileDB.getLoginMember(getActivity());
 
         //최초 데이터 세팅
         mSellAdapter = new MySellAdapter(getActivity(), mSellList);
@@ -53,7 +59,7 @@ public class FragmentMySell extends Fragment {
         //데이터 취득
         String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
-        mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
+        mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //data가 바뀔 때마다 이벤트가 들어옴
@@ -62,7 +68,8 @@ public class FragmentMySell extends Fragment {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    mSellList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
+                    if(TextUtils.equals(mLoginMember.memId, bean.userId))
+                        mSellList.add(0, bean);
                 }
                 //바뀐 데이터로 Refresh 한다
                 if(mSellAdapter != null){

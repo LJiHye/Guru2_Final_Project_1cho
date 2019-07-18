@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
+import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,12 +36,15 @@ public class FragmentBuy extends Fragment {
     private List<FleaBean> mFleaList = new ArrayList<>();
     private BuyAdapter mBuyAdapter;
 
+    private MemberBean mLoginMember;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy, container, false);
 
         mLstBuy = view.findViewById(R.id.lstBuy);
+        mLoginMember = FileDB.getLoginMember(getActivity());
 
         //최초 데이터 세팅
         mBuyAdapter = new BuyAdapter(getActivity(), mFleaList);
@@ -65,7 +70,7 @@ public class FragmentBuy extends Fragment {
         super.onResume();
 
         //데이터 취득
-        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        String userEmail = mLoginMember.memId;
         String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
