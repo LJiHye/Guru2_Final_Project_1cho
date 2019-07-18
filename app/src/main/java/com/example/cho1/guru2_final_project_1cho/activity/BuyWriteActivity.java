@@ -97,7 +97,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         mimgBuyWrite.setBackground(drawable);
         mimgBuyWrite.setClipToOutline(true);
 
-        Button mbtnImgReg = findViewById(R.id.btnImgReg);
+        Button mbtnImgReg = findViewById(R.id.btnBuyWriteImgReg);
         //사진찍기
         mbtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,18 +106,18 @@ public class BuyWriteActivity extends AppCompatActivity {
             }
         });
 
-        medtTitle = findViewById(R.id.edtTitle);
-        medtExplain = findViewById(R.id.edtExplain);
-        medtPrice = findViewById(R.id.edtPrice);
-        medtSalePrice = findViewById(R.id.edtSalePrice);
-        medtBuyDay = findViewById(R.id.edtBuyDay);
-        medtExprieDate = findViewById(R.id.edtExprieDate);
-        medtDefect = findViewById(R.id.edtDefect);
-        medtSize = findViewById(R.id.edtSize);
-        mspinner1 = findViewById(R.id.spinCategory);
-        mspinner2 = findViewById(R.id.spinState);
+        medtTitle = findViewById(R.id.edtBuyWriteTitle);
+        medtExplain = findViewById(R.id.edtBuyWriteExplain);
+        medtPrice = findViewById(R.id.edtBuyWritePrice);
+        medtSalePrice = findViewById(R.id.edtBuyWriteSalePrice);
+        medtBuyDay = findViewById(R.id.edtBuyWriteDay);
+        medtExprieDate = findViewById(R.id.edtBuyWriteExprieDate);
+        medtDefect = findViewById(R.id.edtBuyWriteDefect);
+        medtSize = findViewById(R.id.edtBuyWriteSize);
+        mspinner1 = findViewById(R.id.spinBuyWriteCategory);
+        mspinner2 = findViewById(R.id.spinBuyWriteState);
 
-        findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnBuyWriteOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     //신규 등록
@@ -142,13 +142,13 @@ public class BuyWriteActivity extends AppCompatActivity {
         }
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinCategory);
+        Spinner dropdown = (Spinner)findViewById(R.id.spinBuyWriteCategory);
         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
         //제품상태 드롭다운 스피너 추가
-        Spinner dropdown2 = (Spinner)findViewById(R.id.spinState);
+        Spinner dropdown2 = (Spinner)findViewById(R.id.spinBuyWriteState);
         String[] items2 = new String[]{"상", "중", "하"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);

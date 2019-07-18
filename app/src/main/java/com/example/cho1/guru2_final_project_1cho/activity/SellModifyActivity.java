@@ -1,7 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -32,7 +31,6 @@ import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
-import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -76,11 +74,9 @@ public class SellModifyActivity extends AppCompatActivity {
     private FleaBean mFleaBean;
 
     private List<FleaBean> mFleaList = new ArrayList<>();
-    private SellAdapter mSellAdapter;
 
     private MemberBean mLoginMember;
-
-    private Context mContext;
+    private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +87,7 @@ public class SellModifyActivity extends AppCompatActivity {
         mFleaBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinCategory);
+        Spinner dropdown = (Spinner)findViewById(R.id.spinSellModifyCategory);
         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
@@ -105,11 +101,11 @@ public class SellModifyActivity extends AppCompatActivity {
 
         //사진찍기
         mImgSellWrite = findViewById(R.id.sellWriteImgView);
-        mEdtTitle = findViewById(R.id.edtTitle);
-        mEdtWishPrice = findViewById(R.id.edtWishPrice);
-        mEdtWishOption = findViewById(R.id.edtWishOption);
-        mspinner1 = findViewById(R.id.spinCategory);
-        Button mBtnImgReg = findViewById(R.id.btnImgReg);
+        mEdtTitle = findViewById(R.id.edtSellModifyTitle);
+        mEdtWishPrice = findViewById(R.id.edtSellModifyWishPrice);
+        mEdtWishOption = findViewById(R.id.edtSellModifyWishOption);
+        mspinner1 = findViewById(R.id.spinSellModifyCategory);
+        Button mBtnImgReg = findViewById(R.id.btnSellModifyImgReg);
         Button mBtnSellModifyReg = findViewById(R.id.btnSellModifyReg);
 
         mBtnImgReg.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +140,21 @@ public class SellModifyActivity extends AppCompatActivity {
                         mEdtTitle.setText(bean.selltitle);
                         mEdtWishOption.setText(bean.wishoption);
                         mEdtWishPrice.setText(bean.wishprice);
+
+                        //카테고리 드롭다운 스피너 추가
+                        Spinner dropdown = (Spinner) findViewById(R.id.spinSellModifyCategory);
+                        String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SellModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+                        dropdown.setAdapter(adapter);
+
+                        //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
+                        for(int i=0; i<items.length; i++) {
+                            if(items[i] == bean.category) {
+                                itemNum = i;
+                                break;
+                            }
+                        }
+                        mspinner1.setSelection(itemNum);
                     }
                 }
             }
@@ -162,6 +173,7 @@ public class SellModifyActivity extends AppCompatActivity {
             mFleaBean.selltitle = mEdtTitle.getText().toString();
             mFleaBean.wishprice = mEdtWishPrice.getText().toString();
             mFleaBean.wishoption = mEdtWishOption.getText().toString();
+            mFleaBean.category = mspinner1.getSelectedItem().toString();  //카테고리
             mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
             // 동일 ID로 데이터 수정
@@ -200,6 +212,7 @@ public class SellModifyActivity extends AppCompatActivity {
                 mFleaBean.selltitle = mEdtTitle.getText().toString();
                 mFleaBean.wishprice = mEdtWishPrice.getText().toString();
                 mFleaBean.wishoption = mEdtWishOption.getText().toString();
+                mFleaBean.category = mspinner1.getSelectedItem().toString();  //카테고리
                 mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
                 mFirebaseDB.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);

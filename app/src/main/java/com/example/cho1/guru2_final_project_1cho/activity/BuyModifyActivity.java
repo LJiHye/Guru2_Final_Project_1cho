@@ -1,7 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -29,7 +28,6 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
-import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,9 +66,6 @@ public class BuyModifyActivity extends AppCompatActivity {
     private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
     private int itemNum2 = 0;
 
-//    FleaBean mWriterFleaBean;
-    private BuyAdapter mFleaAdapter;
-
     private ImageView mimgBuyWrite;  //사진
     private EditText medtTitle;  //제목
     private EditText medtExplain;  //설명
@@ -90,9 +85,6 @@ public class BuyModifyActivity extends AppCompatActivity {
     public String mPhotoPath;
     public static final int REQUEST_IMAGE_CAPTURE = 200;
 
-    private Context mContext;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +100,8 @@ public class BuyModifyActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA
         }, 0);
 
-        mimgBuyWrite = findViewById(R.id.imgBuyWrite);
-        Button mbtnImgReg = findViewById(R.id.btnImgReg);
+        mimgBuyWrite = findViewById(R.id.imgBuyModify);
+        Button mbtnImgReg = findViewById(R.id.btnBuyModifyImgReg);
         //사진찍기
         mbtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,18 +110,18 @@ public class BuyModifyActivity extends AppCompatActivity {
             }
         });
 
-        medtTitle = findViewById(R.id.edtTitle);
-        medtExplain = findViewById(R.id.edtExplain);
-        medtPrice = findViewById(R.id.edtPrice);
-        medtSalePrice = findViewById(R.id.edtSalePrice);
-        medtBuyDay = findViewById(R.id.edtBuyDay);
-        medtExprieDate = findViewById(R.id.edtExprieDate);
-        medtDefect = findViewById(R.id.edtDefect);
-        medtSize = findViewById(R.id.edtSize);
-        mspinner1 = findViewById(R.id.spinCategory);
-        mspinner2 = findViewById(R.id.spinState);
+        medtTitle = findViewById(R.id.edtBuyModifyTitle);
+        medtExplain = findViewById(R.id.edtBuyModifyExplain);
+        medtPrice = findViewById(R.id.edtBuyModifyPrice);
+        medtSalePrice = findViewById(R.id.edtBuyModifySalePrice);
+        medtBuyDay = findViewById(R.id.edtBuyModifyDay);
+        medtExprieDate = findViewById(R.id.edtBuyModifyExprieDate);
+        medtDefect = findViewById(R.id.edtBuyModifyDefect);
+        medtSize = findViewById(R.id.edtBuyModifySize);
+        mspinner1 = findViewById(R.id.spinBuyModifyCategory);
+        mspinner2 = findViewById(R.id.spinBuyModifyState);
 
-        findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnBuyModifyOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //수정 업데이트
@@ -165,13 +157,13 @@ public class BuyModifyActivity extends AppCompatActivity {
                         medtSize.setText(bean.size);
 
                         //카테고리 드롭다운 스피너 추가
-                        Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
+                        Spinner dropdown = (Spinner) findViewById(R.id.spinBuyModifyCategory);
                         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
                         dropdown.setAdapter(adapter);
 
                         //제품상태 드롭다운 스피너 추가
-                        Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
+                        Spinner dropdown2 = (Spinner) findViewById(R.id.spinBuyModifyState);
                         String[] items2 = new String[]{"상", "중", "하"};
                         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items2);
                         dropdown2.setAdapter(adapter2);

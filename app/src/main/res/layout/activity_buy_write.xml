@@ -37,7 +37,7 @@
                 android:src="@drawable/photo"/>
 
             <Button
-                android:id="@+id/btnImgReg"
+                android:id="@+id/btnBuyWriteImgReg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -48,7 +48,7 @@
                 android:background="@drawable/border_button"/>
 
             <Spinner
-                android:id="@+id/spinCategory"
+                android:id="@+id/spinBuyWriteCategory"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -56,7 +56,7 @@
                 android:gravity="center"/>
 
             <EditText
-                android:id="@+id/edtTitle"
+                android:id="@+id/edtBuyWriteTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -69,13 +69,13 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edtPrice"
+                    android:id="@+id/edtBuyWritePrice"
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:hint="정가"/>
                 <EditText
-                    android:id="@+id/edtSalePrice"
+                    android:id="@+id/edtBuyWriteSalePrice"
                     android:layout_width="189dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -100,7 +100,7 @@
                     android:textSize="20dp"/>
 
                 <Spinner
-                    android:id="@+id/spinState"
+                    android:id="@+id/spinBuyWriteState"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
@@ -112,42 +112,42 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/edtBuyDay"
+                android:id="@+id/edtBuyWriteDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="구매일"/>
 
             <EditText
-                android:id="@+id/edtExprieDate"
+                android:id="@+id/edtBuyWriteExprieDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="유통 기한"/>
 
             <EditText
-                android:id="@+id/edtDefect"
+                android:id="@+id/edtBuyWriteDefect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="하자 유무"/>
 
             <EditText
-                android:id="@+id/edtSize"
+                android:id="@+id/edtBuyWriteSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="실제 측정 사이즈"/>
 
             <EditText
-                android:id="@+id/edtExplain"
+                android:id="@+id/edtBuyWriteExplain"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="10dp"
                 android:hint="설명"/>
 
             <Button
-                android:id="@+id/btnOk"
+                android:id="@+id/btnBuyWriteOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="작성 완료"

@@ -71,7 +71,7 @@ public class SellWriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_write);
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinCategory);
+        Spinner dropdown = (Spinner)findViewById(R.id.spinSellWriteCategory);
         String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
@@ -84,12 +84,12 @@ public class SellWriteActivity extends AppCompatActivity {
         }, 0);
 
         mImgSellWrite = findViewById(R.id.imgSellWrite);
-        mEdtTitle = findViewById(R.id.edtTitle);
-        mEdtWishPrice = findViewById(R.id.edtWishPrice);
-        mEdtWishOption = findViewById(R.id.edtWishOption);
-        mspinner1 = findViewById(R.id.spinCategory);
-        Button mBtnImgReg = findViewById(R.id.btnImgReg);
-        Button mBtnSellReg = findViewById(R.id.btnSellReg);
+        mEdtTitle = findViewById(R.id.edtSellWriteTitle);
+        mEdtWishPrice = findViewById(R.id.edtSellWriteWishPrice);
+        mEdtWishOption = findViewById(R.id.edtSellWriteWishOption);
+        mspinner1 = findViewById(R.id.spinSellWriteCategory);
+        Button mBtnImgReg = findViewById(R.id.btnSellWriteImgReg);
+        Button mBtnSellReg = findViewById(R.id.btnSellWriteReg);
 
         mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +164,7 @@ public class SellWriteActivity extends AppCompatActivity {
         fleaBean.selltitle = mEdtTitle.getText().toString();
         fleaBean.wishprice = mEdtWishPrice.getText().toString();
         fleaBean.wishoption = mEdtWishOption.getText().toString();
+        fleaBean.category = mspinner1.getSelectedItem().toString(); //카테고리
         fleaBean.imgUrl = imgUrl;
         fleaBean.imgName = imgName;
         fleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
