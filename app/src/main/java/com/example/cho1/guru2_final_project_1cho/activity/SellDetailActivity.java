@@ -101,7 +101,7 @@ public class SellDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),SellModifyActivity.class);
-                i.putExtra("SELLDETAIL", mFleaBean);
+                i.putExtra("SELLITEM", mFleaBean);
                 startActivity(i);
             }
         });

@@ -76,7 +76,6 @@ public class SellModifyActivity extends AppCompatActivity {
 
     private List<FleaBean> mFleaList = new ArrayList<>();
     private SellAdapter mSellAdapter;
-    FleaBean mCurrentSellBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +118,8 @@ public class SellModifyActivity extends AppCompatActivity {
             }
         });
 
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
+        //mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
         if (mFleaBean != null) {
             getIntent().getParcelableArrayExtra("titleBitmap");
             if (mFleaBean.bmpTitle != null) {
@@ -131,8 +131,6 @@ public class SellModifyActivity extends AppCompatActivity {
 
         }
 
-        mCurrentSellBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
-
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -141,7 +139,7 @@ public class SellModifyActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    if (TextUtils.equals(bean.id, mCurrentSellBean.id)) {  //bean.id - null에러,,
+                    if (TextUtils.equals(bean.id, mFleaBean.id)) {  //bean.id - null에러,,
                         mEdtTitle.setText(bean.selltitle);
                         mEdtWishOption.setText(bean.wishoption);
                         mEdtWishPrice.setText(bean.wishprice);
@@ -173,7 +171,7 @@ public class SellModifyActivity extends AppCompatActivity {
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
             String uuid = getUserIdFromUUID(mFleaBean.userId);
             // 동일 ID로 데이터 수정
-            dbRef.child("memo").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
+            dbRef.child("memo").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;

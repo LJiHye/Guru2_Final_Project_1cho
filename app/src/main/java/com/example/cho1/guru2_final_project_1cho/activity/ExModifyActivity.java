@@ -66,8 +66,6 @@ public class ExModifyActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-    private ExBean mCurrentExBean;
-
     // 사진이 저장되는 경로
     private Uri mCaptureUri;
     //사진이 저장된 단말기상의 실제 경로
@@ -162,7 +160,7 @@ public class ExModifyActivity extends AppCompatActivity {
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
             String uuid = getUserIdFromUUID(mExBean.userId);
             // 동일 ID로 데이터 수정
-            dbRef.child("ex").child(uuid).child(mExBean.id).setValue(mExBean);
+            dbRef.child("ex").child(mExBean.id).setValue(mExBean);
             Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;

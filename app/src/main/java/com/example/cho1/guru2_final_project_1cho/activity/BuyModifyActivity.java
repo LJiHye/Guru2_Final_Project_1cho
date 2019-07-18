@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -95,7 +96,7 @@ public class BuyModifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_modify);
 
-        //mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
 //        FleaAdapter.setFleaBean(mFleaBean);
 
         //카메라를 사용하기 위한 퍼미션을 요청한다.
@@ -135,24 +136,24 @@ public class BuyModifyActivity extends AppCompatActivity {
         });
 
         /** ... **/
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
-//        if (mFleaBean != null) {
-//            getIntent().getParcelableArrayExtra("titleBitmap");
-//            if (mFleaBean.bmpTitle != null) {
-//                mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
-//            }
-//            medtTitle.setText(mFleaBean.title);
-//            medtExplain.setText(mFleaBean.subtitle);
-//            medtPrice.setText(mFleaBean.price);
-//            medtSalePrice.setText(mFleaBean.saleprice);
-//            medtBuyDay.setText(mFleaBean.buyday);
-//            medtExprieDate.setText(mFleaBean.expire);
-//            medtDefect.setText(mFleaBean.fault);
-//            medtSize.setText(mFleaBean.size);
-//            mFleaBean.category = mspinner1.getSelectedItem().toString();
-//            mFleaBean.state = mspinner2.getSelectedItem().toString();
-//
-//        }
+        //mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
+/*        if (mFleaBean != null) {
+            getIntent().getParcelableArrayExtra("titleBitmap");
+            if (mFleaBean.bmpTitle != null) {
+                mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
+            }
+            medtTitle.setText(mFleaBean.title);
+            medtExplain.setText(mFleaBean.subtitle);
+            medtPrice.setText(mFleaBean.price);
+            medtSalePrice.setText(mFleaBean.saleprice);
+            medtBuyDay.setText(mFleaBean.buyday);
+            medtExprieDate.setText(mFleaBean.expire);
+            medtDefect.setText(mFleaBean.fault);
+            medtSize.setText(mFleaBean.size);
+            mFleaBean.category = mspinner1.getSelectedItem().toString();
+            mFleaBean.state = mspinner2.getSelectedItem().toString();
+
+        }*/
         //mWriterFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
         //mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
 
@@ -168,37 +169,39 @@ public class BuyModifyActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     /*for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class); //파이어베이스 이중구조 처리방법*/
+
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-
-                    // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
-                    try {
-                        if (bean.bmpTitle == null) {
-                            new DownloadImgTaskFlea(mContext, mimgBuyWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
-                        } else {
-                            mimgBuyWrite.setImageBitmap(bean.bmpTitle);
+                    if(TextUtils.equals(mFleaBean.id, bean.id)) {
+                        // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+                        try {
+                            if (bean.bmpTitle == null) {
+                                new DownloadImgTaskFlea(mContext, mimgBuyWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
+                            } else {
+                                mimgBuyWrite.setImageBitmap(bean.bmpTitle);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
-                    medtTitle.setText(bean.title);
-                    medtExplain.setText(bean.subtitle);
-                    medtPrice.setText(bean.price);
-                    medtSalePrice.setText(bean.saleprice);
-                    medtBuyDay.setText(bean.buyday);
-                    medtExprieDate.setText(bean.expire);
-                    medtDefect.setText(bean.fault);
-                    medtSize.setText(bean.size);
-                    //mspinner1.setSelected(bean.category);
+                        medtTitle.setText(bean.title);
+                        medtExplain.setText(bean.subtitle);
+                        medtPrice.setText(bean.price);
+                        medtSalePrice.setText(bean.saleprice);
+                        medtBuyDay.setText(bean.buyday);
+                        medtExprieDate.setText(bean.expire);
+                        medtDefect.setText(bean.fault);
+                        medtSize.setText(bean.size);
+                        //mspinner1.setSelected(bean.category);
 
 
-                    mFleaBean.category = mspinner1.getSelectedItem().toString();
-                    mFleaBean.state = mspinner2.getSelectedItem().toString();
+                        mFleaBean.category = mspinner1.getSelectedItem().toString();
+                        mFleaBean.state = mspinner2.getSelectedItem().toString();
 
 //                    if (mFleaAdapter != null) {
 //                        mFleaAdapter.setList(mBuyList);
 //                        mFleaAdapter.notifyDataSetChanged();
 //                    }
+                    }
                 }
             }
 
@@ -241,7 +244,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             DatabaseReference dbRef = mFirebaseDB.getReference();
             String uuid = getUserIdFromUUID(mFleaBean.userId);
             //동일 ID 로 데이터 수정
-            dbRef.child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
+            dbRef.child("buy").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -291,7 +294,7 @@ public class BuyModifyActivity extends AppCompatActivity {
                 mFleaBean.date = sdf.format(new Date());
 
                 String uuid = getUserIdFromUUID(mFleaBean.userId);
-                mFirebaseDB.getReference().child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
+                mFirebaseDB.getReference().child("buy").child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정 되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
