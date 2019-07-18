@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,7 +28,6 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
-import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -65,7 +63,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     private List<FleaBean> mBuyAdapter = new ArrayList<>();
     private List<FleaBean> mBuyList = new ArrayList<>();
-    private BuyAdapter mFleaAdapter;
+    //private BuyAdapter mFleaAdapter;
 //    FleaBean mWriterFleaBean;
 
     private ImageView mimgBuyWrite;  //사진
@@ -210,17 +208,17 @@ public class BuyModifyActivity extends AppCompatActivity {
             }
         });
 
-        //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
-        String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+                    //카테고리 드롭다운 스피너 추가
+                    Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
+                    String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+                    dropdown.setAdapter(adapter);
 
-        //제품상태 드롭다운 스피너 추가
-        Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
-        String[] items2 = new String[]{"상", "중", "하"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
-        dropdown2.setAdapter(adapter2);
+                    //제품상태 드롭다운 스피너 추가
+                    Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
+                    String[] items2 = new String[]{"상", "중", "하"};
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items2);
+                    dropdown2.setAdapter(adapter2);
 
     }  //end onCreate
 
