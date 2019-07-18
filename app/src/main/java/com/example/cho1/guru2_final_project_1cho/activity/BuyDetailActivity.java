@@ -1,6 +1,8 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -64,6 +66,8 @@ public class BuyDetailActivity extends AppCompatActivity {
 
     private List<CommentBean> mCommentList = new ArrayList<>();
     private CommentAdapter mCommentAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +245,40 @@ public class BuyDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
+
+//        //삭제버튼
+//        btnDel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+//                builder.setTitle("삭제");
+//                builder.setMessage("삭제 하시겠습니까?");
+//                builder.setNegativeButton("아니오" , null);
+//                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//                        String uuid = BuyWriteActivity.getUserIdFromUUID(email);
+//
+//                        //DB에서 삭제처리
+//                        FirebaseDatabase.getInstance().getReference().child("buy").child(uuid).child(FleaBean.id).removeValue();
+//                        //Storage 삭제처리
+//                        if(FleaBean.imgName != null) {
+//                            try {
+//                                FirebaseStorage.getInstance().getReference().child("images").child(FleaBean.imgName).delete();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        Toast.makeText(mContext, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                builder.create().show();
+//            }
+//        });
+    }  //end onCreate()
 
    @Override
     protected void onResume() {

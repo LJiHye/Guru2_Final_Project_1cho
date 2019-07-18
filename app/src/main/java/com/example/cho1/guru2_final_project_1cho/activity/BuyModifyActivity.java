@@ -27,12 +27,16 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,7 +46,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class BuyModifyActivity extends AppCompatActivity {
@@ -52,6 +58,11 @@ public class BuyModifyActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+    private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
+    private List<FleaBean> mBuyAdapter = new ArrayList<>();
+    private BuyAdapter mFleaAdapter;
+//    FleaBean mWriterFleaBean;
 
     private ImageView mimgBuyWrite;  //사진
     private EditText medtTitle;  //제목
@@ -67,22 +78,20 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     private FleaBean mFleaBean;
 
-    //사진이 저장된 경로 - onActivityResult()로부터 받는 데이터
+    //사진
     private Uri mCaptureUri;
-    //사진이 저장된 단말기상의 실제 경로
     public String mPhotoPath;
-    //startActivityForResult() 에 넘겨주는 값, 이 값이 나중에 onActivityResult()로 돌아와서
-    //내가 던진값인지를 구별할 때 사용하는 상수이다.
     public static final int REQUEST_IMAGE_CAPTURE = 200;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
-
         setContentView(R.layout.activity_buy_modify);
+
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
+//        FleaAdapter.setFleaBean(mFleaBean);
+
         //카메라를 사용하기 위한 퍼미션을 요청한다.
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -119,6 +128,11 @@ public class BuyModifyActivity extends AppCompatActivity {
             }
         });
 
+        //글 내용 불러와 출력
+        mFleaAdapter = new BuyAdapter(this, mBuyAdapter);
+        //어디다가..? xml 자체에..?
+
+        /** ... **/
         mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
         if (mFleaBean != null) {
             getIntent().getParcelableArrayExtra("titleBitmap");
@@ -133,8 +147,45 @@ public class BuyModifyActivity extends AppCompatActivity {
             medtExprieDate.setText(mFleaBean.expire);
             medtDefect.setText(mFleaBean.fault);
             medtSize.setText(mFleaBean.size);
+            mFleaBean.category = mspinner1.getSelectedItem().toString();
+            mFleaBean.state = mspinner2.getSelectedItem().toString();
 
         }
+        //mWriterFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+        //mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
+
+        mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                mBuyAdapter.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                        FleaBean bean = snapshot2.getValue(FleaBean.class);
+                       // if(TextUtils.equals(bean.id, mFleaBean.id)) {
+                        medtTitle.setText(mFleaBean.title);
+                        medtExplain.setText(mFleaBean.subtitle);
+                        medtPrice.setText(mFleaBean.price);
+                        medtSalePrice.setText(mFleaBean.saleprice);
+                        medtBuyDay.setText(mFleaBean.buyday);
+                        medtExprieDate.setText(mFleaBean.expire);
+                        medtDefect.setText(mFleaBean.fault);
+                        medtSize.setText(mFleaBean.size);
+                        mFleaBean.category = mspinner1.getSelectedItem().toString();
+                        mFleaBean.state = mspinner2.getSelectedItem().toString();
+                    }
+                }
+//                if (mBuyAdapter != null) {
+//                    mBuyAdapter.setList(mFleaList);
+//                    mBuyAdapter.notifyDataSetChanged();
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         //카테고리 드롭다운 스피너 추가
         Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
@@ -228,6 +279,36 @@ public class BuyModifyActivity extends AppCompatActivity {
         });
 
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        //데이터 취득
+//        //String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+//        //String uuid = SellWriteActivity.getUserIdFromUUID(userEmail);
+//        DatabaseReference dbRef = mFirebaseDB.getReference();
+//        String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
+//        dbRef.child("buy").child( guid ).child( mFleaBean.id ).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                //데이터를 받아와서 List에 저장.
+//                mFleaList.clear();
+//
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    CommentBean bean = snapshot.getValue(CommentBean.class);
+//                    mFleaList.add(FleaBean);
+//                }
+//                //바뀐 데이터로 Refresh 한다.
+//                if (mFleaAdapter != null) {
+//                    mFleaAdapter.setList(mFleaList);
+//                    mFleaAdapter.notifyDataSetChanged();
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {}
+//        });
+//    }
 
     public static String getUserIdFromUUID(String userEmail) {
         long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();

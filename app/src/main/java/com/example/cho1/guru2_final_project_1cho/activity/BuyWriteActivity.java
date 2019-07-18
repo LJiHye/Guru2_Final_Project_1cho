@@ -120,14 +120,8 @@ public class BuyWriteActivity extends AppCompatActivity {
         findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mFleaBean == null){
                     //신규 등록
                     upload();
-                }
-                else {
-                    //수정 업데이트
-                    //update();
-                }
             }
         });
 
@@ -162,62 +156,6 @@ public class BuyWriteActivity extends AppCompatActivity {
 
     }  //end onCreate()
 
-    //게시물 수정
-    private void update() {
-        //안찍었을 경우, DB 만 업데이트 시켜준다.
-        if(mPhotoPath == null) {
-            mFleaBean.subtitle = medtExplain.getText().toString();
-            //DB 업로드
-            DatabaseReference dbRef = mFirebaseDatabase.getReference();
-            String uuid = getUserIdFromUUID(mFleaBean.userId);
-            //동일 ID 로 데이터 수정
-            dbRef.child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
-            Toast.makeText(this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
-
-        //사진을 찍었을 경우, 사진부터 업로드 하고 DB 업데이트 한다.
-        StorageReference storageRef = mFirebaseStorage.getReference();
-        final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment());
-        UploadTask uploadTask = imagesRef.putFile(mCaptureUri);
-        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(!task.isSuccessful()) {
-                    throw task.getException();
-                }
-                return imagesRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                //파일 업로드 완료후 호출된다.
-                //기존 이미지 파일을 삭제한다.
-                if(mFleaBean.imgName != null) {
-                    try {
-                        mFirebaseStorage.getReference().child("images").child(mFleaBean.imgName).delete();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                mFleaBean.imgUrl = task.getResult().toString();
-                mFleaBean.imgName = mCaptureUri.getLastPathSegment();
-                mFleaBean.subtitle = medtExplain.getText().toString();
-                //수정된 날짜로
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                mFleaBean.date = sdf.format(new Date());
-
-                String uuid = getUserIdFromUUID(mFleaBean.userId);
-                mFirebaseDatabase.getReference().child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
-
-                Toast.makeText(getBaseContext(), "수정 되었습니다.", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
-
-    }
 
     // 새 게시글 작성
     private void upload() {
