@@ -101,14 +101,34 @@ public class SellDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),SellModifyActivity.class);
-                i.putExtra("SELLDETAIL", mFleaBean);
                 startActivity(i);
             }
         });
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //delete();
+                mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //데이터를 받아와서 List에 저장.
+                        mFleaList.clear();
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            FleaBean bean = snapshot.getValue(FleaBean.class);
+                            if (bean != null) {
+                                if (TextUtils.equals(bean.id, mFleaBean.id)) {
+                                    snapshot.getRef().removeValue();
+                                    Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
             }
         });
 
