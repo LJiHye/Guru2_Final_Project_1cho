@@ -55,7 +55,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     private ImageView mimgBuyWrite;  //사진
     private EditText medtTitle;  //제목
-    private EditText medtExplain;  //설명   //이거 넣을거면 따로 설명 적을 칸 필요
+    private EditText medtExplain;  //설명
     private EditText medtPrice;  //정가
     private EditText medtSalePrice;  //판매가
     private EditText medtBuyDay;  //구매일
@@ -164,7 +164,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             mFleaBean.size = medtSize.getText().toString();  //실제 측정 사이즈
             mFleaBean.category = mspinner1.getSelectedItem().toString();  //카테고리
             mFleaBean.state = mspinner2.getSelectedItem().toString();  //제품 상태
-            mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());  //글 올린 날짜
+            mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());  //글 올린 날짜
 
             //DB 업로드
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
@@ -242,7 +242,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             mCaptureUri = Uri.fromFile(getOutPutMediaFile());
         } else {
             mCaptureUri = FileProvider.getUriForFile(this,
-                    "com.example.semiprojectsample", getOutPutMediaFile());
+                    "com.example.cho1.guru2_final_project_1cho", getOutPutMediaFile());
         }
 
         i.putExtra(MediaStore.EXTRA_OUTPUT, mCaptureUri);
