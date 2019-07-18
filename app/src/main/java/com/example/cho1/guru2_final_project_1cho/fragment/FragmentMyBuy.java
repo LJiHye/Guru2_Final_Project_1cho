@@ -61,10 +61,8 @@ public class FragmentMyBuy extends Fragment {
                 mBuyList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
-                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        mBuyList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
-                    }
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    mBuyList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
                 }
                 //바뀐 데이터로 Refresh 한다
                 if(mBuyAdapter != null){

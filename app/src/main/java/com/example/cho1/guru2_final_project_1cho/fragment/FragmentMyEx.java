@@ -61,10 +61,8 @@ public class FragmentMyEx extends Fragment {
                 mExList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
-                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        ExBean bean = snapshot2.getValue(ExBean.class);
-                        mExList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
-                    }
+                    ExBean bean = snapshot.getValue(ExBean.class);
+                    mExList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
                 }
                 //바뀐 데이터로 Refresh 한다
                 if(mExAdapter != null){

@@ -107,8 +107,8 @@ public class ExDetailActivity extends AppCompatActivity {
                 mExList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        ExBean bean = snapshot2.getValue(ExBean.class);
+                    //for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                        ExBean bean = snapshot.getValue(ExBean.class);
                         if(TextUtils.equals(bean.id,mExBean.id)) {
                             txtExDetailTitle.setText(bean.mine);
                             txtExDetailWant.setText(bean.want);
@@ -127,7 +127,7 @@ public class ExDetailActivity extends AppCompatActivity {
                             if (TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
                               layoutExVisibility.setVisibility(View.VISIBLE);
                             }
-                        }
+                       // }
                     }
                 }
 
