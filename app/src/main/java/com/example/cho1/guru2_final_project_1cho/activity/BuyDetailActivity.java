@@ -122,7 +122,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         Button btnDel = footer.findViewById(R.id.btnDel);
 
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+        if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
             layoutBuyVisibility.setVisibility(View.VISIBLE);
         }
 
