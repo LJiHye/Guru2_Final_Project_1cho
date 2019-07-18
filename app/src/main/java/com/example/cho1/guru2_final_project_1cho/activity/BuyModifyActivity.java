@@ -64,7 +64,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     private List<FleaBean> mBuyAdapter = new ArrayList<>();
     private List<FleaBean> mBuyList = new ArrayList<>();
-    private BuyAdapter mFleaAdapter;
+    //private BuyAdapter mFleaAdapter;
 //    FleaBean mWriterFleaBean;
 
     private ImageView mimgBuyWrite;  //사진
@@ -136,23 +136,6 @@ public class BuyModifyActivity extends AppCompatActivity {
 
         /** ... **/
         mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
-//        if (mFleaBean != null) {
-//            getIntent().getParcelableArrayExtra("titleBitmap");
-//            if (mFleaBean.bmpTitle != null) {
-//                mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
-//            }
-//            medtTitle.setText(mFleaBean.title);
-//            medtExplain.setText(mFleaBean.subtitle);
-//            medtPrice.setText(mFleaBean.price);
-//            medtSalePrice.setText(mFleaBean.saleprice);
-//            medtBuyDay.setText(mFleaBean.buyday);
-//            medtExprieDate.setText(mFleaBean.expire);
-//            medtDefect.setText(mFleaBean.fault);
-//            medtSize.setText(mFleaBean.size);
-//            mFleaBean.category = mspinner1.getSelectedItem().toString();
-//            mFleaBean.state = mspinner2.getSelectedItem().toString();
-//
-//        }
         //mWriterFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
         //mFleaBean = (FleaBean) getIntent().getSerializableExtra("BUYITEM");
 
@@ -189,16 +172,29 @@ public class BuyModifyActivity extends AppCompatActivity {
                     medtExprieDate.setText(bean.expire);
                     medtDefect.setText(bean.fault);
                     medtSize.setText(bean.size);
-                    //mspinner1.setSelected(bean.category);
+                    //mspinner1.setSelected(bean.category); //기본 값을 저번에 선택한 값으로...
 
 
-                    mFleaBean.category = mspinner1.getSelectedItem().toString();
-                    mFleaBean.state = mspinner2.getSelectedItem().toString();
+                    //mFleaBean.category = mspinner1.getSelectedItem().toString();
+                    //mFleaBean.state = mspinner2.getSelectedItem().toString();
 
 //                    if (mFleaAdapter != null) {
 //                        mFleaAdapter.setList(mBuyList);
 //                        mFleaAdapter.notifyDataSetChanged();
 //                    }
+
+                    //카테고리 드롭다운 스피너 추가
+                    Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
+                    String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+                    dropdown.setAdapter(adapter);
+
+                    //제품상태 드롭다운 스피너 추가
+                    Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
+                    String[] items2 = new String[]{"상", "중", "하"};
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items2);
+                    dropdown2.setAdapter(adapter2);
+
                 }
             }
 
@@ -206,18 +202,6 @@ public class BuyModifyActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-        //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
-        String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-
-        //제품상태 드롭다운 스피너 추가
-        Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
-        String[] items2 = new String[]{"상", "중", "하"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
-        dropdown2.setAdapter(adapter2);
 
     }  //end onCreate
 
