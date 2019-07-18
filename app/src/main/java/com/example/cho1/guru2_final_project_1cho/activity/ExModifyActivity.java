@@ -1,10 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -24,6 +19,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
@@ -66,6 +66,7 @@ public class ExModifyActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+    private ExBean mCurrentExBean;
 
     // 사진이 저장되는 경로
     private Uri mCaptureUri;
@@ -87,6 +88,8 @@ public class ExModifyActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA
         }, 0);
 
+        mExBean = (ExBean) getIntent().getSerializableExtra("EXITEM");
+
         mImgItem = findViewById(R.id.imgItem);
         mBtnImgEx = findViewById(R.id.btnImgEx);
         mEdtTitle = findViewById(R.id.edtTitle);
@@ -98,7 +101,7 @@ public class ExModifyActivity extends AppCompatActivity {
         mEdtSize = findViewById(R.id.edtSize);
         mSprState = findViewById(R.id.sprState);
 
-        mExBean = (ExBean)getIntent().getSerializableExtra(ExBean.class.getName());
+        //mExBean = (ExBean) getIntent().getSerializableExtra(ExBean.class.getName());
         if (mExBean != null) {
             mExBean.bmpTitle = getIntent().getParcelableExtra("titleBitmap");
             if(mExBean.bmpTitle != null){

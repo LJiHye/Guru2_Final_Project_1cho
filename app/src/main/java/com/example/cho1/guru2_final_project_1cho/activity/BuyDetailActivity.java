@@ -1,8 +1,6 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -35,7 +33,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -242,6 +239,7 @@ public class BuyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+                intent.putExtra("BUYITEM", mFleaBean);
                 startActivity(intent);
             }
         });

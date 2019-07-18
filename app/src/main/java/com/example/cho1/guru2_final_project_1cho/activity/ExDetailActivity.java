@@ -250,6 +250,7 @@ public class ExDetailActivity extends AppCompatActivity {
     private void modEx() {
         //처리
         Intent intent = new Intent(getApplicationContext(), ExModifyActivity.class);
+        intent.putExtra("EXITEM", mExBean);
         startActivity(intent);
     }
     private void delEx() {

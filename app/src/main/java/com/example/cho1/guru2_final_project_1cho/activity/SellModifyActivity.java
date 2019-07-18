@@ -76,7 +76,7 @@ public class SellModifyActivity extends AppCompatActivity {
 
     private List<FleaBean> mFleaList = new ArrayList<>();
     private SellAdapter mSellAdapter;
-    FleaBean mCurrentFleaBean;
+    FleaBean mCurrentSellBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +131,7 @@ public class SellModifyActivity extends AppCompatActivity {
 
         }
 
-        mCurrentFleaBean = (FleaBean) getIntent().getSerializableExtra("ITEM");
+        mCurrentSellBean = (FleaBean) getIntent().getSerializableExtra("SELLITEM");
 
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,7 +141,7 @@ public class SellModifyActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    if (TextUtils.equals(bean.id, mCurrentFleaBean.id)) {  //bean.id - null에러,,
+                    if (TextUtils.equals(bean.id, mCurrentSellBean.id)) {  //bean.id - null에러,,
                         mEdtTitle.setText(bean.selltitle);
                         mEdtWishOption.setText(bean.wishoption);
                         mEdtWishPrice.setText(bean.wishprice);

@@ -22,7 +22,7 @@ public class BuyAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<FleaBean> mFleaList;
-    private static FleaBean mFleaBean;
+    private static FleaBean fleaBean;
 
     public BuyAdapter(Context context, List<FleaBean> fleaList) {
         mContext = context;
@@ -30,7 +30,7 @@ public class BuyAdapter extends BaseAdapter {
     }
 
     public static void setFleaBean(FleaBean fleaBean) {
-        mFleaBean = fleaBean;
+        BuyAdapter.fleaBean = fleaBean;
     }
 
     public void setList(List<FleaBean> fleaList) {
@@ -88,7 +88,7 @@ public class BuyAdapter extends BaseAdapter {
         txtBuyPrice.setText(fleaBean.saleprice);
         txtBuyDate.setText(fleaBean.date);
         StringTokenizer tokens = new StringTokenizer(fleaBean.userId);
-        String userId = tokens.nextToken("@") ;
+        String userId = tokens.nextToken("@");
         txtBuyId.setText(userId);
 
         //리스트 항목 누르면 디테일 페이지로
