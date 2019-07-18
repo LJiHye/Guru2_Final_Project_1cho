@@ -53,7 +53,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     private FleaBean mFleaBean;
     private ImageView imgDetail;
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
-            txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize;
+            txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
     private Button btnBuyComment;
     private EditText edtBuyComment;
@@ -91,11 +91,11 @@ public class BuyDetailActivity extends AppCompatActivity {
         txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
         txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜
         imgDetail = header.findViewById(R.id.imgDetail); //이미지
-        GradientDrawable drawable=
-                (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        GradientDrawable drawable= (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
         imgDetail.setBackground(drawable);
         imgDetail.setClipToOutline(true);
         txtBuyDetailProduct = header.findViewById(R.id.txtBuyDetailProduct); //제품명
+        txtBuyDetailExplain = header.findViewById(R.id.txtBuyDetailExplain); //설명
         txtBuyDetailPrice = header.findViewById(R.id.txtBuyDetailPrice); //정가
         txtBuyDetailFinalPrice = header.findViewById(R.id.txtBuyDetailFinalPrice); //판매가
         txtBuyDetailState = header.findViewById(R.id.txtBuyDetailState); //제품상태
@@ -149,6 +149,7 @@ public class BuyDetailActivity extends AppCompatActivity {
 //                            }
 
                             txtBuyDetailProduct.setText(bean.title);
+                            txtBuyDetailExplain.setText(bean.subtitle);
                             txtBuyDetailPrice.setText(bean.price);
                             txtBuyDetailFinalPrice.setText(bean.saleprice);
                             txtBuyDetailState.setText(bean.state);
