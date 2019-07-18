@@ -64,6 +64,11 @@ public class BuyModifyActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private List<FleaBean> mBuyList = new ArrayList<>();
+
+    private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
+    private int itemNum2 = 0;
+
+//    FleaBean mWriterFleaBean;
     private BuyAdapter mFleaAdapter;
 
     private ImageView mimgBuyWrite;  //사진
@@ -144,7 +149,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    if(TextUtils.equals(mFleaBean.id, bean.id)) {
+                    if (TextUtils.equals(mFleaBean.id, bean.id)) {
                         // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
                         try {
                             if (bean.bmpTitle == null) {
@@ -156,19 +161,45 @@ public class BuyModifyActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                    medtTitle.setText(bean.title);
-                    medtExplain.setText(bean.subtitle);
-                    medtPrice.setText(bean.price);
-                    medtSalePrice.setText(bean.saleprice);
-                    medtBuyDay.setText(bean.buyday);
-                    medtExprieDate.setText(bean.expire);
-                    medtDefect.setText(bean.fault);
-                    medtSize.setText(bean.size);
-                    //mspinner1.setSelected(bean.category); //기본 값을 저번에 선택한 값으로...
+                        medtTitle.setText(bean.title);
+                        medtExplain.setText(bean.subtitle);
+                        medtPrice.setText(bean.price);
+                        medtSalePrice.setText(bean.saleprice);
+                        medtBuyDay.setText(bean.buyday);
+                        medtExprieDate.setText(bean.expire);
+                        medtDefect.setText(bean.fault);
+                        medtSize.setText(bean.size);
 
+                        //카테고리 드롭다운 스피너 추가
+                        Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
+                        String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+                        dropdown.setAdapter(adapter);
 
-                        mFleaBean.category = mspinner1.getSelectedItem().toString();
-                        mFleaBean.state = mspinner2.getSelectedItem().toString();
+                        //제품상태 드롭다운 스피너 추가
+                        Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
+                        String[] items2 = new String[]{"상", "중", "하"};
+                        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items2);
+                        dropdown2.setAdapter(adapter2);
+
+                        //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
+                        for(int i=0; i<items.length; i++) {
+                            if(items[i] == bean.category) {
+                                itemNum = i;
+                                break;
+                            }
+                        }
+                        //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
+                        for(int i=0; i<items2.length; i++) {
+                            if(items[i] == bean.category) {
+                                itemNum2 = i;
+                                break;
+                            }
+                        }
+                        //알아낸 위치로 기본 선택값 변경
+                        mspinner1.setSelection(itemNum);
+                        mspinner2.setSelection(itemNum2);
+
 
 //                    if (mFleaAdapter != null) {
 //                        mFleaAdapter.setList(mBuyList);
@@ -182,18 +213,6 @@ public class BuyModifyActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-                    //카테고리 드롭다운 스피너 추가
-                    Spinner dropdown = (Spinner) findViewById(R.id.spinCategory);
-                    String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
-                    dropdown.setAdapter(adapter);
-
-                    //제품상태 드롭다운 스피너 추가
-                    Spinner dropdown2 = (Spinner) findViewById(R.id.spinState);
-                    String[] items2 = new String[]{"상", "중", "하"};
-                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items2);
-                    dropdown2.setAdapter(adapter2);
 
     }  //end onCreate
 

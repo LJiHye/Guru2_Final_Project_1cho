@@ -139,7 +139,6 @@ public class BuyWriteActivity extends AppCompatActivity {
             medtExprieDate.setText(mFleaBean.expire);
             medtDefect.setText(mFleaBean.fault);
             medtSize.setText(mFleaBean.size);
-
         }
 
         //카테고리 드롭다운 스피너 추가
