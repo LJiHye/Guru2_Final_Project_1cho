@@ -243,49 +243,6 @@ public class BuyDetailActivity extends AppCompatActivity {
             }
         });
 
-
-//        //수정버튼
-//        btnModify.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-//        //삭제버튼
-//        btnDel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//                builder.setTitle("삭제");
-//                builder.setMessage("삭제 하시겠습니까?");
-//                builder.setNegativeButton("아니오" , null);
-//                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//                        String uuid = BuyWriteActivity.getUserIdFromUUID(email);
-//
-//                        //DB에서 삭제처리
-//                        FirebaseDatabase.getInstance().getReference().child("buy").child(FleaBean.id).removeValue();
-//                        //Storage 삭제처리
-//                        if(FleaBean.imgName != null) {
-//                            try {
-//                                FirebaseStorage.getInstance().getReference().child("images").child(FleaBean.imgName).delete();
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        Toast.makeText(mContext, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }
-//                });
-//                builder.create().show();
-//            }
-//        });
     }  //end onCreate()
 
     View.OnClickListener BtnClick = new View.OnClickListener() {

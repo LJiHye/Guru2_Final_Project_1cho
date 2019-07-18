@@ -1,6 +1,8 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +33,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -97,41 +100,44 @@ public class SellDetailActivity extends AppCompatActivity {
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstSellComment.setAdapter(mCommentAdapter);
 
-        btnModify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),SellModifyActivity.class);
-                i.putExtra("SELLITEM", mFleaBean);
-                startActivity(i);
-            }
-        });
-        btnDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //데이터를 받아와서 List에 저장.
-                        mFleaList.clear();
+        //수정, 삭제 버튼에 클릭리스너 달아주기
+        footer.findViewById(R.id.btnModify).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnDel).setOnClickListener(BtnClick);
 
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            FleaBean bean = snapshot.getValue(FleaBean.class);
-                            if (bean != null) {
-                                if (TextUtils.equals(bean.id, mFleaBean.id)) {
-                                    snapshot.getRef().removeValue();
-                                    Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
-                                    finish();
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-            }
-        });
+//        btnModify.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getApplicationContext(),SellModifyActivity.class);
+//                startActivity(i);
+//            }
+//        });
+//        btnDel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        //데이터를 받아와서 List에 저장.
+//                        mFleaList.clear();
+//
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            FleaBean bean = snapshot.getValue(FleaBean.class);
+//                            if (bean != null) {
+//                                if (TextUtils.equals(bean.id, mFleaBean.id)) {
+//                                    snapshot.getRef().removeValue();
+//                                    Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+//                                    finish();
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    }
+//                });
+//            }
+//        });
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
@@ -238,6 +244,56 @@ public class SellDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    View.OnClickListener BtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btnModify:
+                    modify();
+                    break;
+                case R.id.btnDel:
+                    delete();
+                    break;
+            }
+        }
+    };
+
+    //수정
+    private void modify() {
+        //처리
+        Intent intent = new Intent(SellDetailActivity.this, BuyModifyActivity.class);
+        startActivity(intent);
+    }
+
+    //삭제
+    private void delete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("삭제");
+        builder.setMessage("삭제하시겠습니까?");
+        builder.setNegativeButton("아니오", null);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                String uuid = SellWriteActivity.getUserIdFromUUID(email);
+
+                //DB에서 삭제처리
+                FirebaseDatabase.getInstance().getReference().child("sell").child(mFleaBean.id).removeValue();
+                //Storage 삭제처리
+                if (mFleaBean.imgName != null) {
+                    try {
+                        FirebaseStorage.getInstance().getReference().child("images").child(mFleaBean.imgName).delete();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+        builder.create().show();
     }
 
     @Override

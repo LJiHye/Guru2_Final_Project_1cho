@@ -29,6 +29,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -181,15 +182,15 @@ public class BuyModifyActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        medtTitle.setText(bean.title);
-                        medtExplain.setText(bean.subtitle);
-                        medtPrice.setText(bean.price);
-                        medtSalePrice.setText(bean.saleprice);
-                        medtBuyDay.setText(bean.buyday);
-                        medtExprieDate.setText(bean.expire);
-                        medtDefect.setText(bean.fault);
-                        medtSize.setText(bean.size);
-                        //mspinner1.setSelected(bean.category);
+                    medtTitle.setText(bean.title);
+                    medtExplain.setText(bean.subtitle);
+                    medtPrice.setText(bean.price);
+                    medtSalePrice.setText(bean.saleprice);
+                    medtBuyDay.setText(bean.buyday);
+                    medtExprieDate.setText(bean.expire);
+                    medtDefect.setText(bean.fault);
+                    medtSize.setText(bean.size);
+                    //mspinner1.setSelected(bean.category); //기본 값을 저번에 선택한 값으로...
 
 
                         mFleaBean.category = mspinner1.getSelectedItem().toString();
@@ -242,7 +243,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             DatabaseReference dbRef = mFirebaseDB.getReference();
             String uuid = getUserIdFromUUID(mFleaBean.userId);
             //동일 ID 로 데이터 수정
-            dbRef.child("buy").child(mFleaBean.id).setValue(mFleaBean);
+            dbRef.child("buy").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;
