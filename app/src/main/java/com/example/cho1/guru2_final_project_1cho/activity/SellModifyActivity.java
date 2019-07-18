@@ -77,6 +77,7 @@ public class SellModifyActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private List<FleaBean> mFleaList = new ArrayList<>();
+    private List<FleaBean> mSellList = new ArrayList<>();
     private SellAdapter mSellAdapter;
 
     private MemberBean mLoginMember;
@@ -111,32 +112,6 @@ public class SellModifyActivity extends AppCompatActivity {
         Button mBtnImgReg = findViewById(R.id.btnImgReg);
         Button mBtnSellModifyReg = findViewById(R.id.btnSellModifyReg);
 
-        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takePicture();
-            }
-        });
-
-        mBtnSellModifyReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                update();
-            }
-        });
-
-        //mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
-        if (mFleaBean != null) {
-            getIntent().getParcelableArrayExtra("titleBitmap");
-            if (mFleaBean.bmpTitle != null) {
-                mImgSellWrite.setImageBitmap(mFleaBean.bmpTitle);
-            }
-            mEdtTitle.setText(mFleaBean.title);
-            mEdtWishPrice.setText(mFleaBean.wishoption);
-            mEdtWishOption.setText(mFleaBean.wishoption);
-
-        }
-
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -160,6 +135,34 @@ public class SellModifyActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        mBtnImgReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePicture();
+            }
+        });
+
+        mBtnSellModifyReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update();
+                finish();
+            }
+        });
+
+       /* //mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
+        if (mFleaBean != null) {
+            getIntent().getParcelableArrayExtra("titleBitmap");
+            if (mFleaBean.bmpTitle != null) {
+                mImgSellWrite.setImageBitmap(mFleaBean.bmpTitle);
+            }
+            mEdtTitle.setText(mFleaBean.title);
+            mEdtWishPrice.setText(mFleaBean.wishoption);
+            mEdtWishOption.setText(mFleaBean.wishoption);
+
+        }*/
+
     }//end onCreate()
 
     //수정하기
@@ -178,7 +181,6 @@ public class SellModifyActivity extends AppCompatActivity {
             // 동일 ID로 데이터 수정
             dbRef.child("sell").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
-            finish();
             return;
         }
 
