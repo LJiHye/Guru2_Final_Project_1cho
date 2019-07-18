@@ -102,6 +102,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
         imgDetail.setBackground(drawable);
         imgDetail.setClipToOutline(true);
+
         txtBuyDetailProduct = header.findViewById(R.id.txtBuyDetailProduct); //제품명
         txtBuyDetailExplain = header.findViewById(R.id.txtBuyDetailExplain); //설명
         txtBuyDetailPrice = header.findViewById(R.id.txtBuyDetailPrice); //정가

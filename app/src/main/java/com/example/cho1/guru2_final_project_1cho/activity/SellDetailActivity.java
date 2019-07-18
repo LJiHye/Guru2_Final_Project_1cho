@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -87,6 +88,10 @@ public class SellDetailActivity extends AppCompatActivity {
         txtSellDetailId = header.findViewById(R.id.txtSellDetailId); //아이디
         txtSellDetailDate = header.findViewById(R.id.txtSellDetailDate); //날짜
         imgDetail = header.findViewById(R.id.imgDetail);
+        GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        imgDetail.setBackground(drawable);
+        imgDetail.setClipToOutline(true);
+
         txtSellTitle = header.findViewById(R.id.txtSellTitle);
         txtSellDetailPrice = header.findViewById(R.id.txtSellDetailPrice); //희망가
         txtSellDetailOption = header.findViewById(R.id.txtSellDetailOption); //희망 옵션
