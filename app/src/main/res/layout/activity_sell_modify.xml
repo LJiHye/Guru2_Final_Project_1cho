@@ -10,9 +10,10 @@
 
     <ImageView
         android:id="@+id/sellWriteImgView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#C8D3CECE"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/photo"
         android:layout_marginTop="50dp"
         android:layout_marginHorizontal="30dp"
         android:layout_weight="2"/>
