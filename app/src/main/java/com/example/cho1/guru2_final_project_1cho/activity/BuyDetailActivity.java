@@ -111,7 +111,6 @@ public class BuyDetailActivity extends AppCompatActivity {
         txtBuyDetailExpire = header.findViewById(R.id.txtBuyDetailExpire); //유통기한
         txtBuyDetailSize = header.findViewById(R.id.txtBuyDetailSize); //실측사이즈
 
-
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstBuyComment.setAdapter(mCommentAdapter);
 
@@ -236,6 +235,15 @@ public class BuyDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //수정버튼
+        btnModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
    @Override
@@ -267,10 +275,4 @@ public class BuyDetailActivity extends AppCompatActivity {
            public void onCancelled(@NonNull DatabaseError databaseError) {}
        });
     }
-
-    /*
-     * 1. 상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-     * 2. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
-     * */
-
 }
