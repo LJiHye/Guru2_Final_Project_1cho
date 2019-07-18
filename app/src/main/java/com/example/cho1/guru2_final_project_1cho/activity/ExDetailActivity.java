@@ -98,6 +98,7 @@ public class ExDetailActivity extends AppCompatActivity {
         lstExComment.setAdapter(mCommentAdapter);
 
         footer.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
+        footer.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
@@ -157,9 +158,9 @@ public class ExDetailActivity extends AppCompatActivity {
                     commentBean.flag = 3;
 
                     //고유번호를 생성한다
-                    //String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
-                    //dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").child(id).setValue(commentBean);
-                    dbRef.child("ex").child( mExBean.id ).child("comments").child(id).setValue(commentBean);
+                    String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
+                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
+                    dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(ExDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtExComment.setText(null);
                     if(view != null) {
@@ -229,49 +230,53 @@ public class ExDetailActivity extends AppCompatActivity {
         });
     }
 
-    ExBean exBean = new ExBean();
     private View.OnClickListener mBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             //어떤 버튼이 클릭 됐는지 구분한다
             switch (view.getId()) {
                 case R.id.btnExModify:
-                    //처리
-                    Intent intent = new Intent(mContext, ExModifyActivity.class);
-                    intent.putExtra(ExBean.class.getName(), exBean); // exBean을 넘긴다
-                    intent.putExtra("titleBitmap", exBean.bmpTitle); // exBean에서 넘어가지 않으므로 따로 넘겨준다
-                    mContext.startActivity(intent);
+                    modEx();
                     break;
 
-                case R.id.btnDel:
+                case R.id.btnExDel:
                     //처리
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("삭제");
-                    builder.setMessage("삭제 하시겠습니까?");
-                    builder.setNegativeButton("아니오" , null);
-                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                            String uuid = ExWriteActivity.getUserIdFromUUID(email);
-
-                            //DB에서 삭제처리
-                            FirebaseDatabase.getInstance().getReference().child("ex").child(uuid).child(exBean.id).removeValue();
-                            //Storage 삭제처리
-                            if(exBean.imgName != null) {
-                                try {
-                                    FirebaseStorage.getInstance().getReference().child("images").child(exBean.imgName).delete();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            Toast.makeText(mContext, "삭제 되었습니다.", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    delEx();
                     break;
             }
         }
     };
 
+    private void modEx() {
+        //처리
+        Intent intent = new Intent(getApplicationContext(), ExModifyActivity.class);
+        startActivity(intent);
+    }
+    private void delEx() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("삭제");
+        builder.setMessage("삭제하시겠습니까?");
+        builder.setNegativeButton("아니오" , null);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                String uuid = ExWriteActivity.getUserIdFromUUID(email);
+
+                //DB에서 삭제처리
+                FirebaseDatabase.getInstance().getReference().child("ex").child(mExBean.id).removeValue();
+                //Storage 삭제처리
+                if(mExBean.imgName != null) {
+                    try {
+                        FirebaseStorage.getInstance("gs://guru2-final-project-1cho.appspot.com/").getReference().child("images").child(mExBean.imgName).delete();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+        builder.create().show();
+    }
 }

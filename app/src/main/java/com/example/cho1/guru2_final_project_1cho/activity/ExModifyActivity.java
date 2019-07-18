@@ -196,7 +196,7 @@ public class ExModifyActivity extends AppCompatActivity {
                 mExBean.mine = mEdtTitle.getText().toString(); // 내물건 이름
                 mExBean.want = mEdtItem.getText().toString(); // 교환하고 싶은 물건
                 mExBean.state = mSprState.getSelectedItem().toString(); // 물건 상태
-                mExBean.price = mEdtPrice.getText().toString(); // 원가 
+                mExBean.price = mEdtPrice.getText().toString(); // 원가
                 mExBean.fault = mEdtFault.getText().toString(); // 하자
                 mExBean.expire = mEdtExpDate.getText().toString(); // 유통기한
                 mExBean.buyDate = mEdtBuyDate.getText().toString(); // 구매날짜

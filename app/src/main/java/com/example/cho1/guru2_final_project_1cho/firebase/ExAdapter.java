@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
+import com.example.cho1.guru2_final_project_1cho.activity.ExModifyActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 
 import java.net.URL;
@@ -90,8 +91,10 @@ public class ExAdapter extends BaseAdapter {
                 intent.putExtra("INDEX", i); //원본데이터의 순번
                 intent.putExtra("ITEM", exBean); //상세표시할 원본 데이터
                 mContext.startActivity(intent);
+
             }
         });
+
 
         return view;
     }
