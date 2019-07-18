@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class BuyDetailActivity extends AppCompatActivity {
     private TextView txtBuyDetailDate;
@@ -153,7 +154,10 @@ public class BuyDetailActivity extends AppCompatActivity {
                             txtBuyDetailSize.setText(bean.size);
 
                             txtBuyDetailDate.setText(bean.date);
-                            txtBuyDetailId.setText(bean.userId);
+
+                            StringTokenizer tokens = new StringTokenizer(bean.userId);
+                            String userId = tokens.nextToken("@") ;
+                            txtBuyDetailId.setText(userId);
                         }
                     }
                 }

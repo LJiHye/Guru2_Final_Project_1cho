@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class ExDetailActivity extends AppCompatActivity {
 
@@ -117,7 +118,10 @@ public class ExDetailActivity extends AppCompatActivity {
                             txtExDetailBuyDate.setText(bean.buyDate);
                             txtExDetailExpire.setText(bean.expire);
                             txtExDetailSize.setText(bean.size);
-                            txtExDetailId.setText(bean.userId);
+
+                            StringTokenizer tokens = new StringTokenizer(bean.userId);
+                            String userId = tokens.nextToken("@") ;
+                            txtExDetailId.setText(userId);
                             txtExDetailDate.setText(bean.date);
                             //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
                             if (TextUtils.equals(mExBean.userId, mLoginMember.memId)) {

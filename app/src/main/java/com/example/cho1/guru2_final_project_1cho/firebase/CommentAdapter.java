@@ -22,6 +22,7 @@ import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class CommentAdapter extends BaseAdapter {
     private Context mContext;
@@ -70,7 +71,10 @@ public class CommentAdapter extends BaseAdapter {
 
         txtComment.setText(mCommentBean.comment);
         txtCommentDate.setText(mCommentBean.date);
-        txtCommentId.setText(mCommentBean.userId);
+        StringTokenizer tokens = new StringTokenizer(mCommentBean.userId);
+        String userId = tokens.nextToken("@") ;
+        txtCommentId.setText(userId);
+        txtCommentId.setText(userId);
 
         imgCommentDelete.setOnClickListener(new View.OnClickListener() {
             @Override

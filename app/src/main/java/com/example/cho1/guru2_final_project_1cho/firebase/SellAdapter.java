@@ -16,6 +16,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 
 import java.net.URL;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class SellAdapter extends BaseAdapter {
 
@@ -79,8 +80,10 @@ public class SellAdapter extends BaseAdapter {
         txtSellTitle.setText(fleaBean.selltitle);
         txtSellSubTitle.setText(fleaBean.wishoption);
         txtSellPrice.setText(fleaBean.wishprice);
-        txtSellId.setText(fleaBean.userId);
         txtSellDate.setText(fleaBean.date);
+        StringTokenizer tokens = new StringTokenizer(fleaBean.userId);
+        String userId = tokens.nextToken("@") ;
+        txtSellId.setText(userId);
 
         //리스트 항목 누르면 디테일 페이지로
         view.setOnClickListener(new View.OnClickListener() {
