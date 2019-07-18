@@ -166,6 +166,9 @@ public class SellDetailActivity extends AppCompatActivity {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+                    lstSellComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                    lstSellComment.setSelection(mCommentAdapter.getCount() - 1);
+                    lstSellComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
                     dbRef.child("sell").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
