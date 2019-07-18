@@ -46,7 +46,9 @@
         <ListView
             android:id="@+id/lstEx"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:dividerHeight="0px"
+            android:divider="#ffffff"/>
     </LinearLayout>
 
     <Button
