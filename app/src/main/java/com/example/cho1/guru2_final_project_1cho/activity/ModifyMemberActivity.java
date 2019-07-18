@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -50,6 +51,10 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mBtnModify = findViewById(R.id.btnModify);
         mBtnLogout = findViewById(R.id.btnLogout);
         mImgDetailProfile = findViewById(R.id.imgDetailProfile);
+        GradientDrawable drawable=
+                (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
+        mImgDetailProfile.setBackground(drawable);
+        mImgDetailProfile.setClipToOutline(true);
 
         id = loginMember.memId;
         name = loginMember.memName;
