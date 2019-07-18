@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
+import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,6 +50,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,14 +61,13 @@ public class SellModifyActivity extends AppCompatActivity {
 
     public static final String STORAGE_DB_URL = "gs://guru2-final-project-1cho.appspot.com/";
 
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
+    private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
+
     private ImageView mImgSellWrite;
     private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;
     private Spinner mspinner1;  //카테고리
-
-    //Firebase DB 저장 변수
-    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
-    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     //사진 찍기 변수
     private Uri mCaptureUri;
@@ -74,13 +76,12 @@ public class SellModifyActivity extends AppCompatActivity {
 
     private FleaBean mFleaBean;
 
-    private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
-
     private List<FleaBean> mFleaList = new ArrayList<>();
-    private List<FleaBean> mSellList = new ArrayList<>();
     private SellAdapter mSellAdapter;
 
     private MemberBean mLoginMember;
+
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,30 +113,6 @@ public class SellModifyActivity extends AppCompatActivity {
         Button mBtnImgReg = findViewById(R.id.btnImgReg);
         Button mBtnSellModifyReg = findViewById(R.id.btnSellModifyReg);
 
-        mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //데이터를 받아와서 List에 저장.
-                mFleaList.clear();
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    FleaBean bean = snapshot.getValue(FleaBean.class);
-                    if (TextUtils.equals(bean.id, mFleaBean.id)) {  //bean.id - null에러,,
-                        mEdtTitle.setText(bean.selltitle);
-                        mEdtWishOption.setText(bean.wishoption);
-                        mEdtWishPrice.setText(bean.wishprice);
-                    }
-                }
-/*                if (mSellAdapter != null) {
-                    mSellAdapter.setList(mFleaList);
-                    mSellAdapter.notifyDataSetChanged();
-                }*/
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
         mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +124,6 @@ public class SellModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 update();
-                finish();
             }
         });
 
@@ -163,6 +139,41 @@ public class SellModifyActivity extends AppCompatActivity {
 
         }*/
 
+        mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                mFleaList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    mFleaList.add(0, bean);
+                    if (TextUtils.equals(bean.id, mFleaBean.id)) {  //bean.id - null에러,,
+                        try {
+                            if (bean.bmpTitle == null) {
+                                new DownloadImgTaskFlea(mContext, mImgSellWrite, mFleaList, 0).execute(new URL(bean.imgUrl));
+                            } else {
+                                mImgSellWrite.setImageBitmap(bean.bmpTitle);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        mEdtTitle.setText(bean.selltitle);
+                        mEdtWishOption.setText(bean.wishoption);
+                        mEdtWishPrice.setText(bean.wishprice);
+                    }
+                }
+                if (mSellAdapter != null) {
+                    mSellAdapter.setList(mFleaList);
+                    mSellAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }//end onCreate()
 
     //수정하기
@@ -170,17 +181,17 @@ public class SellModifyActivity extends AppCompatActivity {
         // 사진을 찍었을 경우, 안 찍었을 경우
         if(mPhotoPath == null) {
             //사진을 새로 안찍었을 경우
-            mFleaBean.userId = mLoginMember.memId;
             mFleaBean.title = mEdtTitle.getText().toString();
             mFleaBean.wishprice = mEdtWishPrice.getText().toString();
             mFleaBean.wishoption = mEdtWishOption.getText().toString();
             mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
 
             // DB 업로드
-            DatabaseReference dbRef = mFirebaseDatabase.getReference();
+            DatabaseReference dbRef = mFirebaseDB.getReference();
             // 동일 ID로 데이터 수정
             dbRef.child("sell").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
+            finish();
             return;
         }
 
@@ -215,7 +226,7 @@ public class SellModifyActivity extends AppCompatActivity {
                 mFleaBean.wishoption = mEdtWishOption.getText().toString();
                 mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
 
-                mFirebaseDatabase.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);
+                mFirebaseDB.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
                 finish();

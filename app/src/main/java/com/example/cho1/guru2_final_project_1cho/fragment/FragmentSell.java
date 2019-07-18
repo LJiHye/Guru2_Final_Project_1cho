@@ -39,6 +39,7 @@ public class FragmentSell extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sell, container, false);
 
         mLstSell = view.findViewById(R.id.lstSell);
+
         mSellAdapter = new SellAdapter(getActivity(), mFleaList);
         mLstSell.setAdapter(mSellAdapter);
 

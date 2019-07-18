@@ -63,6 +63,7 @@ public class BuyModifyActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
+    private List<FleaBean> mFleaList = new ArrayList<>();
     private List<FleaBean> mBuyList = new ArrayList<>();
 
     private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
@@ -90,7 +91,6 @@ public class BuyModifyActivity extends AppCompatActivity {
     public String mPhotoPath;
     public static final int REQUEST_IMAGE_CAPTURE = 200;
 
-    private List<FleaBean> mFleaList = new ArrayList<>();
     private Context mContext;
 
 
@@ -145,10 +145,10 @@ public class BuyModifyActivity extends AppCompatActivity {
                 //데이터를 받아와서 List에 저장.
                 //mBuyAdapter.clear();
                 mFleaList.clear();
-                mBuyList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     FleaBean bean = snapshot.getValue(FleaBean.class);
+                    mFleaList.add(0, bean);
                     if (TextUtils.equals(mFleaBean.id, bean.id)) {
                         // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
                         try {

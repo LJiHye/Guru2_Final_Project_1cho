@@ -92,15 +92,15 @@ public class CommentAdapter extends BaseAdapter {
                         if(TextUtils.equals(loginMember.memId, mCommentBean.userId)) {
                             if (mCommentBean.flag == 1) {
                                 String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-                                FirebaseDatabase.getInstance().getReference().child("buy").child(guid).child(mFleaBean.id).child("comments").child(mCommentBean.id).removeValue();
+                                FirebaseDatabase.getInstance().getReference().child("buy").child(mFleaBean.id).child("comments").child(mCommentBean.id).removeValue();
                                 notifyDataSetChanged();
                             } else if (mCommentBean.flag == 2) {
                                 String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
-                                FirebaseDatabase.getInstance().getReference().child("sell").child(guid).child(mFleaBean.id).child("comments").child(mCommentBean.id).removeValue();
+                                FirebaseDatabase.getInstance().getReference().child("sell").child(mFleaBean.id).child("comments").child(mCommentBean.id).removeValue();
                                 notifyDataSetChanged();
                             } else if (mCommentBean.flag == 3) {
                                 String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
-                                FirebaseDatabase.getInstance().getReference().child("ex").child(guid).child(mExBean.id).child("comments").child(mCommentBean.id).removeValue();
+                                FirebaseDatabase.getInstance().getReference().child("ex").child(mExBean.id).child("comments").child(mCommentBean.id).removeValue();
                                 notifyDataSetChanged();
                             }
                             Toast.makeText(mContext, "삭제 되었습니다", Toast.LENGTH_SHORT).show();
