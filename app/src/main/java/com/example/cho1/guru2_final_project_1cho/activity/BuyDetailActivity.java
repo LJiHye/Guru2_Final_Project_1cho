@@ -2,22 +2,15 @@ package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -178,6 +171,9 @@ public class BuyDetailActivity extends AppCompatActivity {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+                    lstBuyComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                    lstBuyComment.setSelection(mCommentAdapter.getCount() - 1);
+                    lstBuyComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
                     dbRef.child("buy").child( guid ).child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
