@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,7 +61,7 @@ public class BuyModifyActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
-    private List<FleaBean> mBuyAdapter = new ArrayList<>();
+    private List<FleaBean> mBuyList = new ArrayList<>();
     private BuyAdapter mFleaAdapter;
 //    FleaBean mWriterFleaBean;
 
@@ -129,7 +130,7 @@ public class BuyModifyActivity extends AppCompatActivity {
         });
 
         //글 내용 불러와 출력
-        mFleaAdapter = new BuyAdapter(this, mBuyAdapter);
+        mFleaAdapter = new BuyAdapter(this, mBuyList);
         //어디다가..? xml 자체에..?
 
         /** ... **/
@@ -158,12 +159,11 @@ public class BuyModifyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //데이터를 받아와서 List에 저장.
-                mBuyAdapter.clear();
+                mBuyList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        FleaBean bean = snapshot2.getValue(FleaBean.class);
-                       // if(TextUtils.equals(bean.id, mFleaBean.id)) {
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    if (TextUtils.equals(bean.id, mFleaBean.id)) {
                         medtTitle.setText(mFleaBean.title);
                         medtExplain.setText(mFleaBean.subtitle);
                         medtPrice.setText(mFleaBean.price);
@@ -175,11 +175,11 @@ public class BuyModifyActivity extends AppCompatActivity {
                         mFleaBean.category = mspinner1.getSelectedItem().toString();
                         mFleaBean.state = mspinner2.getSelectedItem().toString();
                     }
+                    if (mFleaAdapter != null) {
+                        mFleaAdapter.setList(mBuyList);
+                        mFleaAdapter.notifyDataSetChanged();
+                    }
                 }
-//                if (mBuyAdapter != null) {
-//                    mBuyAdapter.setList(mFleaList);
-//                    mBuyAdapter.notifyDataSetChanged();
-//                }
             }
 
             @Override

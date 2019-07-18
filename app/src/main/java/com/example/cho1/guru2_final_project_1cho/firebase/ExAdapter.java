@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
-import com.example.cho1.guru2_final_project_1cho.activity.ExModifyActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 
 import java.net.URL;

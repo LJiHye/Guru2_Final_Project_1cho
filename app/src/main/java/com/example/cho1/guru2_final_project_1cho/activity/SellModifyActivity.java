@@ -1,10 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -25,6 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
@@ -140,13 +140,11 @@ public class SellModifyActivity extends AppCompatActivity {
                 mFleaList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        FleaBean bean = snapshot2.getValue(FleaBean.class);
-                        //if(TextUtils.equals(bean.id, mCurrentFleaBean.id)) {  //bean.id - null에러,,
-                            mEdtTitle.setText(bean.selltitle);
-                            mEdtWishOption.setText(bean.wishoption);
-                            mEdtWishPrice.setText(bean.wishprice);
-
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    if (TextUtils.equals(bean.id, mCurrentFleaBean.id)) {  //bean.id - null에러,,
+                        mEdtTitle.setText(bean.selltitle);
+                        mEdtWishOption.setText(bean.wishoption);
+                        mEdtWishPrice.setText(bean.wishprice);
                     }
                 }
                 if (mSellAdapter != null) {
@@ -154,7 +152,6 @@ public class SellModifyActivity extends AppCompatActivity {
                     mSellAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
