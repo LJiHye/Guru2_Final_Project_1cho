@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activity.MyBoardActivity"></activity>
         <!-- 카메라 사용을 위한 Provider 선언 -->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -27,9 +27,9 @@
 
         <activity android:name=".activity.ExModifyActivity" />
         <activity android:name=".activity.ExWriteActivity" />
-        <activity android:name=".activity.SellDetailActivity"/>
+        <activity android:name=".activity.SellDetailActivity" />
         <activity android:name=".activity.BuyDetailActivity" />
-        <activity android:name=".activity.ExDetailActivity"/>
+        <activity android:name=".activity.ExDetailActivity" />
         <activity android:name=".activity.FleaActivity" />
         <activity android:name=".activity.JoinActivity" />
         <activity android:name=".activity.CameraCaptureActivity" />
@@ -39,7 +39,7 @@
         <activity android:name=".activity.SellWriteActivity" />
         <activity android:name=".activity.SellModifyActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

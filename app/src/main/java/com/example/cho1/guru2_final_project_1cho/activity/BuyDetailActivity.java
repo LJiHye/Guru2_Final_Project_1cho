@@ -24,7 +24,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.CommentAdapter;
-import com.example.cho1.guru2_final_project_1cho.firebase.FleaAdapter;
+import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,7 +54,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     private EditText edtBuyComment;
 
     private List<FleaBean> mFleaList = new ArrayList<>();
-    private FleaAdapter mFleaAdapter;
+    private BuyAdapter mBuyAdapter;
     private MemberBean mLoginMember;
 
     private List<CommentBean> mCommentList = new ArrayList<>();
@@ -162,9 +162,9 @@ public class BuyDetailActivity extends AppCompatActivity {
                     }
                 }
 
-                if (mFleaAdapter != null) {
-                    mFleaAdapter.setList(mFleaList);
-                    mFleaAdapter.notifyDataSetChanged();
+                if (mBuyAdapter != null) {
+                    mBuyAdapter.setList(mFleaList);
+                    mBuyAdapter.notifyDataSetChanged();
                 }
             }
 

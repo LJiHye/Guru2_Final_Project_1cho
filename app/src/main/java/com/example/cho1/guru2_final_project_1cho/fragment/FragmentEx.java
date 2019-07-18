@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
-import com.example.cho1.guru2_final_project_1cho.activity.ExDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.ExWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
@@ -108,10 +106,12 @@ public class FragmentEx extends Fragment {
                 mExList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
+                    /*for(DataSnapshot snapshot2 : snapshot.getChildren()) {
                         ExBean bean = snapshot2.getValue(ExBean.class);
                         mExList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
-                    }
+                    }*/
+                    ExBean bean = snapshot.getValue(ExBean.class);
+                    mExList.add(0, bean);
                 }
                 //바뀐 데이터로 Refresh 한다
                 if(mExAdapter != null){

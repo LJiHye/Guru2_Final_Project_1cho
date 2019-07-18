@@ -169,8 +169,9 @@ public class SellWriteActivity extends AppCompatActivity {
         fleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
         //고유번호를 생성한다
-        String guid = getUserIdFromUUID(fleaBean.userId);
-        dbRef.child("sell").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        //String guid = getUserIdFromUUID(fleaBean.userId);
+        //dbRef.child("sell").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        dbRef.child("sell").child( fleaBean.id ).setValue(fleaBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
         finish();
     }

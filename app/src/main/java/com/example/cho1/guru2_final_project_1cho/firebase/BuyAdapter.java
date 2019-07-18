@@ -18,12 +18,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class FleaAdapter extends BaseAdapter {
+public class BuyAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<FleaBean> mFleaList;
 
-    public FleaAdapter(Context context, List<FleaBean> fleaList) {
+    public BuyAdapter(Context context, List<FleaBean> fleaList) {
         mContext = context;
         mFleaList = fleaList;
     }

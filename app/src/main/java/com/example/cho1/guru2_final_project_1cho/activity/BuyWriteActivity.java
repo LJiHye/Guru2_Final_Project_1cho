@@ -278,8 +278,9 @@ public class BuyWriteActivity extends AppCompatActivity {
         fleaBean.date = sdf.format(new Date()); // 게시글 올린 날짜
 
         //고유번호를 생성한다
-        String guid = getUserIdFromUUID(fleaBean.userId);
-        dbRef.child("buy").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        //String guid = getUserIdFromUUID(fleaBean.userId);
+        //dbRef.child("buy").child( guid ).child( fleaBean.id ).setValue(fleaBean);
+        dbRef.child("buy").child( fleaBean.id ).setValue(fleaBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
 
         finish();

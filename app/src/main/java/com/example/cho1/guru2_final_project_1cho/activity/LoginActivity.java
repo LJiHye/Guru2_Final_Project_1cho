@@ -99,7 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                                     //googleSignIn();
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     FileDB.setLoginMember(LoginActivity.this, bean);
-                                    Toast.makeText(LoginActivity.this, "로그인이 완료되었습니다", Toast.LENGTH_SHORT).show();
                                     i.putExtra("googleLogin", false);
                                     startActivity(i);
                                     finish();
@@ -137,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // 구글 로그인 성공
                 final GoogleSignInAccount account = task.getResult(ApiException.class);
-                Toast.makeText(getBaseContext(), "구글 로그인이 완료되었습니다", Toast.LENGTH_SHORT).show();
 
                 userMail = account.getEmail();
                 String guid = JoinActivity.getUserIdFromUUID(userMail); // 고유 id
@@ -185,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     //Firebase 로그인 성공
-                    Toast.makeText(getBaseContext(), "Firebase 로그인이 완료되었습니다", Toast.LENGTH_SHORT).show();
                     //메인 화면으로 이동
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     i.putExtra("googleLogin", true);

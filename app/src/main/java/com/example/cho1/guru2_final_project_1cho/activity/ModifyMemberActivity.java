@@ -25,7 +25,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
     private MemberBean loginMember;
     private EditText mEdtDetailId, mEdtDetailName, mEdtDetailPw, mEdtDetailPw1, mEdtDetailPw2;
-    private Button mBtnModify, mBtnLogout;
+    private Button mBtnModify, mBtnLogout, mBtnMyBoard;
     private ImageView mImgDetailProfile;
 
     private String id, name, imgUrl, uuid;
@@ -49,6 +49,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mEdtDetailPw2 = findViewById(R.id.edtDetailPw2);
         mBtnModify = findViewById(R.id.btnModify);
         mBtnLogout = findViewById(R.id.btnLogout);
+        mBtnMyBoard = findViewById(R.id.btnMyBoard);
         mImgDetailProfile = findViewById(R.id.imgDetailProfile);
         GradientDrawable drawable=
                 (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
@@ -80,6 +81,8 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mBtnLogout.setOnClickListener(mClicks);
         //수정 버튼
         mBtnModify.setOnClickListener(mClicks);
+        //내가 쓴 글 보기 버튼
+        mBtnMyBoard.setOnClickListener(mClicks);
     }
 
     //로그아웃 처리
@@ -142,6 +145,11 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
                 case R.id.btnModify:
                     modify();
+                    break;
+
+                case R.id.btnMyBoard:
+                    Intent i = new Intent(ModifyMemberActivity.this, MyBoardActivity.class);
+                    startActivity(i);
                     break;
             }
         }

@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
-import com.example.cho1.guru2_final_project_1cho.firebase.FleaAdapter;
+import com.example.cho1.guru2_final_project_1cho.firebase.BuyAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,20 +30,20 @@ public class FragmentBuy extends Fragment {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
-    public ListView mLstFlea;
+    public ListView mLstBuy;
     private List<FleaBean> mFleaList = new ArrayList<>();
-    private FleaAdapter mFleaAdapter;
+    private BuyAdapter mBuyAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy, container, false);
 
-        mLstFlea = view.findViewById(R.id.lstBuy);
+        mLstBuy = view.findViewById(R.id.lstBuy);
 
         //최초 데이터 세팅
-        mFleaAdapter = new FleaAdapter(getActivity(), mFleaList);
-        mLstFlea.setAdapter(mFleaAdapter);
+        mBuyAdapter = new BuyAdapter(getActivity(), mFleaList);
+        mLstBuy.setAdapter(mBuyAdapter);
 
         //글등록 버튼 눌러 페이지 이동
         Button mbtnOk = view.findViewById(R.id.btnOk);
@@ -75,15 +75,17 @@ public class FragmentBuy extends Fragment {
                 mFleaList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
-                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
+                    /*for(DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
                         mFleaList.add(0, bean);  //데이터를 받아와서 위로 불러온다 > 메모 추가 하면 가장 위에 추가됨
-                    }
+                    }*/
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    mFleaList.add(0, bean);
                 }
                 //바뀐 데이터로 Refresh 한다
-                if(mFleaAdapter != null){
-                    mFleaAdapter.setList(mFleaList);
-                    mFleaAdapter.notifyDataSetChanged();
+                if(mBuyAdapter != null){
+                    mBuyAdapter.setList(mFleaList);
+                    mBuyAdapter.notifyDataSetChanged();
                 }
 
             }

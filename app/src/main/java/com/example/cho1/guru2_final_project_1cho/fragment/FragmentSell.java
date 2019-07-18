@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.cho1.guru2_final_project_1cho.R;
-import com.example.cho1.guru2_final_project_1cho.activity.SellDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.activity.SellWriteActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.SellAdapter;
@@ -31,7 +29,7 @@ public class FragmentSell extends Fragment {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
-    public ListView mLstFlea;
+    public ListView mLstSell;
     private List<FleaBean> mFleaList = new ArrayList<>();
     private SellAdapter mSellAdapter;
 
@@ -40,9 +38,9 @@ public class FragmentSell extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sell, container, false);
 
-        mLstFlea = view.findViewById(R.id.lstSell);
+        mLstSell = view.findViewById(R.id.lstSell);
         mSellAdapter = new SellAdapter(getActivity(), mFleaList);
-        mLstFlea.setAdapter(mSellAdapter);
+        mLstSell.setAdapter(mSellAdapter);
 
         view.findViewById(R.id.btnSellWrite).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,10 +66,12 @@ public class FragmentSell extends Fragment {
                 mFleaList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for(DataSnapshot snapshot2 : snapshot.getChildren()) {
+                   /* for(DataSnapshot snapshot2 : snapshot.getChildren()) {
                         FleaBean bean = snapshot2.getValue(FleaBean.class);
                         mFleaList.add(0, bean);
-                    }
+                    }*/
+                   FleaBean bean = snapshot.getValue(FleaBean.class);
+                   mFleaList.add(0, bean);
                 }
                 //바뀐 데이터로 Refresh 한다.
                 if (mSellAdapter != null) {

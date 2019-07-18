@@ -157,9 +157,9 @@ public class ExDetailActivity extends AppCompatActivity {
                     commentBean.flag = 3;
 
                     //고유번호를 생성한다
-                    String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
-                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                    dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").child(id).setValue(commentBean);
+                    //String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
+                    //dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").child(id).setValue(commentBean);
+                    dbRef.child("ex").child( mExBean.id ).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(ExDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtExComment.setText(null);
                     if(view != null) {
@@ -170,7 +170,8 @@ public class ExDetailActivity extends AppCompatActivity {
                     lstExComment.setSelection(mCommentAdapter.getCount() - 1);
                     lstExComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
-                    dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                    //dbRef.child("ex").child( guid ).child( mExBean.id ).child("comments").addValueEventListener
+                    dbRef.child("ex").child( mExBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //데이터를 받아와서 List에 저장.

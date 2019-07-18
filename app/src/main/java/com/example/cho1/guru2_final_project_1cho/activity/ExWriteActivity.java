@@ -1,10 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -24,6 +19,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
@@ -176,8 +176,9 @@ public class ExWriteActivity extends AppCompatActivity {
         exBean.date = sdf.format(new Date()); // 게시글 올린 날짜
 
         //고유번호를 생성한다
-        String guid = getUserIdFromUUID(exBean.userId);
-        dbRef.child("ex").child( guid ).child( exBean.id ).setValue(exBean);
+        //String guid = getUserIdFromUUID(exBean.userId);
+        //dbRef.child("ex").child( guid ).child( exBean.id ).setValue(exBean);
+        dbRef.child("ex").child( exBean.id ).setValue(exBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
         finish();
     }
