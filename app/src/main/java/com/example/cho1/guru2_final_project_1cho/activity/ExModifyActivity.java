@@ -208,7 +208,7 @@ public class ExModifyActivity extends AppCompatActivity {
                 mExBean.date = sdf.format(new Date());
 
                 String uuid = getUserIdFromUUID(mExBean.userId);
-                mFirebaseDatabase.getReference().child("memo").child(uuid).child(mExBean.id).setValue(mExBean);
+                mFirebaseDatabase.getReference().child("ex").child(mExBean.id).setValue(mExBean);
 
                 Toast.makeText(getBaseContext(), "수정되었습니다.", Toast.LENGTH_LONG).show();
                 finish();

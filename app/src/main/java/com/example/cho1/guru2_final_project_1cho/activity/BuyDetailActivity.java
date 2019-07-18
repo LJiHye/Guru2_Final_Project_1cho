@@ -306,6 +306,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     private void modify() {
         //처리
         Intent intent = new Intent(BuyDetailActivity.this, BuyModifyActivity.class);
+        intent.putExtra("BUYITEM", mFleaBean);
         startActivity(intent);
     }
 

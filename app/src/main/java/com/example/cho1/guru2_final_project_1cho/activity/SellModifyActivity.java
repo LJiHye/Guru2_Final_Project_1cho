@@ -171,7 +171,7 @@ public class SellModifyActivity extends AppCompatActivity {
             DatabaseReference dbRef = mFirebaseDatabase.getReference();
             String uuid = getUserIdFromUUID(mFleaBean.userId);
             // 동일 ID로 데이터 수정
-            dbRef.child("memo").child(mFleaBean.id).setValue(mFleaBean);
+            dbRef.child("sell").child(mFleaBean.id).setValue(mFleaBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -209,7 +209,7 @@ public class SellModifyActivity extends AppCompatActivity {
                 mFleaBean.date = new SimpleDateFormat("yyyy=MM-dd hh:mm:ss").format(new Date());
 
                 String uuid = getUserIdFromUUID(mFleaBean.userId);
-                mFirebaseDatabase.getReference().child("memo").child(uuid).child(mFleaBean.id).setValue(mFleaBean);
+                mFirebaseDatabase.getReference().child("sell").child(mFleaBean.id).setValue(mFleaBean);
 
                 Toast.makeText(getBaseContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
                 finish();
