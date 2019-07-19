@@ -19,8 +19,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/border_button"
-        android:src="@drawable/add"
+        android:background="@drawable/border_floatingbutton"
+        android:src="@drawable/plus"
         android:textStyle="bold" />
 
 </FrameLayout>
