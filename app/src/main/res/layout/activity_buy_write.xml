@@ -36,16 +36,38 @@
                 android:layout_marginTop="15dp"
                 android:src="@drawable/photo"/>
 
-            <Button
-                android:id="@+id/btnBuyWriteImgReg"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:text="사진 등록"
-                android:textStyle="bold"
-                android:textColor="#5b5b5b"
-                android:background="@drawable/border_button"/>
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnBuyWriteImgReg"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="사진 찍기"
+                    android:textStyle="bold"
+                    android:textColor="#5b5b5b"
+                    android:background="@drawable/border_button"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginBottom="10dp"/>
+                <Button
+                    android:id="@+id/btnBuyWriteGalleryReg"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="갤러리"
+                    android:textStyle="bold"
+                    android:textColor="#5b5b5b"
+                    android:background="@drawable/border_button"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginBottom="10dp"/>
+
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/spinBuyWriteCategory"
