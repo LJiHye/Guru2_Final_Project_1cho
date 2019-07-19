@@ -32,9 +32,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskEx;
-import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -363,10 +361,12 @@ public class ExModifyActivity extends AppCompatActivity {
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
         Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mImgItem.setImageBitmap(resizedBmp);
-
+        //줄어든 이미지를 다시 저장한다
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);
+        saveBitmapToFileCache(resizedBmp, mPhotoPath);
+
+        mImgItem.setImageBitmap(resizedBmp);
     }
 
     private void takePicture() {

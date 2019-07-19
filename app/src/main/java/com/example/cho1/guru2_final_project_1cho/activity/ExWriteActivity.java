@@ -274,10 +274,12 @@ public class ExWriteActivity extends AppCompatActivity {
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
         Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mImgItem.setImageBitmap(resizedBmp);
-
+        //줄어든 이미지를 다시 저장한다
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);
+        saveBitmapToFileCache(resizedBmp, mPhotoPath);
+
+        mImgItem.setImageBitmap(resizedBmp);
     }
 
     private void takePicture() {

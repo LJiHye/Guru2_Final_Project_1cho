@@ -268,10 +268,12 @@ public class SellWriteActivity extends AppCompatActivity {
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
         Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mImgSellWrite.setImageBitmap(resizedBmp);
-
+        //줄어든 이미지를 다시 저장한다
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);
+        saveBitmapToFileCache(resizedBmp, mPhotoPath);
+
+        mImgSellWrite.setImageBitmap(resizedBmp);
     }
 
     //사진 찍기

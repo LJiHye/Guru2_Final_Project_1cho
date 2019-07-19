@@ -364,10 +364,12 @@ public class BuyModifyActivity extends AppCompatActivity {
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
         Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mimgBuyWrite.setImageBitmap(resizedBmp);
-
+        //줄어든 이미지를 다시 저장한다
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);
+        saveBitmapToFileCache(resizedBmp, mPhotoPath);
+
+        mimgBuyWrite.setImageBitmap(resizedBmp);
     }
 
     private void takePicture() {
