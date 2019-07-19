@@ -313,8 +313,9 @@ public class SellModifyActivity extends AppCompatActivity {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+        Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mImgSellWrite.setImageBitmap(originalBm);
+        mImgSellWrite.setImageBitmap(resizedBmp);
 
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);
