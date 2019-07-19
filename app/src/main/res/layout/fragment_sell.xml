@@ -16,11 +16,12 @@
         android:divider="#ffffff">
     </ListView>
 
-    <Button
+    <ImageButton
         android:id="@+id/btnSellWrite"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:src="@drawable/add"
         android:text="글 등록"
         android:textStyle="bold"
         android:background="@drawable/border_button"/>

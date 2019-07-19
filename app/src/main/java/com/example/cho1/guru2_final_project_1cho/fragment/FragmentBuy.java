@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -71,7 +71,7 @@ public class FragmentBuy extends Fragment {
         mLstBuy.setAdapter(mBuyAdapter);
 
         //글등록 버튼 눌러 페이지 이동
-        Button mbtnOk = view.findViewById(R.id.btnOk);
+        ImageButton mbtnOk = view.findViewById(R.id.btnOk);
 
         mbtnOk.setOnClickListener(new View.OnClickListener() {
             @Override

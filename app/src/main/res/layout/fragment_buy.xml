@@ -22,11 +22,11 @@
         android:divider="#ffffff">
     </ListView>
 
-    <Button
+    <ImageButton
         android:id="@+id/btnOk"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="글 등록"
+        android:src="@drawable/add"
         android:layout_weight="1"
         android:textStyle="bold"
         android:textColor="#5b5b5b"

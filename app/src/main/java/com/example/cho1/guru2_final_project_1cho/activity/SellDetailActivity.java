@@ -52,7 +52,6 @@ public class SellDetailActivity extends AppCompatActivity {
     private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
     private ImageView imgSellDetail;
     private LinearLayout layoutSellVisibility;
-    private Button btnModify, btnDel;
 
     private FleaBean mFleaBean;
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -97,8 +96,6 @@ public class SellDetailActivity extends AppCompatActivity {
         txtSellDetailOption = header.findViewById(R.id.txtSellDetailOption); //희망 옵션
 
         layoutSellVisibility = footer.findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
-        btnModify = footer.findViewById(R.id.btnModify);
-        btnDel = footer.findViewById(R.id.btnDel);
         btnSellComment = findViewById(R.id.btnSellComment);
         edtSellComment = findViewById(R.id.edtSellComment);
 
@@ -106,8 +103,8 @@ public class SellDetailActivity extends AppCompatActivity {
         lstSellComment.setAdapter(mCommentAdapter);
 
         //수정, 삭제 버튼에 클릭리스너 달아주기
-        footer.findViewById(R.id.btnModify).setOnClickListener(BtnClick);
-        footer.findViewById(R.id.btnDel).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
 
 //        btnModify.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -256,7 +253,7 @@ public class SellDetailActivity extends AppCompatActivity {
                 case R.id.btnModify:
                     modify();
                     break;
-                case R.id.btnDel:
+                case R.id.btnSellDel:
                     delete();
                     break;
             }

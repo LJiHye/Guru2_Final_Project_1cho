@@ -193,8 +193,6 @@
                     android:text="작성 완료"
                     android:textStyle="bold"
                     android:background="@drawable/border_button"/>
-
-
             </LinearLayout>
         </LinearLayout>
 
