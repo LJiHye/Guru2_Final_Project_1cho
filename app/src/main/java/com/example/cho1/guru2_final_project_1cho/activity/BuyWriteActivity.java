@@ -72,7 +72,6 @@ public class BuyWriteActivity extends AppCompatActivity {
     private EditText medtSize;  //실제 측정 사이즈
     private Spinner mspinner1;  //카테고리
     private Spinner mspinner2;  //제품 상태
-    private String mCategory;
 
     private File tempFile;
 
