@@ -225,6 +225,16 @@ public class ExDetailActivity extends AppCompatActivity {
             }
         });
 
+        //유저 아이디 클릭 시 해당 유저의 글 목록 보여줌
+        findViewById(R.id.txtExDetailId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ExDetailActivity.this, UserBoardActivity.class);
+                intent.putExtra("ID", txtExDetailId.getText().toString());
+                startActivity(intent);
+            }
+        });
+
     } // onCreate()
 
     public void onResume() {

@@ -39,7 +39,7 @@ public class FragmentUserSell extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_sell, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_sell, container, false);
 
         mLstMySell = view.findViewById(R.id.lstMySell);
         mWriterID = getActivity().getIntent().getStringExtra("ID") + "@gmail.com";

@@ -41,7 +41,7 @@ public class FragmentUserEx extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_ex, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_ex, container, false);
 
         mLstMyEx = view.findViewById(R.id.lstMyEx);
         mWriterID = getActivity().getIntent().getStringExtra("ID") + "@gmail.com";
