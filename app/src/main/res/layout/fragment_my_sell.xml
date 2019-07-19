@@ -15,5 +15,15 @@
         android:dividerHeight="0px"
         android:divider="#ffffff">
     </ListView>
-    
+
+    <Button
+        android:id="@+id/btnDelMySell"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="전체 삭제"
+        android:textStyle="bold"
+        android:textColor="#5b5b5b"
+        android:background="@drawable/border_button"/>
+
 </LinearLayout>
