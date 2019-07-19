@@ -209,12 +209,154 @@ public class BuyWriteActivity extends AppCompatActivity {
                 Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null) {
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtDefect.length() == 0 || medtSize.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
                 Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
             }
 
         }
+        if (mCategory.equals("책")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtDefect.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        if (mCategory.equals("생활용품")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtExprieDate.length() == 0 || medtDefect.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("기프티콘")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtExprieDate.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("데이터")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtSalePrice.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("대리예매")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtSalePrice.length() == 0 || medtExprieDate.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("전자기기")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtDefect.length() == 0 || medtSize.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("화장품")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtExprieDate.length() == 0 || medtDefect.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("기타")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtExprieDate.length() == 0 || medtDefect.length() == 0 || medtSize.length() == 0 || medtExplain.length() == 0) {
+               /* medtTitle.requestFocus();
+                medtPrice.requestFocus();
+                medtSalePrice.requestFocus();
+                medtBuyDay.requestFocus();
+                medtDefect.requestFocus();
+                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+
 
         //사진부터 Storage 에 업로드한다.
         StorageReference storageRef = mFirebaseStorage.getReference();
