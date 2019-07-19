@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,7 +52,7 @@ public class SellDetailActivity extends AppCompatActivity {
 
     private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
     private ImageView imgSellDetail;
-    private LinearLayout layoutSellVisibility;
+    //private LinearLayout layoutSellVisibility;
 
     private FleaBean mFleaBean;
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -62,7 +63,8 @@ public class SellDetailActivity extends AppCompatActivity {
     private List<CommentBean> mCommentList = new ArrayList<>();
     private CommentAdapter mCommentAdapter;
     private ListView lstSellComment;
-    private Button btnSellComment;
+    private Button btnSellComment, btnSellWriter;
+    private ImageButton btnSellModify, btnSellDel;
     private EditText edtSellComment;
 
     private MemberBean mLoginMember;
@@ -79,10 +81,10 @@ public class SellDetailActivity extends AppCompatActivity {
         lstSellComment = findViewById(R.id.lstSellComment);
         // Header, Footer 생성 및 등록
         View header = getLayoutInflater().inflate(R.layout.activity_sell_detail_header, null, false);
-        View footer = getLayoutInflater().inflate(R.layout.activity_sell_detail_footer, null, false);
+        //View footer = getLayoutInflater().inflate(R.layout.activity_sell_detail_footer, null, false);
 
         lstSellComment.addHeaderView(header);
-        lstSellComment.addFooterView(footer);
+        // lstSellComment.addFooterView(footer);
 
         txtSellDetailId = header.findViewById(R.id.txtSellDetailId); //아이디
         txtSellDetailDate = header.findViewById(R.id.txtSellDetailDate); //날짜
@@ -95,51 +97,23 @@ public class SellDetailActivity extends AppCompatActivity {
         txtSellDetailPrice = header.findViewById(R.id.txtSellDetailPrice); //희망가
         txtSellDetailOption = header.findViewById(R.id.txtSellDetailOption); //희망 옵션
 
-        layoutSellVisibility = footer.findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
+        //layoutSellVisibility = footer.findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
         btnSellComment = findViewById(R.id.btnSellComment);
         edtSellComment = findViewById(R.id.edtSellComment);
+        btnSellWriter = findViewById(R.id.btnSellWriter);
+        btnSellModify = findViewById(R.id.btnSellModify);
+        btnSellDel = findViewById(R.id.btnSellDel);
 
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstSellComment.setAdapter(mCommentAdapter);
 
         //수정, 삭제 버튼에 클릭리스너 달아주기
-        footer.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
-        footer.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnSellWriter).setOnClickListener(BtnClick);
+        //footer.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
+        // footer.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
 
-//        btnModify.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(getApplicationContext(),SellModifyActivity.class);
-//                startActivity(i);
-//            }
-//        });
-//        btnDel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        //데이터를 받아와서 List에 저장.
-//                        mFleaList.clear();
-//
-//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                            FleaBean bean = snapshot.getValue(FleaBean.class);
-//                            if (bean != null) {
-//                                if (TextUtils.equals(bean.id, mFleaBean.id)) {
-//                                    snapshot.getRef().removeValue();
-//                                    Toast.makeText(getApplicationContext(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
-//                                    finish();
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                    }
-//                });
-//            }
-//        });
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         mFirebaseDB.getReference().child("sell").addValueEventListener(new ValueEventListener() {
@@ -149,34 +123,42 @@ public class SellDetailActivity extends AppCompatActivity {
                 mFleaList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        FleaBean bean = snapshot.getValue(FleaBean.class);
-                        if(bean != null) {
-                            if (TextUtils.equals(bean.id, mFleaBean.id)) {
-                                // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
-                                try {
-                                    if (bean.bmpTitle == null) {
-                                        new DownloadImgTaskFlea(mContext, imgSellDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
-                                    } else {
-                                        imgSellDetail.setImageBitmap(bean.bmpTitle);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                    FleaBean bean = snapshot.getValue(FleaBean.class);
+                    if (bean != null) {
+                        if (TextUtils.equals(bean.id, mFleaBean.id)) {
+                            // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
+                            try {
+                                if (bean.bmpTitle == null) {
+                                    new DownloadImgTaskFlea(mContext, imgSellDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                } else {
+                                    imgSellDetail.setImageBitmap(bean.bmpTitle);
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
-                                txtSellTitle.setText(bean.selltitle);
-                                txtSellDetailOption.setText(bean.wishoption);
-                                txtSellDetailPrice.setText(bean.wishprice);
-                                StringTokenizer tokens = new StringTokenizer(bean.userId);
-                                String userId = tokens.nextToken("@") ;
-                                txtSellDetailId.setText(userId);
-                                txtSellDetailDate.setText(bean.date);
-                                //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-                                if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
-                                    layoutSellVisibility.setVisibility(View.VISIBLE);
-                                }
+                            txtSellTitle.setText(bean.selltitle);
+                            txtSellDetailOption.setText(bean.wishoption);
+                            txtSellDetailPrice.setText(bean.wishprice);
+                            StringTokenizer tokens = new StringTokenizer(bean.userId);
+                            String userId = tokens.nextToken("@");
+                            txtSellDetailId.setText(userId);
+                            txtSellDetailDate.setText(bean.date);
+
+                            LinearLayout layoutSellVisibility = findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
+
+                            //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+                            if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
+                                btnSellModify.setVisibility(View.VISIBLE);
+                                btnSellDel.setVisibility(View.VISIBLE);
+                            }
+                            //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
+                            if(!TextUtils.equals(mFleaBean.userId, mLoginMember.memId)){
+                                btnSellWriter.setVisibility(View.VISIBLE);
                             }
                         }
                     }
+                }
 
                 if (mSellAdapter != null) {
                     mSellAdapter.setList(mFleaList);
@@ -192,7 +174,7 @@ public class SellDetailActivity extends AppCompatActivity {
         btnSellComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(edtSellComment.getText().toString())) {
+                if (!TextUtils.isEmpty(edtSellComment.getText().toString())) {
                     DatabaseReference dbRef = mFirebaseDB.getReference();
                     String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
@@ -204,10 +186,10 @@ public class SellDetailActivity extends AppCompatActivity {
                     commentBean.flag = 2;
 
                     //고유번호를 생성한다
-                    dbRef.child("sell").child( mFleaBean.id ).child("comments").child(id).setValue(commentBean);
+                    dbRef.child("sell").child(mFleaBean.id).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(SellDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtSellComment.setText(null);
-                    if(view != null) {
+                    if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
@@ -215,7 +197,7 @@ public class SellDetailActivity extends AppCompatActivity {
                     lstSellComment.setSelection(mCommentAdapter.getCount() - 1);
                     lstSellComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
-                    dbRef.child("sell").child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("sell").child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //데이터를 받아와서 List에 저장.
@@ -237,7 +219,8 @@ public class SellDetailActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
                     });
                 } else {
                     Toast.makeText(SellDetailActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
@@ -266,6 +249,9 @@ public class SellDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.btnSellDel:
                     delete();
+                    break;
+                case R.id.btnSellWriter:
+                    writerPage();
                     break;
             }
         }
@@ -308,12 +294,21 @@ public class SellDetailActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    //작성자 페이지
+    private void writerPage(){
+        //처리
+        Intent intent = new Intent(SellDetailActivity.this, UserBoardActivity.class);
+        intent.putExtra("ID", txtSellDetailId.getText().toString());
+        startActivity(intent);
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         //데이터 취득
         DatabaseReference dbRef = mFirebaseDB.getReference();
-        dbRef.child("sell").child( mFleaBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+        dbRef.child("sell").child(mFleaBean.id).child("comments").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //데이터를 받아와서 List에 저장.
@@ -329,12 +324,14 @@ public class SellDetailActivity extends AppCompatActivity {
                     mCommentAdapter.notifyDataSetChanged();
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
     }
 
-        /* 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
-         * */
+    /* 3. 댓글 구현 (db를 더 만들어야 하는가??, 뿌린다면 리스트로?)
+     * */
 
 }

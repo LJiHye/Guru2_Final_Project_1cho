@@ -178,6 +178,27 @@ public class BuyWriteActivity extends AppCompatActivity {
             return;
         }
 
+        //
+//        if(mFleaBean.category == "옷"){
+//            if(medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null){
+//                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//        }
+
+
+//        if (mFleaBean.category.equals("옷")) {
+//            if (mPhotoPath == null) {
+//                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null) {
+//                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+
+//        }
+
         //사진부터 Storage 에 업로드한다.
         StorageReference storageRef = mFirebaseStorage.getReference();
         final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,7 +58,8 @@ public class BuyDetailActivity extends AppCompatActivity {
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
-    private Button btnBuyComment;
+    private Button btnBuyComment, btnBuyWriter;
+    private ImageButton btnBuyModify, btnBuyDel;
     private EditText edtBuyComment;
 
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -66,7 +68,6 @@ public class BuyDetailActivity extends AppCompatActivity {
 
     private List<CommentBean> mCommentList = new ArrayList<>();
     private CommentAdapter mCommentAdapter;
-
 
 
     @Override
@@ -82,17 +83,24 @@ public class BuyDetailActivity extends AppCompatActivity {
 
         // Header, Footer 생성 및 등록
         View header = getLayoutInflater().inflate(R.layout.activity_buy_detail_header, null, false);
-        View footer = getLayoutInflater().inflate(R.layout.activity_buy_detail_footer, null, false);
+        //iew footer = getLayoutInflater().inflate(R.layout.activity_buy_detail_footer, null, false);
 
         lstBuyComment.addHeaderView(header);
-        lstBuyComment.addFooterView(footer);
+        //lstBuyComment.addFooterView(footer);
 
         btnBuyComment = findViewById(R.id.btnBuyComment);
         edtBuyComment = findViewById(R.id.edtBuyComment);
+        btnBuyWriter = findViewById(R.id.btnBuyWriter);
+        btnBuyModify = findViewById(R.id.btnBuyModify);
+        btnBuyDel = findViewById(R.id.btnBuyDel);
+
 
         //수정, 삭제 버튼에 클릭리스너 달아주기
-        footer.findViewById(R.id.btnBuyModify).setOnClickListener(BtnClick);
-        footer.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnBuyModify).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnBuyWriter).setOnClickListener(BtnClick);
+//        footer.findViewById(R.id.btnBuyModify).setOnClickListener(BtnClick);
+//        footer.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
 
         //edtBuyComment.requestFocus();
 
@@ -121,7 +129,12 @@ public class BuyDetailActivity extends AppCompatActivity {
 
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
         if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
-            layoutBuyVisibility.setVisibility(View.VISIBLE);
+            btnBuyModify.setVisibility(View.VISIBLE);
+            btnBuyDel.setVisibility(View.VISIBLE);
+        }
+        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
+        if(!TextUtils.equals(mFleaBean.userId, mLoginMember.memId)){
+            btnBuyWriter.setVisibility(View.VISIBLE);
         }
 
 
@@ -260,6 +273,9 @@ public class BuyDetailActivity extends AppCompatActivity {
                 case R.id.btnBuyDel:
                     delete();
                     break;
+                case R.id.btnBuyWriter:
+                    writerPage();
+                    break;
             }
         }
     };
@@ -296,6 +312,14 @@ public class BuyDetailActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
+    }
+
+    //작성자 페이지
+    private void writerPage(){
+        //처리
+        Intent intent = new Intent(BuyDetailActivity.this, UserBoardActivity.class);
+        intent.putExtra("ID", txtBuyDetailId.getText().toString());
+        startActivity(intent);
     }
 
 

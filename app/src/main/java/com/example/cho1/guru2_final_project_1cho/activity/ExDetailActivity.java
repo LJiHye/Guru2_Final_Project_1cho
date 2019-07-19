@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,14 +52,15 @@ public class ExDetailActivity extends AppCompatActivity {
 
     private TextView txtExDetailId, txtExDetailDate, txtExDetailTitle, txtExDetailWant, txtExDetailPrice, txtExDetailState, txtExDetailFault, txtExDetailBuyDate, txtExDetailExpire, txtExDetailSize;
     private ListView lstExComment;
-    private Button btnExComment;
+    private Button btnExComment, btnExWriter;
     private EditText edtExComment;
+    private ImageButton btnExModify, btnExDel;
     private LinearLayout layoutExVisibility;
     private ImageView imgExDetail;
 
     private Context mContext;
     private ExBean mExBean;
-    private List<ExBean> mExList= new ArrayList<>();
+    private List<ExBean> mExList = new ArrayList<>();
     private ExAdapter mExAdapter;
     private MemberBean mLoginMember;
 
@@ -80,10 +82,10 @@ public class ExDetailActivity extends AppCompatActivity {
 
         // Header, Footer 생성 및 등록
         View header = getLayoutInflater().inflate(R.layout.activity_ex_detail_header, null, false);
-        View footer = getLayoutInflater().inflate(R.layout.activity_ex_detail_footer, null, false);
+        //View footer = getLayoutInflater().inflate(R.layout.activity_ex_detail_footer, null, false);
 
         lstExComment.addHeaderView(header);
-        lstExComment.addFooterView(footer);
+        //lstExComment.addFooterView(footer);
 
 
         imgExDetail = header.findViewById(R.id.imgExDetail); // 내 물건 이미지
@@ -104,13 +106,20 @@ public class ExDetailActivity extends AppCompatActivity {
 
         btnExComment = findViewById(R.id.btnExComment);
         edtExComment = findViewById(R.id.edtExComment);
-        layoutExVisibility = footer.findViewById(R.id.layoutExVisibility);
+        btnExWriter = findViewById(R.id.btnExWriter);
+        btnExModify = findViewById(R.id.btnExModify);
+        btnExDel = findViewById(R.id.btnExDel);
+        //layoutExVisibility = footer.findViewById(R.id.layoutExVisibility);
 
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstExComment.setAdapter(mCommentAdapter);
 
-        footer.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
-        footer.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
+
+        header.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
+        header.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
+        header.findViewById(R.id.btnExWriter).setOnClickListener(mBtnClick);
+//        footer.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
+//        footer.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
@@ -121,41 +130,47 @@ public class ExDetailActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     //for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                        ExBean bean = snapshot.getValue(ExBean.class);
-                        if(TextUtils.equals(bean.id,mExBean.id)) {
-                            if (mExBean != null) {
-                                // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로 비동기로 표시한다.
-                                try {
-                                    if (bean.bmpTitle == null) {
-                                        new DownloadImgTaskEx(mContext, imgExDetail, mExList, 0).execute(new URL(bean.imgUrl));
-                                    } else {
+                    ExBean bean = snapshot.getValue(ExBean.class);
+                    if (TextUtils.equals(bean.id, mExBean.id)) {
+                        if (mExBean != null) {
+                            // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로 비동기로 표시한다.
+                            try {
+                                if (bean.bmpTitle == null) {
+                                    new DownloadImgTaskEx(mContext, imgExDetail, mExList, 0).execute(new URL(bean.imgUrl));
+                                } else {
 
-                                        imgExDetail.setImageBitmap(bean.bmpTitle);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                    imgExDetail.setImageBitmap(bean.bmpTitle);
                                 }
-
-                                txtExDetailTitle.setText(bean.mine);
-                                txtExDetailWant.setText(bean.want);
-                                txtExDetailPrice.setText(bean.price);
-                                txtExDetailState.setText(bean.state);
-                                txtExDetailFault.setText(bean.fault);
-                                txtExDetailBuyDate.setText(bean.buyDate);
-                                txtExDetailExpire.setText(bean.expire);
-                                txtExDetailSize.setText(bean.size);
-
-                                StringTokenizer tokens = new StringTokenizer(bean.userId);
-                                String userId = tokens.nextToken("@") ;
-                                txtExDetailId.setText(userId);
-                                txtExDetailDate.setText(bean.date);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
 
-                            //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-                            if (TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
-                              layoutExVisibility.setVisibility(View.VISIBLE);
-                            }
-                       // }
+                            txtExDetailTitle.setText(bean.mine);
+                            txtExDetailWant.setText(bean.want);
+                            txtExDetailPrice.setText(bean.price);
+                            txtExDetailState.setText(bean.state);
+                            txtExDetailFault.setText(bean.fault);
+                            txtExDetailBuyDate.setText(bean.buyDate);
+                            txtExDetailExpire.setText(bean.expire);
+                            txtExDetailSize.setText(bean.size);
+
+                            StringTokenizer tokens = new StringTokenizer(bean.userId);
+                            String userId = tokens.nextToken("@");
+                            txtExDetailId.setText(userId);
+                            txtExDetailDate.setText(bean.date);
+                        }
+
+                        LinearLayout layoutExVisibility = findViewById(R.id.layoutExVisibility);
+                        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+                        if (TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
+                            btnExModify.setVisibility(View.VISIBLE);
+                            btnExDel.setVisibility(View.VISIBLE);
+                        }
+                        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
+                        if (!TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
+                            btnExWriter.setVisibility(View.VISIBLE);
+                        }
+                        // }
                     }
                 }
 
@@ -173,7 +188,7 @@ public class ExDetailActivity extends AppCompatActivity {
         btnExComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(edtExComment.getText().toString())) {
+                if (!TextUtils.isEmpty(edtExComment.getText().toString())) {
                     DatabaseReference dbRef = mFirebaseDB.getReference();
                     String id = dbRef.push().getKey(); // key 를 메모의 고유 ID 로 사용한다.
 
@@ -186,10 +201,10 @@ public class ExDetailActivity extends AppCompatActivity {
 
                     //고유번호를 생성한다
                     String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
-                    dbRef.child("ex").child( mExBean.id ).child("comments").child(id).setValue(commentBean);
+                    dbRef.child("ex").child(mExBean.id).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(ExDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtExComment.setText(null);
-                    if(view != null) {
+                    if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
@@ -197,7 +212,7 @@ public class ExDetailActivity extends AppCompatActivity {
                     lstExComment.setSelection(mCommentAdapter.getCount() - 1);
                     lstExComment.setTranscriptMode(ListView.TRANSCRIPT_MODE_DISABLED);
 
-                    dbRef.child("ex").child( mExBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("ex").child(mExBean.id).child("comments").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             //데이터를 받아와서 List에 저장.
@@ -217,8 +232,10 @@ public class ExDetailActivity extends AppCompatActivity {
                                 mCommentAdapter.notifyDataSetChanged();
                             }
                         }
+
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
                     });
                 } else {
                     Toast.makeText(ExDetailActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
@@ -240,10 +257,10 @@ public class ExDetailActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-        mExAdapter = new ExAdapter(this, FileDB.getExList(getApplicationContext()) );
+        mExAdapter = new ExAdapter(this, FileDB.getExList(getApplicationContext()));
 
         DatabaseReference dbRef = mFirebaseDB.getReference();
-        dbRef.child("ex").child( mExBean.id ).child("comments").addValueEventListener(new ValueEventListener() {
+        dbRef.child("ex").child(mExBean.id).child("comments").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //데이터를 받아와서 List에 저장.
@@ -259,8 +276,10 @@ public class ExDetailActivity extends AppCompatActivity {
                     mCommentAdapter.notifyDataSetChanged();
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
     }
 
@@ -277,6 +296,10 @@ public class ExDetailActivity extends AppCompatActivity {
                     //처리
                     delEx();
                     break;
+
+                case R.id.btnExWriter:
+                    writerPage();
+                    break;
             }
         }
     };
@@ -287,11 +310,12 @@ public class ExDetailActivity extends AppCompatActivity {
         intent.putExtra("EXITEM", mExBean);
         startActivity(intent);
     }
+
     private void delEx() { // 게시글 삭제
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("삭제");
         builder.setMessage("삭제하시겠습니까?");
-        builder.setNegativeButton("아니오" , null);
+        builder.setNegativeButton("아니오", null);
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -301,7 +325,7 @@ public class ExDetailActivity extends AppCompatActivity {
                 //DB에서 삭제처리
                 FirebaseDatabase.getInstance().getReference().child("ex").child(mExBean.id).removeValue();
                 //Storage 삭제처리
-                if(mExBean.imgName != null) {
+                if (mExBean.imgName != null) {
                     try {
                         FirebaseStorage.getInstance("gs://guru2-final-project-1cho.appspot.com/").getReference().child("images").child(mExBean.imgName).delete();
                     } catch (Exception e) {
@@ -313,5 +337,13 @@ public class ExDetailActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
+    }
+
+    //작성자 페이지
+    private void writerPage(){
+        //처리
+        Intent intent = new Intent(ExDetailActivity.this, UserBoardActivity.class);
+        intent.putExtra("ID", txtExDetailId.getText().toString());
+        startActivity(intent);
     }
 }
