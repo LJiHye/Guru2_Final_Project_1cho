@@ -68,6 +68,7 @@ public class BuyWriteActivity extends AppCompatActivity {
     private EditText medtSize;  //실제 측정 사이즈
     private Spinner mspinner1;  //카테고리
     private Spinner mspinner2;  //제품 상태
+    private String mCategory;
 
     private File tempFile;
 
@@ -186,8 +187,9 @@ public class BuyWriteActivity extends AppCompatActivity {
 //            }
 //        }
 
-
-//        if (mFleaBean.category.equals("옷")) {
+//        mCategory = getIntent().getStringExtra("CATEGORY");
+//
+//        if (mCategory.equals("옷")) {
 //            if (mPhotoPath == null) {
 //                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
 //                return;
@@ -196,7 +198,7 @@ public class BuyWriteActivity extends AppCompatActivity {
 //                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
 //                return;
 //            }
-
+//
 //        }
 
         //사진부터 Storage 에 업로드한다.
