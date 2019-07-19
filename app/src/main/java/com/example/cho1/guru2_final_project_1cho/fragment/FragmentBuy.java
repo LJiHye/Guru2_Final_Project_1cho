@@ -2,9 +2,7 @@ package com.example.cho1.guru2_final_project_1cho.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class FragmentBuy extends Fragment {
 
@@ -40,10 +37,14 @@ public class FragmentBuy extends Fragment {
     private List<FleaBean> mFleaList = new ArrayList<>();
     private BuyAdapter mBuyAdapter;
 
+    private String mCategory;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy, container, false);
+
+        mCategory = getActivity().getIntent().getStringExtra("CATEGORY");
 
 //        //검색기능
 //        edtSearch = view.findViewById(R.id.edtSearch);
@@ -98,7 +99,10 @@ public class FragmentBuy extends Fragment {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     FleaBean bean = snapshot.getValue(FleaBean.class);
-                    mFleaList.add(0, bean);
+
+                    if(TextUtils.equals(bean.category, mCategory)) {
+                        mFleaList.add(0, bean);
+                    }
                 }
                 //바뀐 데이터로 Refresh 한다
                 if(mBuyAdapter != null){
