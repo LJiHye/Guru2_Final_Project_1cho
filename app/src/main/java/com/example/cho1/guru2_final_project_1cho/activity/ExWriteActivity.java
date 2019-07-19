@@ -272,8 +272,9 @@ public class ExWriteActivity extends AppCompatActivity {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+        Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mImgItem.setImageBitmap(originalBm);
+        mImgItem.setImageBitmap(resizedBmp);
 
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);

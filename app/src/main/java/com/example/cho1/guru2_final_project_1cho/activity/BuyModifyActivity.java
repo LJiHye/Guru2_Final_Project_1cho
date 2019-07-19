@@ -362,8 +362,9 @@ public class BuyModifyActivity extends AppCompatActivity {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+        Bitmap resizedBmp = getResizedBitmap(originalBm, 4, 100, 100);
 
-        mimgBuyWrite.setImageBitmap(originalBm);
+        mimgBuyWrite.setImageBitmap(resizedBmp);
 
         mPhotoPath = tempFile.getAbsolutePath();
         mCaptureUri = Uri.fromFile(tempFile);
