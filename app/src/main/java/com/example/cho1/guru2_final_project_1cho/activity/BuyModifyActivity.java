@@ -146,7 +146,6 @@ public class BuyModifyActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                         medtTitle.setText(bean.title);
                         medtExplain.setText(bean.subtitle);
                         medtPrice.setText(bean.price);
@@ -177,7 +176,7 @@ public class BuyModifyActivity extends AppCompatActivity {
                         }
                         //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
                         for(int i=0; i<items2.length; i++) {
-                            if(items[i] == bean.category) {
+                            if(items2[i] == bean.state) {
                                 itemNum2 = i;
                                 break;
                             }

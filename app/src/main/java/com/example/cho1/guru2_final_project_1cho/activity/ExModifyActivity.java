@@ -77,6 +77,8 @@ public class ExModifyActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+    private int itemNum = 0;
+
     // 사진이 저장되는 경로
     private Uri mCaptureUri;
     //사진이 저장된 단말기상의 실제 경로
@@ -139,6 +141,21 @@ public class ExModifyActivity extends AppCompatActivity {
                         mEdtExpDate.setText(bean.expire); // 유통기한
                         mEdtBuyDate.setText(bean.buyDate); // 구매한 날짜
                         mEdtSize.setText(bean.size); // 사이즈
+
+                        //제품상태 드롭다운 스피너 추가
+                        Spinner dropdown = (Spinner) findViewById(R.id.sprState);
+                        String[] items = new String[]{"상", "중", "하"};
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ExModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+                        dropdown.setAdapter(adapter);
+
+                        //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
+                        for(int i=0; i<items.length; i++) {
+                            if(items[i] == bean.state) {
+                                itemNum = i;
+                                break;
+                            }
+                        }
+                        mSprState.setSelection(itemNum);
                     }
                 }
             }
