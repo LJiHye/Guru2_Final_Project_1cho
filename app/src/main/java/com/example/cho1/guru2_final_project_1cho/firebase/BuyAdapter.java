@@ -3,25 +3,57 @@ package com.example.cho1.guru2_final_project_1cho.firebase;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.activity.BuyDetailActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class BuyAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<FleaBean> mFleaList;
+
+
+//    /****/
+//    private LayoutInflater inflate;
+//    private RecyclerView.ViewHolder viewHolder;
+//
+//
+//    ArrayList<BuyAdapter> buyAdapter = new ArrayList<>();
+//    BuyAdapter mBuyAdapter;
+//    ArrayList<BuyAdapter> arrayList = new ArrayList<BuyAdapter>();
+//
+//    public void filter(String charText){
+//        charText = charText.toLowerCase(Locale.getDefault());
+//        buyAdapter.clear();
+//
+//        Log.d("SIZE", "" + arrayList.size());
+//
+//        if(charText.length() == 0){
+//            buyAdapter.addAll(arrayList);
+//        }
+//        else {
+//            for(BuyAdapter potion : arrayList){
+//                String name = potion.name;
+//            }
+//        }
+//    }
 
     public BuyAdapter(Context context, List<FleaBean> fleaList) {
         mContext = context;

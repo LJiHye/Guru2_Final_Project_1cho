@@ -2,10 +2,14 @@ package com.example.cho1.guru2_final_project_1cho.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -24,12 +28,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FragmentBuy extends Fragment {
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
+    public EditText edtSearch;
     public ListView mLstBuy;
     private List<FleaBean> mFleaList = new ArrayList<>();
     private BuyAdapter mBuyAdapter;
@@ -38,6 +44,24 @@ public class FragmentBuy extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy, container, false);
+
+//        //검색기능
+//        edtSearch = view.findViewById(R.id.edtSearch);
+//        edtSearch.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                String text = edtSearch.getText().toString().toLowerCase(Locale.getDefault());
+//
+//                Log.d("DB", text);
+//                mBuyAdapter.filter(text);
+//            }
+//        });
 
         mLstBuy = view.findViewById(R.id.lstBuy);
 
@@ -91,4 +115,5 @@ public class FragmentBuy extends Fragment {
 
         //어댑터 생성
     }
+
 }

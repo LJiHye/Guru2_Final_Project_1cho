@@ -7,6 +7,12 @@
     android:weightSum="10"
     tools:context=".fragment.FragmentBuy">
 
+    <!--<EditText-->
+        <!--android:id="@+id/edtSearch"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="검색어를 입력하세요"/>-->
+
     <ListView
         android:id="@+id/lstBuy"
         android:layout_width="match_parent"
