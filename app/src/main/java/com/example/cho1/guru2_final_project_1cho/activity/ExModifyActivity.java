@@ -194,6 +194,24 @@ public class ExModifyActivity extends AppCompatActivity {
         findViewById(R.id.btnModify).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if ( mEdtTitle.getText().toString().length() == 0) {
+                    Toast.makeText(ExModifyActivity.this, "슈니의 물건명을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    mEdtTitle.requestFocus();
+                    return;
+                }
+                if ( mEdtItem.getText().toString().length() == 0) {
+                    Toast.makeText(ExModifyActivity.this, "무엇으로 교환하고 싶은지 입력하세요.", Toast.LENGTH_SHORT).show();
+                    mEdtItem.requestFocus();
+                    return;
+                }
+
+                if ( mEdtFault.getText().toString().length() == 0) {
+                    Toast.makeText(ExModifyActivity.this, "물건의 하자유무를 입력하세요.", Toast.LENGTH_SHORT).show();
+                    mEdtFault.requestFocus();
+                    return;
+                }
+
                 // DB 업로드
                 update();
             }
