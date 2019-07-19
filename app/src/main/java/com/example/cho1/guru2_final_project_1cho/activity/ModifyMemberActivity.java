@@ -31,7 +31,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
     private ImageView mImgDetailProfile;
 
     private String id, name, imgUrl, uuid;
-    private boolean googleLoginFlag;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -42,7 +41,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modify_member);
 
         loginMember = FileDB.getLoginMember(this);
-        googleLoginFlag = getIntent().getBooleanExtra("googleLogin", false);
 
         mEdtDetailId = findViewById(R.id.edtDetailId);
         mEdtDetailName = findViewById(R.id.edtDetailName);

@@ -46,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     private String userMail;
-    private String memId;
-    private String memPw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
                     //Firebase 로그인 성공
                     //메인 화면으로 이동
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    i.putExtra("googleLogin", true);
                     startActivity(i);
                     finish();
                 } else {
@@ -167,7 +164,6 @@ public class LoginActivity extends AppCompatActivity {
             //구글 로그인 버튼 누르고 나서 로그인 완료된 경우 넘어감
             Toast.makeText(this, "로그인 성공 - 메인화면 이동", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            i.putExtra("googleLogin", true);
             startActivity(i);
             finish();
         }

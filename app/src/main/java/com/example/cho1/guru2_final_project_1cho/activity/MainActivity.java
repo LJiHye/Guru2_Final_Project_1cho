@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     private MemberBean loginMember;
-    private boolean googleLoginFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.linearLayout:
                     Intent i = new Intent(MainActivity.this, ModifyMemberActivity.class);
-                    i.putExtra("googleLogin", googleLoginFlag);
                     startActivity(i);
             }
         }
