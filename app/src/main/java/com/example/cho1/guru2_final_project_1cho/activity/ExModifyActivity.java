@@ -424,10 +424,10 @@ public class ExModifyActivity extends AppCompatActivity {
         } else {
             exifDegree = 0;
         }
-        Bitmap rotatedBmp = roate(resizedBmp, exifDegree);
+        Bitmap rotatedBmp = roate(resizedBmp, 90);
         mImgItem.setImageBitmap( rotatedBmp );
         //줄어든 이미지를 다시 저장한다
-        saveBitmapToFileCache(resizedBmp, mPhotoPath);
+        saveBitmapToFileCache(rotatedBmp, mPhotoPath);
 
         Toast.makeText(this, "사진경로: " + mPhotoPath, Toast.LENGTH_LONG).show();
     }

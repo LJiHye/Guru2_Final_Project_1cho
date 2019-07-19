@@ -377,10 +377,10 @@ public class SellModifyActivity extends AppCompatActivity {
         } else {
             exifDegree = 0;
         }
-        Bitmap rotatedBmp = rotate(resizedBmp, exifDegree);
+        Bitmap rotatedBmp = rotate(resizedBmp, 90);
         mImgSellWrite.setImageBitmap(rotatedBmp);
         //줄어든 이미지를 다시 저장한다
-        saveBitmapToFileCache(resizedBmp, mPhotoPath);
+        saveBitmapToFileCache(rotatedBmp, mPhotoPath);
 
         //사진이 저장된 경로 보여주기
         Toast.makeText(this, "사진 경로 : " + mPhotoPath, Toast.LENGTH_SHORT).show();
