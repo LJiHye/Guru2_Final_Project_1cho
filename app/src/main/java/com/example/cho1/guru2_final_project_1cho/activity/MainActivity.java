@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loginMember = FileDB.getLoginMember(this);
-        googleLoginFlag = getIntent().getBooleanExtra("googleLogin", false);
+        //googleLoginFlag = getIntent().getBooleanExtra("googleLogin", false);
 
         TextView txtUserID = findViewById(R.id.txtUserID);
 

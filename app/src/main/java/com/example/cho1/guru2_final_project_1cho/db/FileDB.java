@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

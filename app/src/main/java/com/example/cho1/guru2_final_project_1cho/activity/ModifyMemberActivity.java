@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,10 +46,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
         mEdtDetailId = findViewById(R.id.edtDetailId);
         mEdtDetailName = findViewById(R.id.edtDetailName);
-        mEdtDetailPw = findViewById(R.id.edtDetailPw);
-        mEdtDetailPw1 = findViewById(R.id.edtDetailPw1);
-        mEdtDetailPw2 = findViewById(R.id.edtDetailPw2);
-        mBtnModify = findViewById(R.id.btnModify);
         mBtnLogout = findViewById(R.id.btnLogout);
         mBtnMyBoard = findViewById(R.id.btnMyBoard);
         mBtnSecession = findViewById(R.id.btnSecession);
@@ -83,8 +78,6 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
         //로그아웃 버튼
         mBtnLogout.setOnClickListener(mClicks);
-        //수정 버튼
-        mBtnModify.setOnClickListener(mClicks);
         //내가 쓴 글 보기 버튼
         mBtnMyBoard.setOnClickListener(mClicks);
         //회원 탈퇴 버튼
@@ -94,19 +87,18 @@ public class ModifyMemberActivity extends AppCompatActivity {
     //로그아웃 처리
     private void logout() {
         try{
-            if(googleLoginFlag) {
+            //if(googleLoginFlag) {
                 mFirebaseAuth.signOut();
-            }
+            //}
             Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            startActivity(new Intent(ModifyMemberActivity.this, LoginActivity.class));
+            ActivityCompat.finishAffinity(ModifyMemberActivity.this);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    //회원정보 수정 처리
+   /* //회원정보 수정 처리
     private void modify() {
         String pw1 = mEdtDetailPw1.getText().toString();
         String pw2 = mEdtDetailPw2.getText().toString();
@@ -138,7 +130,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
         } else {
             Toast.makeText(ModifyMemberActivity.this, "변경할 정보가 없습니다", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     private void secession() {
         AlertDialog.Builder builer = new AlertDialog.Builder(ModifyMemberActivity.this);
@@ -169,9 +161,9 @@ public class ModifyMemberActivity extends AppCompatActivity {
                     logout();
                     break;
 
-                case R.id.btnModify:
+                /*case R.id.btnModify:
                     modify();
-                    break;
+                    break;*/
 
                 case R.id.btnMyBoard:
                     Intent i = new Intent(ModifyMemberActivity.this, MyBoardActivity.class);

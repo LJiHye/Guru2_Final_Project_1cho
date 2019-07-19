@@ -38,7 +38,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -54,7 +55,7 @@
                     android:id="@+id/imgDetailProfile"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:src="@drawable/photo" />
 
                 <EditText
@@ -64,7 +65,7 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
                     android:layout_marginTop="30dp"
-                    android:hint="아이디 입력"
+                    android:hint="아이디"
                     android:enabled="false"
                     android:layout_gravity="center"
                     android:inputType="textPersonName"
@@ -80,48 +81,10 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="50dp"
                     android:background="@drawable/border_edittext"
-                    android:hint="이름 입력"
+                    android:hint="이름"
                     android:inputType="textPersonName"
                     android:padding="10dp" />
 
-                <EditText
-                    android:id="@+id/edtDetailPw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@drawable/border_edittext"
-                    android:hint="현재 비밀번호"
-                    android:inputType="textPassword"
-                    android:padding="10dp" />
-
-                <EditText
-                    android:id="@+id/edtDetailPw1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@drawable/border_edittext"
-                    android:hint="변경 비밀번호"
-                    android:inputType="textPassword"
-                    android:padding="10dp" />
-
-                <EditText
-                    android:id="@+id/edtDetailPw2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@drawable/border_edittext"
-                    android:hint="비밀번호 확인"
-                    android:inputType="textPassword"
-                    android:padding="10dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,17 +94,6 @@
                 android:layout_marginTop="20dp"
                 android:gravity="bottom">
 
-
-                <Button
-                    android:id="@+id/btnModify"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호 변경"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    android:textColor="#5b5b5b"
-                    android:layout_marginHorizontal="2.5dp"
-                    android:background="@drawable/border_button" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

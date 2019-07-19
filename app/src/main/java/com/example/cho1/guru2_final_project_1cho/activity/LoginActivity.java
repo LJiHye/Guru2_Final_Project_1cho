@@ -54,10 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mEdtId = findViewById(R.id.edtId);
-        mEdtPw = findViewById(R.id.edtPw);
-
-        findViewById(R.id.btnLogin).setOnClickListener(mClicks);
         findViewById(R.id.btnGoogleSignIn).setOnClickListener(mClicks);
 
         // 구글 로그인 객체선언
@@ -72,56 +68,20 @@ public class LoginActivity extends AppCompatActivity {
     }//end onCreate()
 
     // 버튼 클릭 이벤트
-   private View.OnClickListener mClicks = new View.OnClickListener() {
+    private View.OnClickListener mClicks = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnGoogleSignIn:
                     googleSignIn();
                     break;
-
-                case R.id.btnLogin:
-                    memId = mEdtId.getText().toString();
-                    memPw = mEdtPw.getText().toString();
-
-                    mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                MemberBean bean = snapshot.getValue(MemberBean.class);
-                                // 아이디 또는 패스워드를 입력하지 않은 경우
-                                if (TextUtils.isEmpty(memId) || TextUtils.isEmpty(memPw)) {
-                                    Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호를 입력해 주세요", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                // 아이디, 비밀번호가 Database 상의 것과 일치하는지 검사
-                                if (TextUtils.equals(bean.memId, memId) && TextUtils.equals(bean.memPw, memPw)) {
-                                    //googleSignIn();
-                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    FileDB.setLoginMember(LoginActivity.this, bean);
-                                    i.putExtra("googleLogin", false);
-                                    startActivity(i);
-                                    finish();
-                                    return;
-                                }
-                            }
-                            // 일치하지 않는 경우
-                            Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                    break;
             }
         }
     };
 
+
     //구글 로그인 처리
-    private void googleSignIn(){
+    private void googleSignIn() {
         Intent i = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(i, 1004);
     }
@@ -131,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // 구글 로그인 버튼 응답
-        if(requestCode == 1004) {
+        if (requestCode == 1004) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // 구글 로그인 성공
@@ -145,9 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean flag = false;
 
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             MemberBean bean = snapshot.getValue(MemberBean.class);
-                            if(TextUtils.equals(bean.memId, userMail)) {
+                            if (TextUtils.equals(bean.memId, userMail)) {
                                 //저장 setLoginMember
                                 flag = true;
                                 FileDB.setLoginMember(LoginActivity.this, bean);
@@ -157,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
 
-                        if(!flag) {
+                        if (!flag) {
                             // 회원이 없는 경우..?
                             Intent i = new Intent(LoginActivity.this, JoinActivity.class);
                             i.putExtra("userEmail", userMail);
@@ -166,8 +126,10 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }
                     }
+
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
                 });
             } catch (ApiException e) {
                 e.printStackTrace();
@@ -181,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     //Firebase 로그인 성공
                     //메인 화면으로 이동
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -197,5 +159,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mFirebaseAuth.getCurrentUser() != null && mFirebaseAuth.getCurrentUser().getEmail() != null) {
+            //이미 로그인 되어 있다. 따라서 메인 화면으로 바로 이동한다.
+            //구글 로그인 버튼 누르고 나서 로그인 완료된 경우 넘어감
+            Toast.makeText(this, "로그인 성공 - 메인화면 이동", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            i.putExtra("googleLogin", true);
+            startActivity(i);
+            finish();
+        }
+    }
 }
