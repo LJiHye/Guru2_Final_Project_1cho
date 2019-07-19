@@ -19,7 +19,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -47,42 +46,11 @@
 
         </LinearLayout>
 
-
-        <!--- 사진 넘겨보기 (이미지 3개) -->
-        <!--https://go-it.tistory.com/8
-
-        <ViewFlipper
-            android:layout_width="match_parent"
-            android:layout_height="200dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </ViewFlipper>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="prev"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Next"/>
-        </LinearLayout>
-        -->
         <ImageView
-            android:id="@+id/imgDetail"
+            android:id="@+id/imgSellDetail"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/photo" />
 
         <!--- 제품명, 설명 -->

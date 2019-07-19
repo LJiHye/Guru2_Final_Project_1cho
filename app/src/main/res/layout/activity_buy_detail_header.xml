@@ -19,7 +19,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -78,10 +77,10 @@
         </LinearLayout>
         -->
         <ImageView
-            android:id="@+id/imgDetail"
+            android:id="@+id/imgBuyDetail"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/photo"/>
 
         <!--- 제품명, 설명 -->

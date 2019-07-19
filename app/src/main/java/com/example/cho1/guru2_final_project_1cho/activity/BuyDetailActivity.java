@@ -53,7 +53,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     private Context mContext;
 
     private FleaBean mFleaBean;
-    private ImageView imgDetail;
+    private ImageView imgBuyDetail;
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
@@ -98,10 +98,10 @@ public class BuyDetailActivity extends AppCompatActivity {
 
         txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
         txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜
-        imgDetail = header.findViewById(R.id.imgDetail); //이미지
+        imgBuyDetail = header.findViewById(R.id.imgBuyDetail); //이미지
         GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
-        imgDetail.setBackground(drawable);
-        imgDetail.setClipToOutline(true);
+        imgBuyDetail.setBackground(drawable);
+        imgBuyDetail.setClipToOutline(true);
 
         txtBuyDetailProduct = header.findViewById(R.id.txtBuyDetailProduct); //제품명
         txtBuyDetailExplain = header.findViewById(R.id.txtBuyDetailExplain); //설명
@@ -145,9 +145,9 @@ public class BuyDetailActivity extends AppCompatActivity {
                             // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
                             try {
                                 if (bean.bmpTitle == null) {
-                                    new DownloadImgTaskFlea(mContext, imgDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                    new DownloadImgTaskFlea(mContext, imgBuyDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
                                 } else {
-                                    imgDetail.setImageBitmap(bean.bmpTitle);
+                                    imgBuyDetail.setImageBitmap(bean.bmpTitle);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

@@ -85,17 +85,18 @@
                     android:id="@+id/edtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="50dp"
                     android:layout_marginTop="2dp"
                     android:ems="10"
-                    android:hint="제목"
 
+                    android:hint="제목"
                     android:inputType="textPersonName" />
 
                 <EditText
                     android:id="@+id/edtItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="50dp"
                     android:ems="10"
                     android:hint="원하는 물건"
                     android:inputType="textPersonName" />
@@ -104,16 +105,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
-
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginVertical="15dp">
                     <TextView
                         android:id="@+id/txtState"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="제품 상태"
-                        android:textSize="15dp"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_weight="1"/>
+                        android:text="제품 상태"
+                        android:textSize="15dp" />
 
                     <Spinner
                         android:id="@+id/sprState"
@@ -121,8 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:background="@android:drawable/btn_dropdown"
-                        android:spinnerMode="dropdown"/>
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -134,15 +134,16 @@
                         android:id="@+id/edtPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="50dp"
                         android:ems="10"
-                        android:layout_marginTop="5dp"
-                        android:inputType="textPersonName"
-                        android:hint="원가" />
+                        android:hint="원가"
+                        android:inputType="textPersonName" />
 
                     <EditText
                         android:id="@+id/edtBuyDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="50dp"
                         android:ems="10"
                         android:hint="구매일"
                         android:inputType="textPersonName" />
@@ -151,6 +152,7 @@
                         android:id="@+id/edtExpDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="50dp"
                         android:ems="10"
                         android:hint="유통기한"
                         android:inputType="textPersonName" />
@@ -159,6 +161,7 @@
                         android:id="@+id/edtFault"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="50dp"
                         android:ems="10"
                         android:hint="하자유무:"
                         android:inputType="textPersonName" />
@@ -167,6 +170,7 @@
                         android:id="@+id/edtSize"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="50dp"
                         android:ems="10"
                         android:hint="실제 측정 사이즈:"
                         android:inputType="textPersonName" />
@@ -179,6 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:layout_marginTop="20dp"
                 android:gravity="bottom">
 
                 <Button
