@@ -310,13 +310,14 @@ public class BuyWriteActivity extends AppCompatActivity {
 
     //갤러리에서 받아온 이미지 넣기
     private void setImage() {
-
-        ImageView imageView = findViewById(R.id.imgItem);
-
+        
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
 
-        imageView.setImageBitmap(originalBm);
+        mimgBuyWrite.setImageBitmap(originalBm);
+
+        mPhotoPath = tempFile.getAbsolutePath();
+        mCaptureUri = Uri.fromFile(tempFile);
     }
 
     //사진
