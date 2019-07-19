@@ -189,12 +189,12 @@ public class BuyWriteActivity extends AppCompatActivity {
     // 새 게시글 작성
     private void upload() {
 
-        if (mPhotoPath == null) {
-            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (mPhotoPath == null) {
+//            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
-        //
+
 //        if(mFleaBean.category == "옷"){
 //            if(medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null){
 //                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
@@ -202,19 +202,19 @@ public class BuyWriteActivity extends AppCompatActivity {
 //            }
 //        }
 
-//        mCategory = getIntent().getStringExtra("CATEGORY");
-//
-//        if (mCategory.equals("옷")) {
-//            if (mPhotoPath == null) {
-//                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null) {
-//                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//
-//        }
+        mCategory = getIntent().getStringExtra("CATEGORY");
+
+        if (mCategory.equals("옷")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null) {
+                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
 
         //사진부터 Storage 에 업로드한다.
         StorageReference storageRef = mFirebaseStorage.getReference();
