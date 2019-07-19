@@ -6,10 +6,15 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"></com.google.android.material.tabs.TabLayout>
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="SWU MARKET"
+        android:textSize="30dp"
+        android:textColor="#ff4848"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -39,4 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"></com.google.android.material.tabs.TabLayout>
 </LinearLayout>

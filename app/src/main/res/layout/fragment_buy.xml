@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10"
-    tools:context=".fragment.FragmentBuy">
+    android:layout_height="match_parent">
 
     <!--<EditText-->
         <!--android:id="@+id/edtSearch"-->
@@ -16,20 +13,21 @@
     <ListView
         android:id="@+id/lstBuy"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"
-        android:dividerHeight="0px"
-        android:divider="#ffffff">
+        android:layout_height="match_parent"
+        android:divider="#ffffff"
+        android:dividerHeight="0px">
     </ListView>
 
     <ImageButton
         android:id="@+id/btnOk"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/border_button"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/add"
-        android:layout_weight="1"
-        android:textStyle="bold"
         android:textColor="#5b5b5b"
-        android:background="@drawable/border_button"/>
+        android:textStyle="bold" />
 
-</LinearLayout>
+</FrameLayout>
