@@ -426,7 +426,7 @@ public class BuyModifyActivity extends AppCompatActivity {
         } else {
             exifDegree = 0;
         }
-        Bitmap rotatedBmp = roate(resizedBmp, 90);
+        Bitmap rotatedBmp = roate(resizedBmp, 90); // 돌아감 수정
         mimgBuyWrite.setImageBitmap(rotatedBmp);
 
         //줄어든 이미지를 다시 저장한다
