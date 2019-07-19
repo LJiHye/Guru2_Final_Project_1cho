@@ -92,7 +92,7 @@
                     android:background="#00ff0000"
                     android:text="작성자 페이지 >"
                     android:textColor="#5b5b5b"
-                    android:textSize="10dp"
+                    android:textSize="13dp"
                     android:visibility="invisible" />
             </FrameLayout>
         </LinearLayout>
@@ -123,7 +123,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginHorizontal="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:id="@+id/txtExDetailTitle"
