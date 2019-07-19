@@ -383,7 +383,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         } else {
             exifDegree = 0;
         }
-        Bitmap rotatedBmp = rotate(resizedBmp, exifDegree);
+        Bitmap rotatedBmp = rotate(resizedBmp, 90);
         mimgBuyWrite.setImageBitmap(rotatedBmp);
         //줄어든 이미지를 다시 저장한다
         saveBitmapToFileCache(rotatedBmp, mPhotoPath);
