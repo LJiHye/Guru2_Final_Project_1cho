@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -129,6 +130,7 @@ public class ExDetailActivity extends AppCompatActivity {
                                     if (bean.bmpTitle == null) {
                                         new DownloadImgTaskEx(mContext, imgExDetail, mExList, 0).execute(new URL(bean.imgUrl));
                                     } else {
+
                                         imgExDetail.setImageBitmap(bean.bmpTitle);
                                     }
                                 } catch (Exception e) {
