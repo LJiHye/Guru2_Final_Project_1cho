@@ -250,7 +250,7 @@ public class SellDetailActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.btnModify:
+                case R.id.btnSellModify:
                     modify();
                     break;
                 case R.id.btnSellDel:
