@@ -52,19 +52,6 @@
             android:hint="이름입력"
             android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/edtPw1"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:hint="패스워드입력"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/edtPw2"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:hint="패스워드확인"
-            android:inputType="textPassword" />
     </LinearLayout>
 
     <LinearLayout

@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -53,7 +52,7 @@ import java.util.UUID;
 public class JoinActivity extends AppCompatActivity {
     //멤버변수
     private ImageView mImgProfile;
-    private EditText mEdtId, mEdtName, mEdtPw1, mEdtPw2;
+    private EditText mEdtId, mEdtName;
 
     private String mCurrentImageFilePath = null;
 
@@ -92,8 +91,6 @@ public class JoinActivity extends AppCompatActivity {
         mEdtId.setText(email);
         mEdtId.setEnabled(false);
         mEdtName = findViewById(R.id.edtName);
-        mEdtPw1 = findViewById(R.id.edtPw1);
-        mEdtPw2 = findViewById(R.id.edtPw2);
 
         mMemberBean = FileDB.getLoginMember(this);
 
@@ -115,12 +112,7 @@ public class JoinActivity extends AppCompatActivity {
         findViewById(R.id.btnJoin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.equals(mEdtPw1.getText().toString(), mEdtPw2.getText().toString())) {
-                    joinProcess();
-                } else {
-                    Toast.makeText(JoinActivity.this, "패스워드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                joinProcess();
             }
         });
     }//end onCreate()
@@ -150,7 +142,6 @@ public class JoinActivity extends AppCompatActivity {
         MemberBean memberBean = new MemberBean();
         memberBean.memId = mFirebaseAuth.getCurrentUser().getEmail();
         memberBean.memName = mEdtName.getText().toString();
-        memberBean.memPw = mEdtPw1.getText().toString();
         memberBean.imgUrl = imgUrl;
         memberBean.imgName = imgName;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
