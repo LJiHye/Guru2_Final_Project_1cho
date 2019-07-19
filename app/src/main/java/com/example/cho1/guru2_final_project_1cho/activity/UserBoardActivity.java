@@ -1,6 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,10 @@ public class UserBoardActivity extends AppCompatActivity {
 
     private TabLayout mTabMyBoard;
     private ViewPager mViewMyBoard;
+
+    private TextView titleUserDetail;
+    private String mWriterID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,10 @@ public class UserBoardActivity extends AppCompatActivity {
 
         mTabMyBoard = findViewById(R.id.tabMyBoard);
         mViewMyBoard = findViewById(R.id.viewrMyBoard);
+
+        titleUserDetail = findViewById(R.id.titleUserDetail);
+        mWriterID = getIntent().getStringExtra("ID");
+        titleUserDetail.setText(mWriterID);
 
         // 탭 생성
         mTabMyBoard.addTab(mTabMyBoard.newTab().setText("사주세요"));
