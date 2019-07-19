@@ -13,6 +13,8 @@
         android:gravity="center"
         android:text="SWU MARKET"
         android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#ff4848"
         android:textStyle="bold"/>
 
@@ -20,9 +22,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="right|center_vertical"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <ImageView
