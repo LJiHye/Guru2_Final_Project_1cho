@@ -183,6 +183,15 @@ public class BuyDetailActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.txtBuyDetailId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyDetailActivity.this, UserBoardActivity.class);
+                intent.putExtra("ID", txtBuyDetailId.getText().toString());
+                startActivity(intent);
+            }
+        });
+
         btnBuyComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

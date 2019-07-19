@@ -129,6 +129,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             }
         });
 
+
         //기존 데이터 가져와 뿌려주기
         mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
             @Override
