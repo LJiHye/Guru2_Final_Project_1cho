@@ -41,6 +41,8 @@ public class FragmentMyBuy extends Fragment {
 
     private MemberBean mLoginMember;
 
+    private Boolean flag;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class FragmentMyBuy extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                 String uuid = SellWriteActivity.getUserIdFromUUID(email);
+                flag = false;
 
                 mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -82,8 +85,10 @@ public class FragmentMyBuy extends Fragment {
                         //data를 받아와서 List에 저장
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
                             FleaBean bean = snapshot.getValue(FleaBean.class);
-                            if(TextUtils.equals(mLoginMember.memId, bean.userId))
+                            if(TextUtils.equals(mLoginMember.memId, bean.userId)) {
                                 FirebaseDatabase.getInstance().getReference().child("buy").child(bean.id).removeValue();
+                                flag = true;
+                            }
                         }
                     }
                     @Override
@@ -91,7 +96,11 @@ public class FragmentMyBuy extends Fragment {
 
                     }
                 });
-                Toast.makeText(getActivity(), "삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                if(flag) {
+                    Toast.makeText(getActivity(), "삭제 되었습니다", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "삭제할 게시물이 없습니다", Toast.LENGTH_LONG).show();
+                }
             }
         });
         builder.create().show();
