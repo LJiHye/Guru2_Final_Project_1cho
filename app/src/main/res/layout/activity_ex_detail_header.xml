@@ -63,31 +63,35 @@
                 android:id="@+id/imgExDetail"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_margin="10dp"
+                android:layout_marginTop="20dp"
                 android:src="@drawable/photo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/txtExDetailTitle"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="제품명"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/exchange"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"/>
+
                 <TextView
                     android:id="@+id/txtExDetailWant"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:text="원하는 제품"
                     android:textSize="25dp"
                     android:textStyle="bold" />

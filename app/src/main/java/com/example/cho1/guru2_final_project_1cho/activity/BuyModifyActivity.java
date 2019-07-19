@@ -157,7 +157,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
                         //카테고리 드롭다운 스피너 추가
                         Spinner dropdown = (Spinner) findViewById(R.id.spinBuyModifyCategory);
-                        String[] items = new String[]{"옷", "책", "생활물품", "기프티콘", "데이터", "대리 예매", "전자기기", "화장품", "기타"};
+                        String[] items = new String[]{"옷", "책", "생활용품", "기프티콘", "데이터", "대리예매", "전자기기", "화장품", "기타"};
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(BuyModifyActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
                         dropdown.setAdapter(adapter);
 

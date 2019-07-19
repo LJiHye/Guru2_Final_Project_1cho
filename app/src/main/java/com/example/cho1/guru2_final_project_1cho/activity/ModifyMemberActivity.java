@@ -1,5 +1,7 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
@@ -25,7 +28,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
     private MemberBean loginMember;
     private EditText mEdtDetailId, mEdtDetailName, mEdtDetailPw, mEdtDetailPw1, mEdtDetailPw2;
-    private Button mBtnModify, mBtnLogout, mBtnMyBoard;
+    private Button mBtnModify, mBtnLogout, mBtnMyBoard, mBtnSecession;
     private ImageView mImgDetailProfile;
 
     private String id, name, imgUrl, uuid;
@@ -50,6 +53,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mBtnModify = findViewById(R.id.btnModify);
         mBtnLogout = findViewById(R.id.btnLogout);
         mBtnMyBoard = findViewById(R.id.btnMyBoard);
+        mBtnSecession = findViewById(R.id.btnSecession);
         mImgDetailProfile = findViewById(R.id.imgDetailProfile);
         GradientDrawable drawable=
                 (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
@@ -83,6 +87,8 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mBtnModify.setOnClickListener(mClicks);
         //내가 쓴 글 보기 버튼
         mBtnMyBoard.setOnClickListener(mClicks);
+        //회원 탈퇴 버튼
+        mBtnSecession.setOnClickListener(mClicks);
     }
 
     //로그아웃 처리
@@ -134,6 +140,26 @@ public class ModifyMemberActivity extends AppCompatActivity {
         }
     }
 
+    private void secession() {
+        AlertDialog.Builder builer = new AlertDialog.Builder(ModifyMemberActivity.this);
+        builer.setTitle("회원 탈퇴");
+        builer.setMessage("정말 탈퇴하시겠습니까?");
+        builer.setNegativeButton("아니오", null);
+        builer.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MemberBean loginMember = FileDB.getLoginMember(ModifyMemberActivity.this);
+
+                String guid = JoinActivity.getUserIdFromUUID(loginMember.memId);
+                FirebaseDatabase.getInstance().getReference().child("member").child(guid).removeValue();
+                Toast.makeText(ModifyMemberActivity.this, "탈퇴 되었습니다", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ModifyMemberActivity.this, LoginActivity.class));
+                ActivityCompat.finishAffinity(ModifyMemberActivity.this);
+            }
+        });
+        builer.create().show(); // 다이어로그 나타남
+    }
+
     //버튼 클릭 이벤트
     private View.OnClickListener mClicks = new View.OnClickListener() {
         @Override
@@ -150,6 +176,10 @@ public class ModifyMemberActivity extends AppCompatActivity {
                 case R.id.btnMyBoard:
                     Intent i = new Intent(ModifyMemberActivity.this, MyBoardActivity.class);
                     startActivity(i);
+                    break;
+
+                case R.id.btnSecession:
+                    secession();
                     break;
             }
         }

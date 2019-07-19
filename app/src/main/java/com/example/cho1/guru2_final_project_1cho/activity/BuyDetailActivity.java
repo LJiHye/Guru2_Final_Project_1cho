@@ -53,11 +53,11 @@ public class BuyDetailActivity extends AppCompatActivity {
     private Context mContext;
 
     private FleaBean mFleaBean;
-    private ImageView imgDetail;
+    private ImageView imgBuyDetail;
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
-    private Button btnBuyComment, btnModify, btnDel;
+    private Button btnBuyComment;
     private EditText edtBuyComment;
 
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -91,17 +91,17 @@ public class BuyDetailActivity extends AppCompatActivity {
         edtBuyComment = findViewById(R.id.edtBuyComment);
 
         //수정, 삭제 버튼에 클릭리스너 달아주기
-        footer.findViewById(R.id.btnModify).setOnClickListener(BtnClick);
-        footer.findViewById(R.id.btnDel).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnBuyModify).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
 
         //edtBuyComment.requestFocus();
 
         txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
         txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜
-        imgDetail = header.findViewById(R.id.imgDetail); //이미지
+        imgBuyDetail = header.findViewById(R.id.imgBuyDetail); //이미지
         GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
-        imgDetail.setBackground(drawable);
-        imgDetail.setClipToOutline(true);
+        imgBuyDetail.setBackground(drawable);
+        imgBuyDetail.setClipToOutline(true);
 
         txtBuyDetailProduct = header.findViewById(R.id.txtBuyDetailProduct); //제품명
         txtBuyDetailExplain = header.findViewById(R.id.txtBuyDetailExplain); //설명
@@ -118,8 +118,6 @@ public class BuyDetailActivity extends AppCompatActivity {
 
 
         LinearLayout layoutBuyVisibility = findViewById(R.id.layoutBuyVisibility); //수정, 삭제 버튼 감싼 레이아웃
-        Button btnModify = footer.findViewById(R.id.btnModify);
-        Button btnDel = footer.findViewById(R.id.btnDel);
 
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
         if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
@@ -145,9 +143,9 @@ public class BuyDetailActivity extends AppCompatActivity {
                             // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
                             try {
                                 if (bean.bmpTitle == null) {
-                                    new DownloadImgTaskFlea(mContext, imgDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                    new DownloadImgTaskFlea(mContext, imgBuyDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
                                 } else {
-                                    imgDetail.setImageBitmap(bean.bmpTitle);
+                                    imgBuyDetail.setImageBitmap(bean.bmpTitle);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -246,10 +244,10 @@ public class BuyDetailActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.btnModify:
+                case R.id.btnBuyModify:
                     modify();
                     break;
-                case R.id.btnDel:
+                case R.id.btnBuyDel:
                     delete();
                     break;
             }

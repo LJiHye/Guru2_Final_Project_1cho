@@ -11,12 +11,12 @@
         android:id="@+id/titleSellDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="팔아주세요 게시글"
-        android:textStyle="bold"
-        android:textColor="#ff4848"
+        android:layout_marginTop="20dp"
         android:gravity="center"
+        android:text="물물교환 게시글"
+        android:textColor="#ff4848"
         android:textSize="20dp"
-        android:layout_marginTop="20dp" />
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/lstExComment"

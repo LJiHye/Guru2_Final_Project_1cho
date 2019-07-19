@@ -50,9 +50,8 @@ public class SellDetailActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
-    private ImageView imgDetail;
+    private ImageView imgSellDetail;
     private LinearLayout layoutSellVisibility;
-    private Button btnModify, btnDel;
 
     private FleaBean mFleaBean;
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -87,18 +86,16 @@ public class SellDetailActivity extends AppCompatActivity {
 
         txtSellDetailId = header.findViewById(R.id.txtSellDetailId); //아이디
         txtSellDetailDate = header.findViewById(R.id.txtSellDetailDate); //날짜
-        imgDetail = header.findViewById(R.id.imgDetail);
+        imgSellDetail = header.findViewById(R.id.imgSellDetail);
         GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
-        imgDetail.setBackground(drawable);
-        imgDetail.setClipToOutline(true);
+        imgSellDetail.setBackground(drawable);
+        imgSellDetail.setClipToOutline(true);
 
         txtSellTitle = header.findViewById(R.id.txtSellTitle);
         txtSellDetailPrice = header.findViewById(R.id.txtSellDetailPrice); //희망가
         txtSellDetailOption = header.findViewById(R.id.txtSellDetailOption); //희망 옵션
 
         layoutSellVisibility = footer.findViewById(R.id.layoutSellVisibility); //수정, 삭제 버튼 감싼 레이아웃
-        btnModify = footer.findViewById(R.id.btnModify);
-        btnDel = footer.findViewById(R.id.btnDel);
         btnSellComment = findViewById(R.id.btnSellComment);
         edtSellComment = findViewById(R.id.edtSellComment);
 
@@ -106,8 +103,8 @@ public class SellDetailActivity extends AppCompatActivity {
         lstSellComment.setAdapter(mCommentAdapter);
 
         //수정, 삭제 버튼에 클릭리스너 달아주기
-        footer.findViewById(R.id.btnModify).setOnClickListener(BtnClick);
-        footer.findViewById(R.id.btnDel).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
+        footer.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
 
 //        btnModify.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -158,9 +155,9 @@ public class SellDetailActivity extends AppCompatActivity {
                                 // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
                                 try {
                                     if (bean.bmpTitle == null) {
-                                        new DownloadImgTaskFlea(mContext, imgDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
+                                        new DownloadImgTaskFlea(mContext, imgSellDetail, mFleaList, 0).execute(new URL(bean.imgUrl));
                                     } else {
-                                        imgDetail.setImageBitmap(bean.bmpTitle);
+                                        imgSellDetail.setImageBitmap(bean.bmpTitle);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -256,7 +253,7 @@ public class SellDetailActivity extends AppCompatActivity {
                 case R.id.btnModify:
                     modify();
                     break;
-                case R.id.btnDel:
+                case R.id.btnSellDel:
                     delete();
                     break;
             }
