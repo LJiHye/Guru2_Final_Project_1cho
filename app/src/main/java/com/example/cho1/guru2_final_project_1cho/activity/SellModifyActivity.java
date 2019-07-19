@@ -1,8 +1,10 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,6 +69,8 @@ public class SellModifyActivity extends AppCompatActivity {
     private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;
     private Spinner mspinner1;  //카테고리
 
+    private File tempFile;
+
     //사진 찍기 변수
     private Uri mCaptureUri;
     public String mPhotoPath;
@@ -106,12 +111,19 @@ public class SellModifyActivity extends AppCompatActivity {
         mEdtWishOption = findViewById(R.id.edtSellModifyWishOption);
         mspinner1 = findViewById(R.id.spinSellModifyCategory);
         Button mBtnImgReg = findViewById(R.id.btnSellModifyImgReg);
+        Button mBtnGalleryReg = findViewById(R.id.btnSellModifyGalleryReg);
         Button mBtnSellModifyReg = findViewById(R.id.btnSellModifyReg);
 
         mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
+            }
+        });
+        mBtnGalleryReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAlbum();
             }
         });
 
@@ -227,6 +239,85 @@ public class SellModifyActivity extends AppCompatActivity {
     public static String getUserIdFromUUID(String userEmail) {
         long val = UUID.nameUUIDFromBytes(userEmail.getBytes()).getMostSignificantBits();
         return String.valueOf(val);
+    }
+
+
+    //갤러리에서 이미지 가져오기
+    private void goToAlbum() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
+
+    private static final int PICK_FROM_ALBUM = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode != Activity.RESULT_OK) {
+
+            Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
+
+            if(tempFile != null) {
+                if (tempFile.exists()) {
+                    if (tempFile.delete()) {
+                        Log.e("test", tempFile.getAbsolutePath() + " 삭제 성공");
+                        tempFile = null;
+                    }
+                }
+            }
+
+            return;
+        }
+
+        if (requestCode == PICK_FROM_ALBUM) {
+
+            Uri photoUri = data.getData();
+
+            Cursor cursor = null;
+
+            try {
+
+                /*
+                 *  Uri 스키마를
+                 *  content:/// 에서 file:/// 로  변경한다.
+                 */
+                String[] proj = { MediaStore.Images.Media.DATA };
+
+                assert photoUri != null;
+                cursor = getContentResolver().query(photoUri, proj, null, null, null);
+
+                assert cursor != null;
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+                cursor.moveToFirst();
+
+                tempFile = new File(cursor.getString(column_index));
+
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+
+            setImage();
+
+        } else if(requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
+            sendPicture();
+        }
+    }
+
+    //갤러리에서 받아온 이미지 넣기
+    private void setImage() {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+
+        mImgSellWrite.setImageBitmap(originalBm);
+
+        mPhotoPath = tempFile.getAbsolutePath();
+        mCaptureUri = Uri.fromFile(tempFile);
     }
 
     //사진 찍기
@@ -349,14 +440,4 @@ public class SellModifyActivity extends AppCompatActivity {
         return resized;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //카메라로부터 오는 데이터를 취득한다.
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                sendPicture();
-            }
-        }
-    }
 }

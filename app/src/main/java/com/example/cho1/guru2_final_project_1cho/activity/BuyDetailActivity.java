@@ -183,6 +183,16 @@ public class BuyDetailActivity extends AppCompatActivity {
             }
         });
 
+        //유저 아이디 클릭 시 해당 유저의 글 목록 보여줌
+        findViewById(R.id.txtBuyDetailId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyDetailActivity.this, UserBoardActivity.class);
+                intent.putExtra("ID", txtBuyDetailId.getText().toString());
+                startActivity(intent);
+            }
+        });
+
         btnBuyComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -244,13 +244,24 @@ public class SellDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //유저 아이디 클릭 시 해당 유저의 글 목록 보여줌
+        findViewById(R.id.txtSellDetailId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SellDetailActivity.this, UserBoardActivity.class);
+                intent.putExtra("ID", txtSellDetailId.getText().toString());
+                startActivity(intent);
+            }
+        });
+
     }
 
     View.OnClickListener BtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.btnModify:
+                case R.id.btnSellModify:
                     modify();
                     break;
                 case R.id.btnSellDel:
