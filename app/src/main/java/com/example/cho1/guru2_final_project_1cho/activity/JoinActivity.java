@@ -414,6 +414,3 @@ public class JoinActivity extends AppCompatActivity {
         }
     }
 }//end class
-
-
-

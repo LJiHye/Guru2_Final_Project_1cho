@@ -142,6 +142,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
                 String guid = JoinActivity.getUserIdFromUUID(loginMember.memId);
                 FirebaseDatabase.getInstance().getReference().child("member").child(guid).removeValue();
+                mFirebaseAuth.signOut();
                 Toast.makeText(ModifyMemberActivity.this, "탈퇴 되었습니다", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ModifyMemberActivity.this, LoginActivity.class));
                 ActivityCompat.finishAffinity(ModifyMemberActivity.this);
