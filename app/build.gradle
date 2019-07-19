@@ -39,4 +39,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:18.0.0'
     //Firebase Database
     implementation 'com.google.firebase:firebase-database:18.0.0'
+
+    // 갤러리 권한
+    implementation "gun0912.ted:tedpermission:2.1.0"
 }
