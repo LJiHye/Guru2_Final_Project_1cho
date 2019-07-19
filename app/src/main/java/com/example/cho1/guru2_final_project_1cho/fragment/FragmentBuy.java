@@ -77,6 +77,7 @@ public class FragmentBuy extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), BuyWriteActivity.class);
+                i.putExtra("CATEGORY", mCategory);
                 startActivity(i);
             }
         });

@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -57,10 +58,13 @@ public class BuyWriteActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance(STORAGE_DB_URL);
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+    private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
+    private String mCategory;
+
     private ImageView mimgBuyWrite;  //사진
     private EditText medtTitle;  //제목
     private EditText medtExplain;  //설명
-    private  EditText medtPrice;  //정가
+    private EditText medtPrice;  //정가
     private EditText medtSalePrice;  //판매가
     private EditText medtBuyDay;  //구매일
     private EditText medtExprieDate;  //유통기한
@@ -96,9 +100,8 @@ public class BuyWriteActivity extends AppCompatActivity {
         }, 0);
 
 
-
         mimgBuyWrite = findViewById(R.id.imgBuyWrite);
-        GradientDrawable drawable=
+        GradientDrawable drawable =
                 (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
         mimgBuyWrite.setBackground(drawable);
         mimgBuyWrite.setClipToOutline(true);
@@ -135,15 +138,15 @@ public class BuyWriteActivity extends AppCompatActivity {
         findViewById(R.id.btnBuyWriteOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    //신규 등록
-                    upload();
+                //신규 등록
+                upload();
             }
         });
 
-        mFleaBean = (FleaBean)getIntent().getSerializableExtra(FleaBean.class.getName());
-        if(mFleaBean != null){
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
+        if (mFleaBean != null) {
             getIntent().getParcelableArrayExtra("titleBitmap");
-            if(mFleaBean.bmpTitle != null){
+            if (mFleaBean.bmpTitle != null) {
                 mimgBuyWrite.setImageBitmap(mFleaBean.bmpTitle);
             }
             medtTitle.setText(mFleaBean.title);
@@ -157,16 +160,29 @@ public class BuyWriteActivity extends AppCompatActivity {
         }
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinBuyWriteCategory);
+        Spinner dropdown = (Spinner) findViewById(R.id.spinBuyWriteCategory);
         String[] items = new String[]{"옷", "책", "생활용품", "기프티콘", "데이터", "대리예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
         //제품상태 드롭다운 스피너 추가
-        Spinner dropdown2 = (Spinner)findViewById(R.id.spinBuyWriteState);
+        Spinner dropdown2 = (Spinner) findViewById(R.id.spinBuyWriteState);
         String[] items2 = new String[]{"상", "중", "하"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);
+
+        mCategory = getIntent().getStringExtra("CATEGORY");
+
+        //들어온 카테고리 항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
+        for (int i = 0; i < items.length; i++) {
+            if (TextUtils.equals(items[i], mCategory)) {
+                itemNum = i;
+                break;
+            }
+        }
+        //카테고리 스피너 기본값 지정
+        mspinner1.setSelection(itemNum);
+
 
     }  //end onCreate()
 
@@ -174,7 +190,7 @@ public class BuyWriteActivity extends AppCompatActivity {
     // 새 게시글 작성
     private void upload() {
 
-        if(mPhotoPath == null) {
+        if (mPhotoPath == null) {
             Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -210,7 +226,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(!task.isSuccessful()) {
+                if (!task.isSuccessful()) {
                     throw task.getException();
                 }
                 return imagesRef.getDownloadUrl();
@@ -223,7 +239,6 @@ public class BuyWriteActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void uploadDB(String imgUrl, String imgName) {
@@ -254,7 +269,7 @@ public class BuyWriteActivity extends AppCompatActivity {
         //고유번호를 생성한다
         //String guid = getUserIdFromUUID(fleaBean.userId);
         //dbRef.child("buy").child( guid ).child( fleaBean.id ).setValue(fleaBean);
-        dbRef.child("buy").child( fleaBean.id ).setValue(fleaBean);
+        dbRef.child("buy").child(fleaBean.id).setValue(fleaBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
 
         finish();
@@ -282,7 +297,7 @@ public class BuyWriteActivity extends AppCompatActivity {
 
             Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
 
-            if(tempFile != null) {
+            if (tempFile != null) {
                 if (tempFile.exists()) {
                     if (tempFile.delete()) {
                         Log.e("test", tempFile.getAbsolutePath() + " 삭제 성공");
@@ -306,7 +321,7 @@ public class BuyWriteActivity extends AppCompatActivity {
                  *  Uri 스키마를
                  *  content:/// 에서 file:/// 로  변경한다.
                  */
-                String[] proj = { MediaStore.Images.Media.DATA };
+                String[] proj = {MediaStore.Images.Media.DATA};
 
                 assert photoUri != null;
                 cursor = getContentResolver().query(photoUri, proj, null, null, null);
@@ -326,7 +341,7 @@ public class BuyWriteActivity extends AppCompatActivity {
 
             setImage();
 
-        } else if(requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
             sendPicture();
         }
     }

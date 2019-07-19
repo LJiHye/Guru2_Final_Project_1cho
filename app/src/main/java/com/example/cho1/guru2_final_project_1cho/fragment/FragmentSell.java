@@ -53,6 +53,7 @@ public class FragmentSell extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SellWriteActivity.class);
+                intent.putExtra("CATEGORY", mCategory);
                 startActivity(intent);
             }
         });

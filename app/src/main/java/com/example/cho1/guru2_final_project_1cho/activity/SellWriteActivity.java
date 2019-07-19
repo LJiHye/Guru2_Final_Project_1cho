@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -55,6 +56,8 @@ public class SellWriteActivity extends AppCompatActivity {
     private ImageView mImgSellWrite;
     private EditText mEdtTitle, mEdtWishPrice, mEdtWishOption;
     private Spinner mspinner1;  //카테고리
+    private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
+    private String mCategory;
 
     private File tempFile;
 
@@ -134,6 +137,17 @@ public class SellWriteActivity extends AppCompatActivity {
             mEdtWishPrice.setText(mFleaBean.wishprice);
             mEdtWishOption.setText(mFleaBean.wishoption);
         }
+        mCategory = getIntent().getStringExtra("CATEGORY");
+
+        //들어온 카테고리 항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
+        for (int i = 0; i < items.length; i++) {
+            if (TextUtils.equals(items[i], mCategory)) {
+                itemNum = i;
+                break;
+            }
+        }
+        //카테고리 스피너 기본값 지정
+        mspinner1.setSelection(itemNum);
     }  //end onCreate()
 
     //새 글 등록
