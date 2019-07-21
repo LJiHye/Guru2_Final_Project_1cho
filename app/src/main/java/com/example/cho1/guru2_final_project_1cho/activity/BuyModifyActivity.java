@@ -69,6 +69,8 @@ public class BuyModifyActivity extends AppCompatActivity {
     private int itemNum = 0; //스피너 선택값 불러와 저장할 임시변수
     private int itemNum2 = 0;
 
+    private String mCategory;
+
     private ImageView mimgBuyWrite;  //사진
     private EditText medtTitle;  //제목
     private EditText medtExplain;  //설명
@@ -181,15 +183,15 @@ public class BuyModifyActivity extends AppCompatActivity {
                         dropdown2.setAdapter(adapter2);
 
                         //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
-                        for(int i=0; i<items.length; i++) {
-                            if(items[i] == bean.category) {
+                        for (int i = 0; i < items.length; i++) {
+                            if (items[i] == bean.category) {
                                 itemNum = i;
                                 break;
                             }
                         }
                         //bean.category에 저장된항목이 기존 배열(items)의 몇 번째에 위치하고 있는지 알아냄
-                        for(int i=0; i<items2.length; i++) {
-                            if(items2[i] == bean.state) {
+                        for (int i = 0; i < items2.length; i++) {
+                            if (items2[i] == bean.state) {
                                 itemNum2 = i;
                                 break;
                             }
@@ -232,6 +234,37 @@ public class BuyModifyActivity extends AppCompatActivity {
             finish();
             return;
         }
+        //확인해보기
+//        mCategory = getIntent().getStringExtra("CATEGORY");
+//        if (mCategory.equals("옷")) {
+//            if (mPhotoPath == null) {
+//                if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtDefect.length() == 0 || medtSize.length() == 0 || medtExplain.length() == 0){
+//                    Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                else{
+//                    mFleaBean.title = medtTitle.getText().toString();  //제목
+//                    mFleaBean.subtitle = medtExplain.getText().toString();  //설명
+//                    mFleaBean.price = medtPrice.getText().toString();  //정가
+//                    mFleaBean.saleprice = medtSalePrice.getText().toString();  //판매가
+//                    mFleaBean.buyday = medtBuyDay.getText().toString();  //구매일
+//                    mFleaBean.expire = medtExprieDate.getText().toString();  //유통기한
+//                    mFleaBean.fault = medtDefect.getText().toString();  //하자 유무
+//                    mFleaBean.size = medtSize.getText().toString();  //실제 측정 사이즈
+//                    mFleaBean.category = mspinner1.getSelectedItem().toString();  //카테고리
+//                    mFleaBean.state = mspinner2.getSelectedItem().toString();  //제품 상태
+//                    mFleaBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());  //글 올린 날짜
+//                }
+//
+//                //DB 업로드
+//                DatabaseReference dbRef = mFirebaseDB.getReference();
+//                //동일 ID 로 데이터 수정
+//                dbRef.child("buy").child(mFleaBean.id).setValue(mFleaBean);
+//                Toast.makeText(this, "수정 되었습니다.", Toast.LENGTH_LONG).show();
+//                finish();
+//                return;
+//            }
+//        }
 
         //사진을 찍었을 경우, 사진부터 업로드 하고 DB 업데이트 한다.
         StorageReference storageRef = mFirebaseStorage.getReference();
@@ -308,7 +341,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
             Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
 
-            if(tempFile != null) {
+            if (tempFile != null) {
                 if (tempFile.exists()) {
                     if (tempFile.delete()) {
                         Log.e("test", tempFile.getAbsolutePath() + " 삭제 성공");
@@ -332,7 +365,7 @@ public class BuyModifyActivity extends AppCompatActivity {
                  *  Uri 스키마를
                  *  content:/// 에서 file:/// 로  변경한다.
                  */
-                String[] proj = { MediaStore.Images.Media.DATA };
+                String[] proj = {MediaStore.Images.Media.DATA};
 
                 assert photoUri != null;
                 cursor = getContentResolver().query(photoUri, proj, null, null, null);
@@ -352,7 +385,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
             setImage();
 
-        } else if(requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
             sendPicture();
         }
     }
