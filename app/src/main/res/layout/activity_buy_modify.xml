@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작성 완료"
+                android:text="수정 완료"
                 android:textStyle="bold"
                 android:textColor="#5b5b5b"
                 android:background="@drawable/border_button"/>

@@ -69,7 +69,6 @@
             android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
-
             <Spinner
                 android:id="@+id/spinSellModifyCategory"
                 android:layout_width="150dp"

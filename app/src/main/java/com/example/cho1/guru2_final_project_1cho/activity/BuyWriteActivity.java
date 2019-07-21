@@ -210,12 +210,13 @@ public class BuyWriteActivity extends AppCompatActivity {
                 return;
             }
             if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtDefect.length() == 0 || medtSize.length() == 0 || medtExplain.length() == 0) {
-               /* medtTitle.requestFocus();
-                medtPrice.requestFocus();
-                medtSalePrice.requestFocus();
-                medtBuyDay.requestFocus();
-                medtDefect.requestFocus();
-                medtSize.requestFocus(); */ // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
+                medtTitle.requestFocus();
+                medtTitle.setCursorVisible(true);
+//                medtPrice.requestFocus();
+//                medtSalePrice.requestFocus();
+//                medtBuyDay.requestFocus();
+//                medtDefect.requestFocus();
+//                medtSize.requestFocus();  // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
                 Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
             }
