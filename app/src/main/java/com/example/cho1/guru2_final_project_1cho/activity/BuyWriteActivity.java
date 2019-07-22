@@ -221,6 +221,7 @@ public class BuyWriteActivity extends AppCompatActivity {
 //                return;
 //            }
 //        }
+
         //필수 항목 받기
         if (mCategory.equals("옷")) {
             if (mPhotoPath == null) {

@@ -112,6 +112,12 @@ public class JoinActivity extends AppCompatActivity {
         findViewById(R.id.btnJoin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ( mEdtName.getText().toString().length() == 0) {
+                    Toast.makeText(JoinActivity.this, "이름을 입력하세요..", Toast.LENGTH_SHORT).show();
+                    mEdtName.requestFocus();
+                    return;
+                }
+
                 joinProcess();
             }
         });
