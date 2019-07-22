@@ -41,7 +41,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC9C4eo9Rme8J4CYaytn-Y7ZGe7kbPAO_0" /> <!-- 구글 지도 사용을 위한 키 등록 -->
+            android:value="" /> <!-- 구글 지도 사용을 위한 키 등록 -->
 
         <activity android:name=".activity.ExModifyActivity" />
         <activity android:name=".activity.ExWriteActivity" />
