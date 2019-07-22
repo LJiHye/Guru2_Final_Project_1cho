@@ -22,14 +22,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -43,7 +41,6 @@ import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.FreeBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -80,7 +77,7 @@ public class FreeWriteActivity extends AppCompatActivity {
     private EditText medtTitle;  //제목
     private EditText medtExplain;  //설명
     private EditText medtDetailPlace;
-    private Spinner dropdown;
+    private Spinner spinFree;
 
     private File tempFile;
 
@@ -104,6 +101,10 @@ public class FreeWriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_free_write);
 
+        Spinner dropdown = (Spinner) findViewById(R.id.spinFree);
+        String[] items = new String[]{"50주년기념관", "인문사회관", "제1과학관", "제2과학관", "도서관", "학생누리관", "조형예술관", "샬롬하우스", "바롬인성교육관", "체육관", "정문", "후문", "X"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(FreeWriteActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
 
         //카메라를 사용하기 위한 퍼미션을 요청한다.
         ActivityCompat.requestPermissions(this, new String[]{
@@ -167,10 +168,6 @@ public class FreeWriteActivity extends AppCompatActivity {
         medtExplain = findViewById(R.id.edtFreeWriteExplain);
         medtDetailPlace = findViewById(R.id.edtFreeDetailPlace);
 
-        dropdown = (Spinner) findViewById(R.id.spinFree);
-        String[] items = new String[]{"50주년기념관", "인문사회관", "제1과학관", "제2과학관", "도서관", "학생누리관", "조형예술관", "샬롬하우스", "바롬인성교육관", "체육관", "정문", "후문", "X"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
 
         findViewById(R.id.btnFreeWriteOk).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,10 +188,15 @@ public class FreeWriteActivity extends AppCompatActivity {
             medtDetailPlace.setText(mFreeBean.detailPlace);
         }
 
-        dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinFree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (dropdown.getSelectedItem().toString()){
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                switch (spinFree.getSelectedItem().toString()){
                     case "50주년기념관":
                         mClickIndex = 1;
                         mCurPosLatLng = new LatLng(37.626251, 127.093109);
@@ -262,8 +264,6 @@ public class FreeWriteActivity extends AppCompatActivity {
                 mMapFragment.getMapAsync(mapReadyCallback); //map refresh
             }
         });
-
-
     }  //end onCreate()
 
     private LocationListener locationListener = new LocationListener() {
@@ -307,6 +307,8 @@ public class FreeWriteActivity extends AppCompatActivity {
             googleMap.getUiSettings().setZoomControlsEnabled(true);
             //나침반 추가
             googleMap.getUiSettings().setCompassEnabled(true);
+
+
 
             //맵을 클릭했을 때 이벤트를 등록한다.
             googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -459,7 +461,7 @@ public class FreeWriteActivity extends AppCompatActivity {
         freeBean.title = medtTitle.getText().toString(); // 타이틀
         //freeBean.detailPlace = medtPlace.getText().toString();
         if(mClickIndex != 0) {
-            freeBean.place = dropdown.getSelectedItem().toString();
+            freeBean.place = spinFree.getSelectedItem().toString();
             freeBean.latitude = mCurPosLatLng.latitude;
             freeBean.latitude = mCurPosLatLng.longitude;
         }

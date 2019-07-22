@@ -190,38 +190,6 @@ public class BuyWriteActivity extends AppCompatActivity {
     // 새 게시글 작성
     private void upload() {
 
-//        if (mPhotoPath == null) {
-//            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
-
-//        if(mFleaBean.category == "옷"){
-//            if(medtPrice == null || medtTitle == null || medtSalePrice == null || medtBuyDay == null || medtSize == null){
-//                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
-
-
-//        if (mCategory.equals("옷")) {
-//            if (mPhotoPath == null) {
-//                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (medtTitle.length() == 0 || medtPrice.length() == 0 || medtSalePrice.length() == 0 || medtBuyDay.length() == 0 || medtDefect.length() == 0 || medtSize.length() == 0 || medtExplain.length() == 0) {
-//                medtTitle.requestFocus();
-//                medtTitle.setCursorVisible(true);
-////                medtPrice.requestFocus();
-////                medtSalePrice.requestFocus();
-////                medtBuyDay.requestFocus();
-////                medtDefect.requestFocus();
-////                medtSize.requestFocus();  // > 제일 마지막 항목 하나만 빨간색으로 뜨는 문제 ㅇㅇ
-//                Toast.makeText(this, "필수 항목을 채워주세요", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
-
         //필수 항목 받기
         if (mCategory.equals("옷")) {
             if (mPhotoPath == null) {
