@@ -37,15 +37,6 @@ tools:context=".activity.ExDetailActivity">
         android:textColor="#5b5b5b"
         android:background="@drawable/border_button"/>
 
-    <ImageButton
-        android:id="@+id/btnExClip"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="10dp"
-        android:src="@drawable/gallery"
-        android:background="@drawable/border_button"/>
-
 
 </LinearLayout> <!-- 수정 삭제 버튼 -->
 

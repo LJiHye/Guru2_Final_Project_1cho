@@ -53,7 +53,7 @@ public class ExDetailActivity extends AppCompatActivity {
     private ListView lstExComment;
     private Button btnExComment, btnExWriter;
     private EditText edtExComment;
-    private ImageButton btnExModify, btnExDel, btnExClip;
+    private ImageButton btnExModify, btnExDel;
     private LinearLayout layoutExVisibility;
     private ImageView imgExDetail, imgEmptyStar, imgFullStar;
 
@@ -92,7 +92,7 @@ public class ExDetailActivity extends AppCompatActivity {
         imgExDetail.setBackground(drawable);
         imgExDetail.setClipToOutline(true);
 
-        imgEmptyStar = header.findViewById(R.id.emptyStar); //스크랩버튼
+        imgEmptyStar = findViewById(R.id.emptyStar); //스크랩버튼
 
         txtExDetailId = header.findViewById(R.id.txtExDetailId); //아이디
         txtExDetailDate = header.findViewById(R.id.txtExDetailDate); //날짜
@@ -110,7 +110,6 @@ public class ExDetailActivity extends AppCompatActivity {
         btnExWriter = findViewById(R.id.btnExWriter);
         btnExModify = findViewById(R.id.btnExModify);
         btnExDel = findViewById(R.id.btnExDel);
-        btnExClip = findViewById(R.id.btnExClip);
 
         //layoutExVisibility = footer.findViewById(R.id.layoutExVisibility);
 
@@ -121,7 +120,6 @@ public class ExDetailActivity extends AppCompatActivity {
         header.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
         header.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
         header.findViewById(R.id.btnExWriter).setOnClickListener(mBtnClick);
-        header.findViewById(R.id.btnExClip).setOnClickListener(mBtnClick);
 
 //        footer.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
 //        footer.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
@@ -174,7 +172,7 @@ public class ExDetailActivity extends AppCompatActivity {
                         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
                         if (!TextUtils.equals(mExBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
                             btnExWriter.setVisibility(View.VISIBLE);
-                            btnExClip.setVisibility(View.VISIBLE);
+                            imgEmptyStar.setVisibility(View.VISIBLE);
 
                         }
                         // }
@@ -308,9 +306,6 @@ public class ExDetailActivity extends AppCompatActivity {
                     writerPage();
                     break;
 
-                case R.id.btnExClip:
-                    // 스크랩
-                    break;
             }
         }
     };

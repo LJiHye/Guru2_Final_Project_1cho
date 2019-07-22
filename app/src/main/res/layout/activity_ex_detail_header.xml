@@ -28,8 +28,9 @@
                 android:src="@drawable/user" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -52,13 +53,11 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="0dp"
                 android:gravity="right">
-
-
 
                 <ImageButton
                     android:id="@+id/btnExModify"
@@ -66,8 +65,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="65dp"
-                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
                     android:background="#00ff0000"
                     android:src="@drawable/modify"
                     android:textColor="#5b5b5b"
@@ -82,7 +80,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginLeft="60dp"
-                    android:layout_gravity="right"
                     android:background="#00ff0000"
                     android:src="@drawable/trash"
                     android:textColor="#5b5b5b"
@@ -94,23 +91,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:layout_marginVertical="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center"
                     android:background="#00ff0000"
                     android:text="작성자 페이지 >"
                     android:textColor="#5b5b5b"
                     android:textSize="13dp"
                     android:visibility="invisible" />
-
-                <ImageButton
-                    android:id="@+id/btnExClip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="10dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/gallery"
-                    android:background="#00ff0000"
-                    android:visibility="invisible"/>
 
 
             </FrameLayout>
@@ -130,201 +115,193 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp" />
                 -->
-            <LinearLayout
+            <ImageView
+                android:id="@+id/imgExDetail"
                 android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/photo" />
+            <ImageView
+                android:id="@+id/emptyStar"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/empty_star"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/txtExDetailTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="5">
-                <ImageView
-                    android:id="@+id/imgExDetail"
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="4"
-                    android:layout_marginLeft="35dp"
-                    android:src="@drawable/photo" />
+                android:text="제품명"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/emptyStar"
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/empty_star" />
-            </LinearLayout>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/exchange"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"/>
 
+            <TextView
+                android:id="@+id/txtExDetailWant"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="원하는 제품"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginHorizontal="20dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="20dp">
+                android:layout_weight="1"
+                android:text="정가 : "
+                android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/txtExDetailTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="제품명"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/exchange"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="20dp"/>
-
-                <TextView
-                    android:id="@+id/txtExDetailWant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="원하는 제품"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtExDetailPrice"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:text="정가..." />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="정가 : "
-                    android:textStyle="bold"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-                <TextView
-                    android:id="@+id/txtExDetailPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="정가..." />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:text="제품상태 : "
+                android:textStyle="bold"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="제품상태 : "
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/txtExDetailState"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="제품상태..." />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtExDetailState"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:text="제품상태..." />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="하자유무 : "
-                    android:textStyle="bold"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-                <TextView
-                    android:id="@+id/txtExDetailFault"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="하자유무..." />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:text="하자유무 : "
+                android:textStyle="bold"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="구매일 : "
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/txtExDetailBuyDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="구매일..." />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtExDetailFault"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:text="하자유무..." />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="유통기한 : "
-                    android:textStyle="bold"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-                <TextView
-                    android:id="@+id/txtExDetailExpire"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="유통기한..." />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_weight="1"
+                android:text="구매일 : "
+                android:textStyle="bold"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="실측사이즈 : "
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtExDetailBuyDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="구매일..." />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtExDetailSize"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="사이즈..." />
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="유통기한 : "
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtExDetailExpire"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="유통기한..." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="실측사이즈 : "
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtExDetailSize"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="사이즈..." />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
