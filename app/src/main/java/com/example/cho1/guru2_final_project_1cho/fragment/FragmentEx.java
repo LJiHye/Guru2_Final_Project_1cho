@@ -96,7 +96,7 @@ public class FragmentEx extends Fragment {
         super.onResume();
 
         //데이터 취득
-        String userEmail = loginMember.memId;
+        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
         mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
             @Override

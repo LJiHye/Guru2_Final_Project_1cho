@@ -86,7 +86,7 @@ public class FragmentMyEx extends Fragment {
                         //data를 받아와서 List에 저장
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
                             FleaBean bean = snapshot.getValue(FleaBean.class);
-                            if(TextUtils.equals(mLoginMember.memId, bean.userId)) {
+                            if(TextUtils.equals(mFirebaseAuth.getCurrentUser().getEmail(), bean.userId)) {
                                 FirebaseDatabase.getInstance().getReference().child("ex").child(bean.id).removeValue();
                                 flag = true;
                             }
@@ -112,7 +112,7 @@ public class FragmentMyEx extends Fragment {
         super.onResume();
 
         //데이터 취득
-        String userEmail = mLoginMember.memId;
+        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
         String uuid = BuyWriteActivity.getUserIdFromUUID(userEmail);
         mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
             @Override
@@ -123,7 +123,7 @@ public class FragmentMyEx extends Fragment {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){  //파이어베이스가 이중 구조여서
                     ExBean bean = snapshot.getValue(ExBean.class);
-                    if(TextUtils.equals(mLoginMember.memId, bean.userId))
+                    if(TextUtils.equals(mFirebaseAuth.getCurrentUser().getEmail(), bean.userId))
                         mExList.add(0, bean);
                 }
                 //바뀐 데이터로 Refresh 한다

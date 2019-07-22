@@ -131,12 +131,12 @@ public class BuyDetailActivity extends AppCompatActivity {
         LinearLayout layoutBuyVisibility = findViewById(R.id.layoutBuyVisibility); //수정, 삭제 버튼 감싼 레이아웃
 
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-        if (TextUtils.equals(mFleaBean.userId, mLoginMember.memId)) {
+        if (TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
             btnBuyModify.setVisibility(View.VISIBLE);
             btnBuyDel.setVisibility(View.VISIBLE);
         }
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
-        if(!TextUtils.equals(mFleaBean.userId, mLoginMember.memId)){
+        if(!TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())){
             btnBuyWriter.setVisibility(View.VISIBLE);
         }
 
@@ -221,7 +221,7 @@ public class BuyDetailActivity extends AppCompatActivity {
                     CommentBean commentBean = new CommentBean();
                     commentBean.comment = edtBuyComment.getText().toString();
                     commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                    commentBean.userId = mLoginMember.memId;
+                    commentBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
                     commentBean.id = id;
                     commentBean.flag = 1;
 

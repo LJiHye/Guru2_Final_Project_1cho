@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
-        txtUserID.setText(loginMember.memId);
+        txtUserID.setText(mFirebaseAuth.getCurrentUser().getEmail());
 
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         linearLayout.setOnClickListener(mClicks);

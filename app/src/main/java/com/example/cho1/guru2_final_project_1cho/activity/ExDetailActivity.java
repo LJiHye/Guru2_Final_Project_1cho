@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -162,12 +161,12 @@ public class ExDetailActivity extends AppCompatActivity {
 
                         LinearLayout layoutExVisibility = findViewById(R.id.layoutExVisibility);
                         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
-                        if (TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
+                        if (TextUtils.equals(mExBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
                             btnExModify.setVisibility(View.VISIBLE);
                             btnExDel.setVisibility(View.VISIBLE);
                         }
                         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
-                        if (!TextUtils.equals(mExBean.userId, mLoginMember.memId)) {
+                        if (!TextUtils.equals(mExBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
                             btnExWriter.setVisibility(View.VISIBLE);
                         }
                         // }
@@ -195,12 +194,12 @@ public class ExDetailActivity extends AppCompatActivity {
                     CommentBean commentBean = new CommentBean();
                     commentBean.comment = edtExComment.getText().toString();
                     commentBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                    commentBean.userId = mLoginMember.memId;
+                    commentBean.userId = mFirebaseAuth.getCurrentUser().getEmail();
                     commentBean.id = id;
                     commentBean.flag = 3;
 
                     //고유번호를 생성한다
-                    String uuid = JoinActivity.getUserIdFromUUID(mLoginMember.memId);
+                    String uuid = JoinActivity.getUserIdFromUUID(mFirebaseAuth.getCurrentUser().getEmail());
                     dbRef.child("ex").child(mExBean.id).child("comments").child(id).setValue(commentBean);
                     Toast.makeText(ExDetailActivity.this, "댓글이 등록 되었습니다", Toast.LENGTH_LONG).show();
                     edtExComment.setText(null);

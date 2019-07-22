@@ -163,6 +163,26 @@ public class LoginActivity extends AppCompatActivity {
             //이미 로그인 되어 있다. 따라서 메인 화면으로 바로 이동한다.
             //구글 로그인 버튼 누르고 나서 로그인 완료된 경우 넘어감
             Toast.makeText(this, "로그인 성공 - 메인화면 이동", Toast.LENGTH_SHORT).show();
+
+            mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    boolean flag = false;
+
+                    userMail = mFirebaseAuth.getCurrentUser().getEmail();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        MemberBean bean = snapshot.getValue(MemberBean.class);
+                        if (TextUtils.equals(bean.memId, userMail)) {
+                            FileDB.setLoginMember(LoginActivity.this, bean);
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();

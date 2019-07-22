@@ -3,7 +3,6 @@ package com.example.cho1.guru2_final_project_1cho.firebase;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class MyBuyAdapter extends BaseAdapter {
         mLoginMember = FileDB.getLoginMember(mContext);
         final FleaBean fleaBean = mFleaList.get(i);
 
-        if(TextUtils.equals(mLoginMember.memId, fleaBean.userId)) {
+        //if(TextUtils.equals(mLoginMember.memId, fleaBean.userId)) {
             ImageView imgBuy = view.findViewById(R.id.imgBuy);
             GradientDrawable drawable =
                     (GradientDrawable) mContext.getDrawable(R.drawable.background_rounding);
@@ -106,9 +105,9 @@ public class MyBuyAdapter extends BaseAdapter {
             });
 
             return view;
-        }
+        //}
 
-        return null;
+        //return null;
     }
 
 }

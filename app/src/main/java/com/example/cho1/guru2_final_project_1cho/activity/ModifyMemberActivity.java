@@ -53,7 +53,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mImgDetailProfile.setBackground(drawable);
         mImgDetailProfile.setClipToOutline(true);
 
-        id = loginMember.memId;
+        id = mFirebaseAuth.getCurrentUser().getEmail();
         name = loginMember.memName;
         //pw = loginMember.memPw;
         imgUrl = loginMember.imgUrl;
@@ -140,7 +140,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 MemberBean loginMember = FileDB.getLoginMember(ModifyMemberActivity.this);
 
-                String guid = JoinActivity.getUserIdFromUUID(loginMember.memId);
+                String guid = JoinActivity.getUserIdFromUUID(mFirebaseAuth.getCurrentUser().getEmail());
                 FirebaseDatabase.getInstance().getReference().child("member").child(guid).removeValue();
                 mFirebaseAuth.signOut();
                 Toast.makeText(ModifyMemberActivity.this, "탈퇴 되었습니다", Toast.LENGTH_SHORT).show();

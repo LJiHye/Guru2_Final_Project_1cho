@@ -20,6 +20,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class CommentAdapter extends BaseAdapter {
     private CommentBean mCommentBean;
     private static FleaBean mFleaBean;
     private static ExBean mExBean;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
     public CommentAdapter(Context context, List<CommentBean> commentList) {
         mContext = context;
@@ -89,7 +91,7 @@ public class CommentAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         MemberBean loginMember = FileDB.getLoginMember(mContext);
                         mCommentBean = mCommentList.get(position);
-                        if(TextUtils.equals(loginMember.memId, mCommentBean.userId)) {
+                        if(TextUtils.equals(mFirebaseAuth.getCurrentUser().getEmail(), mCommentBean.userId)) {
                             if (mCommentBean.flag == 1) {
                                 String guid = JoinActivity.getUserIdFromUUID(mFleaBean.userId);
                                 FirebaseDatabase.getInstance().getReference().child("buy").child(mFleaBean.id).child("comments").child(mCommentBean.id).removeValue();
