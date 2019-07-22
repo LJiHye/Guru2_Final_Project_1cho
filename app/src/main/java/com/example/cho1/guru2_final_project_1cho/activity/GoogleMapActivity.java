@@ -41,10 +41,10 @@ public class GoogleMapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_map);
 
-        Spinner dropdown = (Spinner) findViewById(R.id.spinFree);
+        /*Spinner dropdown = (Spinner) findViewById(R.id.spinFree);
         String[] items = new String[]{"50주년기념관", "인문사회관", "제1과학관", "제2과학관", "도서관", "학생누리관", "조형예술관", "샬롬하우스", "바롬인성교육관", "체육관", "정문", "후문", "X"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(GoogleMapActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+        dropdown.setAdapter(adapter);*/
 
 
         mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
@@ -73,7 +73,7 @@ public class GoogleMapActivity extends AppCompatActivity {
         //WIFI 위치를 0.1초마다 10m 간격범위안에서 이동하면 위치를 listener 로 보내주도록 등록한다.
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 10, locationListener);
 
-        spinFree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* spinFree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -148,7 +148,15 @@ public class GoogleMapActivity extends AppCompatActivity {
                 }//end switch
                 mMapFragment.getMapAsync(mapReadyCallback); //map refresh
             }
-        });
+        });*/
+
+       findViewById(R.id.btn50).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               mCurPosLatLng = new LatLng(37.626251, 127.093109);
+               mMapFragment.getMapAsync(mapReadyCallback); //map refresh
+           }
+       });
     }//end onCreate()
 
     private LocationListener locationListener = new LocationListener() {

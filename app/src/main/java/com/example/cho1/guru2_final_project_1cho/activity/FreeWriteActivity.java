@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -113,6 +114,8 @@ public class FreeWriteActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA
         }, 0);
 
+
+
 //        mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
 //        //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
 //        mMapFragment.getMapAsync(mapReadyCallback);
@@ -187,6 +190,15 @@ public class FreeWriteActivity extends AppCompatActivity {
             medtExplain.setText(mFreeBean.explain);
             medtDetailPlace.setText(mFreeBean.detailPlace);
         }
+
+        findViewById(R.id.btnGoogleMap).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(FreeWriteActivity.this, GoogleMapActivity.class);
+                i.putExtra("FREEITEM", mFreeBean);
+                startActivity(i);
+            }
+        });
 
 //        spinFree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
