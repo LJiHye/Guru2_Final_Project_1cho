@@ -210,6 +210,7 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     }  //end onCreate
 
+
     //게시물 수정
     private void update() {
         //안찍었을 경우, DB 만 업데이트 시켜준다.
@@ -234,7 +235,7 @@ public class BuyModifyActivity extends AppCompatActivity {
             finish();
             return;
         }
-        //확인해보기
+//        //확인해보기
 //        mCategory = getIntent().getStringExtra("CATEGORY");
 //        if (mCategory.equals("옷")) {
 //            if (mPhotoPath == null) {

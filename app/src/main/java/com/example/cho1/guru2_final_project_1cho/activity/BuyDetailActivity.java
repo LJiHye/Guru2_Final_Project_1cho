@@ -53,6 +53,9 @@ public class BuyDetailActivity extends AppCompatActivity {
     private Uri mCaptureUri;
     private Context mContext;
 
+    private String mCategory;
+    public String mPhotoPath;
+
     private FleaBean mFleaBean;
     private ImageView imgBuyDetail;
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
@@ -188,6 +191,8 @@ public class BuyDetailActivity extends AppCompatActivity {
                     mBuyAdapter.setList(mFleaList);
                     mBuyAdapter.notifyDataSetChanged();
                 }
+
+                mCategory = getIntent().getStringExtra("CATEGORY");
             }
 
             @Override
