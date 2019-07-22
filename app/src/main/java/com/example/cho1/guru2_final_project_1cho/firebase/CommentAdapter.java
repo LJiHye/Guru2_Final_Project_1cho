@@ -80,10 +80,18 @@ public class CommentAdapter extends BaseAdapter {
         String userId = tokens.nextToken("@") ;
         txtCommentId.setText(userId);
         Linkify.addLinks(txtComment, Linkify.WEB_URLS);
-        if(TextUtils.equals(mFleaBean.userId, mCommentBean.userId)) {
-            String strColor = "#ff4848";
-            txtCommentId.setTextColor(Color.parseColor(strColor));
-            txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+        if(mFleaBean != null) {
+            if (TextUtils.equals(mFleaBean.userId, mCommentBean.userId)) {
+                String strColor = "#ff4848";
+                txtCommentId.setTextColor(Color.parseColor(strColor));
+                txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+            }
+        } else if(mExBean != null) {
+            if (TextUtils.equals(mExBean.userId, mCommentBean.userId)) {
+                String strColor = "#ff4848";
+                txtCommentId.setTextColor(Color.parseColor(strColor));
+                txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+            }
         }
 
         imgCommentDelete.setOnClickListener(new View.OnClickListener() {
