@@ -176,10 +176,10 @@ public class FreeDetailActivity extends AppCompatActivity {
                             String userId = tokens.nextToken("@");
                             txtFreeDetailId.setText(userId);
                             txtFreeDetailDate.setText(bean.date);
-                            txtFreeDetailPlace.setText(bean.place);
+                            txtFreeDetailPlace.setText(bean.place +" " + bean.detailPlace);
                         }
 
-                        LinearLayout layoutExVisibility = findViewById(R.id.layoutExVisibility);
+                        LinearLayout layoutExVisibility = findViewById(R.id.layoutFreeVisibility);
                         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
                         if (TextUtils.equals(mFreeBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
                             btnFreeModify.setVisibility(View.VISIBLE);
