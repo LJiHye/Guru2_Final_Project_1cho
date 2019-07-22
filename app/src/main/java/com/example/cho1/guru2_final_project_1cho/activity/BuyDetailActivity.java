@@ -62,7 +62,7 @@ public class BuyDetailActivity extends AppCompatActivity {
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
     private Button btnBuyComment, btnBuyWriter;
-    private ImageButton btnBuyModify, btnBuyDel, btnBuyClip;
+    private ImageButton btnBuyModify, btnBuyDel;
     private EditText edtBuyComment;
 
     private List<FleaBean> mFleaList = new ArrayList<>();
@@ -96,14 +96,12 @@ public class BuyDetailActivity extends AppCompatActivity {
         btnBuyWriter = findViewById(R.id.btnBuyWriter);
         btnBuyModify = findViewById(R.id.btnBuyModify);
         btnBuyDel = findViewById(R.id.btnBuyDel);
-        btnBuyClip = findViewById(R.id.btnBuyClip);
 
 
         //수정, 삭제 버튼에 클릭리스너 달아주기
         header.findViewById(R.id.btnBuyModify).setOnClickListener(BtnClick);
         header.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
         header.findViewById(R.id.btnBuyWriter).setOnClickListener(BtnClick);
-        header.findViewById(R.id.btnBuyClip).setOnClickListener(BtnClick);
 //        footer.findViewById(R.id.btnBuyModify).setOnClickListener(BtnClick);
 //        footer.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
 
@@ -142,7 +140,7 @@ public class BuyDetailActivity extends AppCompatActivity {
         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
         if(!TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())){
             btnBuyWriter.setVisibility(View.VISIBLE);
-            btnBuyClip.setVisibility(View.VISIBLE);
+            imgEmptyStar.setVisibility(View.VISIBLE);
         }
 
 
@@ -285,10 +283,6 @@ public class BuyDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.btnBuyWriter:
                     writerPage();
-                    break;
-
-                case R.id.btnBuyClip:
-                    // 스크랩
                     break;
             }
         }

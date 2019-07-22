@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:gravity="left"
             android:orientation="horizontal">
 
@@ -30,8 +30,9 @@
                 android:src="@drawable/user" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -54,7 +55,7 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="0dp"
@@ -66,8 +67,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="65dp"
-                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
                     android:background="#00ff0000"
                     android:src="@drawable/modify"
                     android:textColor="#5b5b5b"
@@ -92,22 +92,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:layout_marginVertical="10dp"
-                    android:layout_gravity="center"
                     android:background="#00ff0000"
                     android:text="작성자 페이지 >"
                     android:textColor="#5b5b5b"
-                    android:textSize="13dp"
+                    android:textSize="10dp"
                     android:visibility="invisible" />
 
-                <ImageButton
-                    android:id="@+id/btnBuyClip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="10dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/gallery"
-                    android:background="#00ff0000"
-                    android:visibility="invisible"/>
             </FrameLayout>
 
 
@@ -197,7 +187,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/empty_star" />
+                android:src="@drawable/empty_star"
+                android:visibility="invisible"/>
         </LinearLayout>
 
 
