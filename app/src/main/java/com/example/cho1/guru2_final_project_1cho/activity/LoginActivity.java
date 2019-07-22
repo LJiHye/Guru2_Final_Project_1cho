@@ -144,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     //Firebase 로그인 성공
                     //메인 화면으로 이동
+                    Toast.makeText(getBaseContext(), "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(i);
                     finish();
@@ -162,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         if (mFirebaseAuth.getCurrentUser() != null && mFirebaseAuth.getCurrentUser().getEmail() != null) {
             //이미 로그인 되어 있다. 따라서 메인 화면으로 바로 이동한다.
             //구글 로그인 버튼 누르고 나서 로그인 완료된 경우 넘어감
-            Toast.makeText(this, "로그인 성공 - 메인화면 이동", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
 
             mFirebaseDatabase.getReference().child("member").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
