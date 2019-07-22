@@ -213,6 +213,342 @@ public class BuyModifyActivity extends AppCompatActivity {
 
     //게시물 수정
     private void update() {
+
+        mCategory = getIntent().getStringExtra("CATEGORY");
+
+        //필수 항목 받기
+        if (mCategory.equals("옷")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtBuyDay.length() == 0) {
+                medtBuyDay.requestFocus();
+                Toast.makeText(this, "구매일을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtDefect.length() == 0) {
+                medtDefect.requestFocus();
+                Toast.makeText(this, "하자 유무를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSize.length() == 0) {
+                medtSize.requestFocus();
+                Toast.makeText(this, "측정 사이즈를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        if (mCategory.equals("책")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtDefect.length() == 0) {
+                medtDefect.requestFocus();
+                Toast.makeText(this, "하자 유무를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        if (mCategory.equals("생활용품")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtBuyDay.length() == 0) {
+                medtBuyDay.requestFocus();
+                Toast.makeText(this, "구매일을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExprieDate.length() == 0) {
+                medtExprieDate.requestFocus();
+                Toast.makeText(this, "유통기한을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtDefect.length() == 0) {
+                medtDefect.requestFocus();
+                Toast.makeText(this, "하자 유무를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("기프티콘")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExprieDate.length() == 0) {
+                medtExprieDate.requestFocus();
+                Toast.makeText(this, "유통기한을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        }
+        if (mCategory.equals("데이터")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        if (mCategory.equals("대리예매")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExprieDate.length() == 0) {
+                medtExprieDate.requestFocus();
+                Toast.makeText(this, "유통기한을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+
+        if (mCategory.equals("전자기기")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtBuyDay.length() == 0) {
+                medtBuyDay.requestFocus();
+                Toast.makeText(this, "구매일을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtDefect.length() == 0) {
+                medtDefect.requestFocus();
+                Toast.makeText(this, "하자 유무를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSize.length() == 0) {
+                medtSize.requestFocus();
+                Toast.makeText(this, "측정 사이즈를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+
+        if (mCategory.equals("화장품")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtBuyDay.length() == 0) {
+                medtBuyDay.requestFocus();
+                Toast.makeText(this, "구매일을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExprieDate.length() == 0) {
+                medtExprieDate.requestFocus();
+                Toast.makeText(this, "유통기한을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtDefect.length() == 0) {
+                medtDefect.requestFocus();
+                Toast.makeText(this, "하자 유무를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+
+        if (mCategory.equals("기타")) {
+            if (mPhotoPath == null) {
+                Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtTitle.length() == 0) {
+                medtTitle.requestFocus();
+                Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtPrice.length() == 0) {
+                medtPrice.requestFocus();
+                Toast.makeText(this, "정가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSalePrice.length() == 0) {
+                medtSalePrice.requestFocus();
+                Toast.makeText(this, "판매가를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtBuyDay.length() == 0) {
+                medtBuyDay.requestFocus();
+                Toast.makeText(this, "구매일을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExprieDate.length() == 0) {
+                medtExprieDate.requestFocus();
+                Toast.makeText(this, "유통기한을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtDefect.length() == 0) {
+                medtDefect.requestFocus();
+                Toast.makeText(this, "하자 유무를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtSize.length() == 0) {
+                medtSize.requestFocus();
+                Toast.makeText(this, "측정 사이즈를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (medtExplain.length() == 0) {
+                medtExplain.requestFocus();
+                Toast.makeText(this, "부가적인 설명을 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+
         //안찍었을 경우, DB 만 업데이트 시켜준다.
         if (mPhotoPath == null) {
             mFleaBean.title = medtTitle.getText().toString();  //제목
@@ -266,6 +602,8 @@ public class BuyModifyActivity extends AppCompatActivity {
 //                return;
 //            }
 //        }
+
+
 
         //사진을 찍었을 경우, 사진부터 업로드 하고 DB 업데이트 한다.
         StorageReference storageRef = mFirebaseStorage.getReference();
