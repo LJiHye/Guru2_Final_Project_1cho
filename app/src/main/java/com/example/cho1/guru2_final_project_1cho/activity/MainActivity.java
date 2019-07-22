@@ -1,13 +1,19 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -32,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
+    private Context mContext;
+
     private MemberBean loginMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = getApplicationContext();
 
         loginMember = FileDB.getLoginMember(this);
         //googleLoginFlag = getIntent().getBooleanExtra("googleLogin", false);
@@ -48,10 +57,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.viewPager);
 
         // 탭 생성
-        mTabLayout.addTab(mTabLayout.newTab().setText("플리마켓"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("물물교환"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("무료나눔"));
+        //mTabLayout.addTab(mTabLayout.newTab().setText("플리마켓").setIcon(R.drawable.cart2));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("플리마켓")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView2("물물교환")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView3("무료나눔")));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
 
         // ViewPager 생성
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
@@ -76,6 +87,45 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         linearLayout.setOnClickListener(mClicks);
     } // end onCreate()
+
+    //커스텀 탭바 적용
+    private View createTabView(String tabName) {
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+        TextView txtName = (TextView) tabView.findViewById(R.id.txtName);
+        txtName.setText(tabName);
+        return tabView;
+    }
+    //커스텀 탭바2 적용
+    private View createTabView2(String tabName) {
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab2, null);
+        TextView txtName = (TextView) tabView.findViewById(R.id.txtName);
+        txtName.setText(tabName);
+        return tabView;
+    }
+    //커스텀 탭바3 적용
+    private View createTabView3(String tabName) {
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab3, null);
+        TextView txtName = (TextView) tabView.findViewById(R.id.txtName);
+        txtName.setText(tabName);
+        return tabView;
+    }
+
+//
+//    public void onTabSelected(TabLayout.Tab tab)
+//    {
+//        int tabIconColor = ContextCompat.getColor(mContext, R.color.colorAccent);
+//        ImageView imageView = (ImageView)tab.getCustomView().findViewById(R.id.imgTab);
+//        imageView.getBackground().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+//    }
+//
+//
+//    public void onTabUnselected(TabLayout.Tab tab)
+//    {
+//        int tabIconColor = ContextCompat.getColor(mContext, R.color.white_color);
+//        ImageView imageView = (ImageView)tab.getCustomView().findViewById(R.id.imgTab);
+//        imageView.getBackground().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+//    }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private int tabCount;
