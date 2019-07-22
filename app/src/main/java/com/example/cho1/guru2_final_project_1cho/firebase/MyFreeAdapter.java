@@ -61,11 +61,11 @@ public class MyFreeAdapter extends BaseAdapter {
         final FreeBean freeBean = mFreeList.get(i);
 
         //if(TextUtils.equals(mLoginMember.memId, fleaBean.userId)) {
-            ImageView imgBuy = view.findViewById(R.id.imgBuy);
+            ImageView imgFree = view.findViewById(R.id.imgFree);
             GradientDrawable drawable =
                     (GradientDrawable) mContext.getDrawable(R.drawable.background_rounding);
-            imgBuy.setBackground(drawable);
-            imgBuy.setClipToOutline(true);
+            imgFree.setBackground(drawable);
+            imgFree.setClipToOutline(true);
 
             TextView txtFreeTitle = view.findViewById(R.id.txtFreeTitle);
             TextView txtFreeExplain = view.findViewById(R.id.txtFreeExplain);
@@ -77,9 +77,9 @@ public class MyFreeAdapter extends BaseAdapter {
             // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
             try {
                 if (freeBean.bmpTitle == null) {
-                    new DownloadImgTaskFree(mContext, imgBuy, mFreeList, i).execute(new URL(freeBean.imgUrl));
+                    new DownloadImgTaskFree(mContext, imgFree, mFreeList, i).execute(new URL(freeBean.imgUrl));
                 } else {
-                    imgBuy.setImageBitmap(freeBean.bmpTitle);
+                    imgFree.setImageBitmap(freeBean.bmpTitle);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
