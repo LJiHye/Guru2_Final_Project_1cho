@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cho1.guru2_final_project_1cho">
-
-
-
     <!-- 권한 선언 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- GPS, 현재 위치 찾기 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- GPS, 현재 위치 찾기 권한 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
         android:allowBackup="true"
@@ -22,13 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activity.FreeModifyActivity"/>
+        <activity android:name=".activity.GoogleMapActivity"></activity>
+        <activity android:name=".activity.FreeModifyActivity" />
         <activity android:name=".activity.FreeWriteActivity" />
         <activity android:name=".activity.FreeDetailActivity" />
         <activity android:name=".activity.MyBoardActivity" />
-        <activity android:name=".activity.MyScrapActivity"/>
-        <!-- 카메라 사용을 위한 Provider 선언 -->
+        <activity android:name=".activity.MyScrapActivity" /> <!-- 카메라 사용을 위한 Provider 선언 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.cho1.guru2_final_project_1cho"
@@ -36,13 +30,11 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-
         </provider>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="" /> <!-- 구글 지도 사용을 위한 키 등록 -->
-
         <activity android:name=".activity.ExModifyActivity" />
         <activity android:name=".activity.ExWriteActivity" />
         <activity android:name=".activity.SellDetailActivity" />

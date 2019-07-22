@@ -118,23 +118,23 @@
                 android:hint="설명"
                 android:singleLine="false" />
 
-            <Spinner
-                android:id="@+id/spinFree"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginVertical="10dp"
-                android:layout_marginHorizontal="50dp"
-                android:spinnerMode="dropdown"
-                android:gravity="center"
-                />
+            <!--<Spinner-->
+                <!--android:id="@+id/spinFree"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginVertical="10dp"-->
+                <!--android:layout_marginHorizontal="50dp"-->
+                <!--android:spinnerMode="dropdown"-->
+                <!--android:gravity="center"-->
+                <!--/>-->
 
-            <fragment
-                android:id="@+id/map"
-                class="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="15dp"/>
+            <!--<fragment-->
+                <!--android:id="@+id/map"-->
+                <!--class="com.google.android.gms.maps.SupportMapFragment"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:layout_marginHorizontal="30dp"-->
+                <!--android:layout_marginVertical="15dp"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
