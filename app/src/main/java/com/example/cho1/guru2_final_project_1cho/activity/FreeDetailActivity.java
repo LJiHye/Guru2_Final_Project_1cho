@@ -174,6 +174,7 @@ public class FreeDetailActivity extends AppCompatActivity {
                             String userId = tokens.nextToken("@");
                             txtFreeDetailId.setText(userId);
                             txtFreeDetailDate.setText(bean.date);
+                            txtFreeDetailPlace.setText(bean.place);
                         }
 
                         LinearLayout layoutExVisibility = findViewById(R.id.layoutExVisibility);

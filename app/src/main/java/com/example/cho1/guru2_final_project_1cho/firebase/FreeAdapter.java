@@ -63,6 +63,7 @@ public class FreeAdapter extends BaseAdapter {
         TextView txtFreeExplain = view.findViewById(R.id.txtFreeExplain);
         TextView txtFreeId = view.findViewById(R.id.txtFreeId);
         TextView txtFreeDate = view.findViewById(R.id.txtFreeDate);
+        TextView txtFreePlace = view.findViewById(R.id.txtFreePlace);
 
         final FreeBean freeBean = mFreeList.get(i);
 
@@ -79,6 +80,7 @@ public class FreeAdapter extends BaseAdapter {
         txtFreeTitle.setText(freeBean.title);
         txtFreeExplain.setText(freeBean.explain);
         txtFreeDate.setText(freeBean.date);
+        txtFreePlace.setText(freeBean.place);
         StringTokenizer tokens = new StringTokenizer(freeBean.userId);
         String userId = tokens.nextToken("@") ;
         txtFreeId.setText(userId);
