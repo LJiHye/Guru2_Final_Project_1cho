@@ -179,6 +179,28 @@ public class SellModifyActivity extends AppCompatActivity {
 
     //수정하기
     private void update() {
+
+        // 필수항목 채우기
+        if (mPhotoPath == null) {
+            Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (mEdtTitle.length() == 0) {
+            mEdtTitle.requestFocus();
+            Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mEdtWishPrice.length() == 0) {
+            mEdtWishPrice.requestFocus();
+            Toast.makeText(this, "희망가를 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mEdtWishOption.length() == 0) {
+            mEdtWishOption.requestFocus();
+            Toast.makeText(this, "희망옵션을 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // 사진을 찍었을 경우, 안 찍었을 경우
         if(mPhotoPath == null) {
             //사진을 새로 안찍었을 경우
@@ -379,7 +401,7 @@ public class SellModifyActivity extends AppCompatActivity {
         } else {
             exifDegree = 0;
         }
-        Bitmap rotatedBmp = rotate(resizedBmp, 90); // 돌아감 수정 
+        Bitmap rotatedBmp = rotate(resizedBmp, 90); // 돌아감 수정
         mImgSellWrite.setImageBitmap(rotatedBmp);
         //줄어든 이미지를 다시 저장한다
         saveBitmapToFileCache(rotatedBmp, mPhotoPath);
