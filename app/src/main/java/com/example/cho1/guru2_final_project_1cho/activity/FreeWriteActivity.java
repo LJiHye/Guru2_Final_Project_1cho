@@ -22,11 +22,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -76,7 +79,7 @@ public class FreeWriteActivity extends AppCompatActivity {
     private ImageView mimgFreeWrite;  //사진
     private EditText medtTitle;  //제목
     private EditText medtExplain;  //설명
-    private EditText medtPlace;
+    private EditText medtDetailPlace;
     private Spinner dropdown;
 
     private File tempFile;
@@ -162,7 +165,7 @@ public class FreeWriteActivity extends AppCompatActivity {
 
         medtTitle = findViewById(R.id.edtFreeWriteTitle);
         medtExplain = findViewById(R.id.edtFreeWriteExplain);
-        //medtPlace = findViewById(R.id.edtFreeWritePlace);
+        medtDetailPlace = findViewById(R.id.edtFreeDetailPlace);
 
         dropdown = (Spinner) findViewById(R.id.spinFree);
         String[] items = new String[]{"50주년기념관", "인문사회관", "제1과학관", "제2과학관", "도서관", "학생누리관", "조형예술관", "샬롬하우스", "바롬인성교육관", "체육관", "정문", "후문", "X"};
@@ -185,71 +188,81 @@ public class FreeWriteActivity extends AppCompatActivity {
             }
             medtTitle.setText(mFreeBean.title);
             medtExplain.setText(mFreeBean.explain);
-            //.setText(mFreeBean.detailPlace);
+            medtDetailPlace.setText(mFreeBean.detailPlace);
         }
 
-        switch (dropdown.getSelectedItem().toString()){
-            case "50주년기념관":
-                mClickIndex = 1;
-                mCurPosLatLng = new LatLng(37.626251, 127.093109);
-                break;
+        dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (dropdown.getSelectedItem().toString()){
+                    case "50주년기념관":
+                        mClickIndex = 1;
+                        mCurPosLatLng = new LatLng(37.626251, 127.093109);
+                        break;
 
-            case "인문사회관":
-                mClickIndex = 2;
-                mCurPosLatLng = new LatLng(37.628044, 127.092574);
-                break;
+                    case "인문사회관":
+                        mClickIndex = 2;
+                        mCurPosLatLng = new LatLng(37.628044, 127.092574);
+                        break;
 
-            case "제1과학관":
-                mClickIndex = 3;
-                mCurPosLatLng = new LatLng(37.628987, 127.089674);
-                break;
+                    case "제1과학관":
+                        mClickIndex = 3;
+                        mCurPosLatLng = new LatLng(37.628987, 127.089674);
+                        break;
 
-            case "제2과학관":
-                mClickIndex = 4;
-                mCurPosLatLng = new LatLng(37.629285, 127.090489);
-                break;
+                    case "제2과학관":
+                        mClickIndex = 4;
+                        mCurPosLatLng = new LatLng(37.629285, 127.090489);
+                        break;
 
-            case "도서관":
-                mClickIndex = 5;
-                mCurPosLatLng = new LatLng(37.628325, 127.091229);
-                break;
+                    case "도서관":
+                        mClickIndex = 5;
+                        mCurPosLatLng = new LatLng(37.628325, 127.091229);
+                        break;
 
-            case "학생누리관":
-                mClickIndex = 6;
-                mCurPosLatLng = new LatLng(37.629039, 127.091734);
-                break;
+                    case "학생누리관":
+                        mClickIndex = 6;
+                        mCurPosLatLng = new LatLng(37.629039, 127.091734);
+                        break;
 
-            case "조형예술관":
-                mClickIndex = 7;
-                mCurPosLatLng = new LatLng(37.628750, 127.090425);
-                break;
+                    case "조형예술관":
+                        mClickIndex = 7;
+                        mCurPosLatLng = new LatLng(37.628750, 127.090425);
+                        break;
 
-            case "샬롬하우스":
-                mClickIndex = 8;
-                mCurPosLatLng = new LatLng(37.628911, 127.088933);
-                break;
+                    case "샬롬하우스":
+                        mClickIndex = 8;
+                        mCurPosLatLng = new LatLng(37.628911, 127.088933);
+                        break;
 
-            case "바롬인성교육관":
-                mClickIndex = 9;
-                mCurPosLatLng = new LatLng(37.627569, 127.088440);
-                break;
+                    case "바롬인성교육관":
+                        mClickIndex = 9;
+                        mCurPosLatLng = new LatLng(37.627569, 127.088440);
+                        break;
 
-            case "체육관":
-                mClickIndex = 10;
-                mCurPosLatLng = new LatLng(37.625539, 127.088914);
-                break;
+                    case "체육관":
+                        mClickIndex = 10;
+                        mCurPosLatLng = new LatLng(37.625539, 127.088914);
+                        break;
 
-            case "정문":
-                mClickIndex = 11;
-                mCurPosLatLng = new LatLng(37.625775, 127.093657);
-                break;
+                    case "정문":
+                        mClickIndex = 11;
+                        mCurPosLatLng = new LatLng(37.625775, 127.093657);
+                        break;
 
-            case "후문":
-                mClickIndex = 12;
-                mCurPosLatLng = new LatLng(37.625416, 127.088289);
-                break;
-        }//end switch
-        mMapFragment.getMapAsync(mapReadyCallback); //map refresh
+                    case "후문":
+                        mClickIndex = 12;
+                        mCurPosLatLng = new LatLng(37.625416, 127.088289);
+                        break;
+                    default:
+                        mClickIndex = 0;
+                        mCurPosLatLng = null;
+
+                }//end switch
+                mMapFragment.getMapAsync(mapReadyCallback); //map refresh
+            }
+        });
+
 
     }  //end onCreate()
 
@@ -399,11 +412,11 @@ public class FreeWriteActivity extends AppCompatActivity {
             Toast.makeText(this, "설명을 적어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        /*if (medtPlace.length() == 0) {
-            medtPlace.requestFocus();
+        if (medtDetailPlace.length() == 0) {
+            medtDetailPlace.requestFocus();
             Toast.makeText(this, "세부 장소를 적어주세요", Toast.LENGTH_SHORT).show();
             return;
-        }*/
+        }
 
 
         //사진부터 Storage 에 업로드한다.
@@ -445,9 +458,12 @@ public class FreeWriteActivity extends AppCompatActivity {
         freeBean.imgName = imgName;
         freeBean.title = medtTitle.getText().toString(); // 타이틀
         //freeBean.detailPlace = medtPlace.getText().toString();
-        freeBean.place = dropdown.getSelectedItem().toString();
-        freeBean.latitude = mCurPosLatLng.latitude;
-        freeBean.latitude = mCurPosLatLng.longitude;
+        if(mClickIndex != 0) {
+            freeBean.place = dropdown.getSelectedItem().toString();
+            freeBean.latitude = mCurPosLatLng.latitude;
+            freeBean.latitude = mCurPosLatLng.longitude;
+        }
+        freeBean.detailPlace = medtDetailPlace.getText().toString();
         freeBean.explain = medtExplain.getText().toString(); // 서브 타이틀(설명)
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

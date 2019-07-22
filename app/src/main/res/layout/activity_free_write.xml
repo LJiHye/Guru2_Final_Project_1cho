@@ -146,12 +146,21 @@
                 android:orientation="vertical"
                 android:gravity="bottom">
 
+
                 <fragment
                     android:id="@+id/map"
                     class="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    />
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/edtFreeDetailPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:hint="상세 위치" />
+
 
                 <Button
                     android:id="@+id/btnFreeWriteOk"
