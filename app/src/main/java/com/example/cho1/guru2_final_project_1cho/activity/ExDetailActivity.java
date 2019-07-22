@@ -55,7 +55,7 @@ public class ExDetailActivity extends AppCompatActivity {
     private EditText edtExComment;
     private ImageButton btnExModify, btnExDel;
     private LinearLayout layoutExVisibility;
-    private ImageView imgExDetail;
+    private ImageView imgExDetail, imgEmptyStar;
 
     private Context mContext;
     private ExBean mExBean;
@@ -91,6 +91,8 @@ public class ExDetailActivity extends AppCompatActivity {
         GradientDrawable drawable = (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
         imgExDetail.setBackground(drawable);
         imgExDetail.setClipToOutline(true);
+
+        imgEmptyStar = header.findViewById(R.id.emptyStar); //스크랩버튼
 
         txtExDetailId = header.findViewById(R.id.txtExDetailId); //아이디
         txtExDetailDate = header.findViewById(R.id.txtExDetailDate); //날짜

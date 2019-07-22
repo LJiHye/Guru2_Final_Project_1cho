@@ -57,7 +57,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     public String mPhotoPath;
 
     private FleaBean mFleaBean;
-    private ImageView imgBuyDetail;
+    private ImageView imgBuyDetail, imgEmptyStar;
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
@@ -106,6 +106,8 @@ public class BuyDetailActivity extends AppCompatActivity {
 //        footer.findViewById(R.id.btnBuyDel).setOnClickListener(BtnClick);
 
         //edtBuyComment.requestFocus();
+
+        imgEmptyStar = header.findViewById(R.id.emptyStar); //스크랩버튼
 
         txtBuyDetailId = header.findViewById(R.id.txtBuyDetailId); //아이디
         txtBuyDetailDate = header.findViewById(R.id.txtBuyDetailDate); //날짜

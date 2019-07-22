@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fragment.FragmentFreeShare"></activity>
+        <activity android:name=".activity.FreeShareDetailActivity"></activity>
         <activity android:name=".activity.MyBoardActivity" /> <!-- 카메라 사용을 위한 Provider 선언 -->
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -163,12 +164,30 @@
                 android:text="Next"/>
         </LinearLayout>
         -->
-        <ImageView
-            android:id="@+id/imgBuyDetail"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/photo" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5">
+            <ImageView
+                android:id="@+id/imgBuyDetail"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="4"
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/photo" />
+
+            <ImageView
+                android:id="@+id/emptyStar"
+                android:layout_width="30dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/empty_star" />
+        </LinearLayout>
+
 
         <!--- 제품명, 설명 -->
         <LinearLayout

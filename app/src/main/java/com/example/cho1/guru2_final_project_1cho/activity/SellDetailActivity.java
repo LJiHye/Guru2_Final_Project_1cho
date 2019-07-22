@@ -51,7 +51,7 @@ public class SellDetailActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
-    private ImageView imgSellDetail;
+    private ImageView imgSellDetail, imgEmptyStar;
     //private LinearLayout layoutSellVisibility;
 
     private FleaBean mFleaBean;
@@ -85,6 +85,8 @@ public class SellDetailActivity extends AppCompatActivity {
 
         lstSellComment.addHeaderView(header);
         // lstSellComment.addFooterView(footer);
+
+        imgEmptyStar = header.findViewById(R.id.emptyStar); //스크랩버튼
 
         txtSellDetailId = header.findViewById(R.id.txtSellDetailId); //아이디
         txtSellDetailDate = header.findViewById(R.id.txtSellDetailDate); //날짜
