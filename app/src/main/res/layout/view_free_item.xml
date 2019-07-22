@@ -79,6 +79,14 @@
                     android:text="SubTitle"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/txtFreePlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:singleLine="true"
+                    android:text="Place"
+                    android:gravity="right" />
 
             </LinearLayout>
         </LinearLayout>

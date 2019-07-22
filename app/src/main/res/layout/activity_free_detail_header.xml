@@ -155,15 +155,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="장소 : "
+            android:text="설명 : "
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtFreeDetailPlace"
+            android:id="@+id/txtFreeDetailOption"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="장소..." />
+            android:text="설명..." />
     </LinearLayout>
 
     <LinearLayout
@@ -178,14 +178,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="하고싶은 말 : "
+            android:text="장소 : "
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtFreeDetailOption"
+            android:id="@+id/txtFreeDetailPlace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="하고싶은 말..." />
+            android:text="장소.." />
     </LinearLayout>
 </LinearLayout>

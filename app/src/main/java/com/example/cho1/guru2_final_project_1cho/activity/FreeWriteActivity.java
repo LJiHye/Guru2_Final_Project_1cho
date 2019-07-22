@@ -62,6 +62,7 @@ public class FreeWriteActivity extends AppCompatActivity {
     private ImageView mimgFreeWrite;  //사진
     private EditText medtTitle;  //제목
     private EditText medtExplain;  //설명
+    private EditText medtPlace;
 
     private File tempFile;
 
@@ -115,6 +116,7 @@ public class FreeWriteActivity extends AppCompatActivity {
 
         medtTitle = findViewById(R.id.edtFreeWriteTitle);
         medtExplain = findViewById(R.id.edtFreeWriteExplain);
+        medtPlace = findViewById(R.id.edtFreeWritePlace);
 
         findViewById(R.id.btnFreeWriteOk).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +134,7 @@ public class FreeWriteActivity extends AppCompatActivity {
             }
             medtTitle.setText(mFreeBean.title);
             medtExplain.setText(mFreeBean.explain);
+            medtPlace.setText(mFreeBean.place);
         }
 
        /* //제품상태 드롭다운 스피너 추가
@@ -203,6 +206,7 @@ public class FreeWriteActivity extends AppCompatActivity {
         freeBean.imgUrl = imgUrl;
         freeBean.imgName = imgName;
         freeBean.title = medtTitle.getText().toString(); // 타이틀
+        freeBean.place = medtPlace.getText().toString();
         freeBean.explain = medtExplain.getText().toString(); // 서브 타이틀(설명)
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

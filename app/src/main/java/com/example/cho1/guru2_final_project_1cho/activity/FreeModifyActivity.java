@@ -66,7 +66,7 @@ public class FreeModifyActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private ImageView mImgFreeWrite;
-    private EditText mEdtTitle, mEdtExplain;
+    private EditText mEdtTitle, mEdtExplain, mEdtPlace;
 
     private File tempFile;
 
@@ -97,6 +97,7 @@ public class FreeModifyActivity extends AppCompatActivity {
         mImgFreeWrite = findViewById(R.id.freeWriteImgView);
         mEdtTitle = findViewById(R.id.edtFreeModifyTitle);
         mEdtExplain = findViewById(R.id.edtFreeModifyExplain);
+        mEdtPlace = findViewById(R.id.edtFreeModifyPlace);
         Button mBtnImgReg = findViewById(R.id.btnFreeModifyImgReg);
         Button mBtnGalleryReg = findViewById(R.id.btnFreeModifyGalleryReg);
         Button mBtnSellModifyReg = findViewById(R.id.btnFreeModifyReg);
@@ -138,6 +139,7 @@ public class FreeModifyActivity extends AppCompatActivity {
                         }
                         mEdtTitle.setText(bean.title);
                         mEdtExplain.setText(bean.explain);
+                        mEdtPlace.setText(bean.place);
                     }
                 }
             }
@@ -159,12 +161,18 @@ public class FreeModifyActivity extends AppCompatActivity {
             Toast.makeText(this, "설명을 적어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (mEdtPlace.length() == 0) {
+            mEdtPlace.requestFocus();
+            Toast.makeText(this, "장소를 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // 사진을 찍었을 경우, 안 찍었을 경우
         if(mPhotoPath == null) {
             //사진을 새로 안찍었을 경우
             mFreeBean.title = mEdtTitle.getText().toString();
             mFreeBean.explain = mEdtExplain.getText().toString();
+            mFreeBean.place = mEdtPlace.getText().toString();
             mFreeBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
             // 동일 ID로 데이터 수정
@@ -202,6 +210,7 @@ public class FreeModifyActivity extends AppCompatActivity {
                 //mFleaBean.title = mEdtTitle.getText().toString();
                 mFreeBean.title = mEdtTitle.getText().toString();
                 mFreeBean.explain = mEdtExplain.getText().toString();
+                mFreeBean.place = mEdtPlace.getText().toString();
                 mFreeBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
                 mFirebaseDB.getReference().child("free").child(mFreeBean.id).setValue(mFreeBean);

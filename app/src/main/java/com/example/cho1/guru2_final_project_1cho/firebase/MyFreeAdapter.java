@@ -55,7 +55,7 @@ public class MyFreeAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.view_buy_item, null);
+        view = inflater.inflate(R.layout.view_free_item, null);
 
         mLoginMember = FileDB.getLoginMember(mContext);
         final FreeBean freeBean = mFreeList.get(i);
@@ -67,11 +67,11 @@ public class MyFreeAdapter extends BaseAdapter {
             imgBuy.setBackground(drawable);
             imgBuy.setClipToOutline(true);
 
-            TextView txtBuyTitle = view.findViewById(R.id.txtBuyTitle);
-            TextView txtBuySubTitle = view.findViewById(R.id.txtBuyExplain);
-            TextView txtBuyPrice = view.findViewById(R.id.txtBuyPrice);
-            TextView txtBuyId = view.findViewById(R.id.txtBuyId);
-            TextView txtBuyDate = view.findViewById(R.id.txtBuyDate);
+            TextView txtFreeTitle = view.findViewById(R.id.txtFreeTitle);
+            TextView txtFreeExplain = view.findViewById(R.id.txtFreeExplain);
+            TextView txtFreeId = view.findViewById(R.id.txtFreeId);
+            TextView txtFreePlace = view.findViewById(R.id.txtFreePlace);
+            TextView txtFreeDate = view.findViewById(R.id.txtFreeDate);
 
 
             // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로, 비동기로 표시한다.
@@ -86,12 +86,13 @@ public class MyFreeAdapter extends BaseAdapter {
             }
 
             //ui에 원본 데이터 적용
-            txtBuyTitle.setText(freeBean.title);
-            txtBuySubTitle.setText(freeBean.explain);
-            txtBuyDate.setText(freeBean.date);
+            txtFreeTitle.setText(freeBean.title);
+            txtFreeExplain.setText(freeBean.explain);
+            txtFreeDate.setText(freeBean.date);
+            txtFreePlace.setText(freeBean.place);
             StringTokenizer tokens = new StringTokenizer(freeBean.userId);
             String userId = tokens.nextToken("@");
-            txtBuyId.setText(userId);
+            txtFreeId.setText(userId);
 
             //리스트 항목 누르면 디테일 페이지로
             view.setOnClickListener(new View.OnClickListener() {
