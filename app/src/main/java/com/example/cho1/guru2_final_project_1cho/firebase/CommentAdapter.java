@@ -20,6 +20,7 @@ import com.example.cho1.guru2_final_project_1cho.activity.JoinActivity;
 import com.example.cho1.guru2_final_project_1cho.bean.CommentBean;
 import com.example.cho1.guru2_final_project_1cho.bean.ExBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
+import com.example.cho1.guru2_final_project_1cho.bean.FreeBean;
 import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +35,7 @@ public class CommentAdapter extends BaseAdapter {
     private CommentBean mCommentBean;
     private static FleaBean mFleaBean;
     private static ExBean mExBean;
+    private static FreeBean mFreeBean;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
     public CommentAdapter(Context context, List<CommentBean> commentList) {
@@ -47,6 +49,10 @@ public class CommentAdapter extends BaseAdapter {
 
     public static void setExBean(ExBean exBean) {
         mExBean = exBean;
+    }
+
+    public static void setFreeBean(FreeBean freeBean) {
+        mFreeBean = freeBean;
     }
 
     public void setList(List<CommentBean> commentList) {
@@ -118,6 +124,10 @@ public class CommentAdapter extends BaseAdapter {
                             } else if (mCommentBean.flag == 3) {
                                 String guid = JoinActivity.getUserIdFromUUID(mExBean.userId);
                                 FirebaseDatabase.getInstance().getReference().child("ex").child(mExBean.id).child("comments").child(mCommentBean.id).removeValue();
+                                notifyDataSetChanged();
+                            } else if (mCommentBean.flag == 4) {
+                                String guid = JoinActivity.getUserIdFromUUID(mFreeBean.userId);
+                                FirebaseDatabase.getInstance().getReference().child("free").child(mFreeBean.id).child("comments").child(mCommentBean.id).removeValue();
                                 notifyDataSetChanged();
                             }
                             Toast.makeText(mContext, "삭제 되었습니다", Toast.LENGTH_SHORT).show();

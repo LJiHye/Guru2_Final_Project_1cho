@@ -24,7 +24,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
-import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFreeShare;
+import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFree;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return new FragmentEx();
                 case 2:
-                    return new FragmentFreeShare();
+                    return new FragmentFree();
             }
             return null;
         }

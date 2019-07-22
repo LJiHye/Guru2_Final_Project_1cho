@@ -27,7 +27,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
     private MemberBean loginMember;
     private EditText mEdtDetailId, mEdtDetailName, mEdtDetailPw, mEdtDetailPw1, mEdtDetailPw2;
-    private Button mBtnModify, mBtnLogout, mBtnMyBoard, mBtnSecession;
+    private Button mBtnModify, mBtnLogout, mBtnMyBoard, mBtnSecession, mBtnMyScrap;
     private ImageView mImgDetailProfile;
 
     private String id, name, imgUrl, uuid;
@@ -47,6 +47,7 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mBtnLogout = findViewById(R.id.btnLogout);
         mBtnMyBoard = findViewById(R.id.btnMyBoard);
         mBtnSecession = findViewById(R.id.btnSecession);
+        mBtnMyScrap = findViewById(R.id.btnMyScrap);
         mImgDetailProfile = findViewById(R.id.imgDetailProfile);
         GradientDrawable drawable=
                 (GradientDrawable) this.getDrawable(R.drawable.background_rounding);
@@ -80,6 +81,8 @@ public class ModifyMemberActivity extends AppCompatActivity {
         mBtnMyBoard.setOnClickListener(mClicks);
         //회원 탈퇴 버튼
         mBtnSecession.setOnClickListener(mClicks);
+        //내 스크랩 버튼
+        mBtnMyScrap.setOnClickListener(mClicks);
     }
 
     //로그아웃 처리
@@ -171,6 +174,11 @@ public class ModifyMemberActivity extends AppCompatActivity {
 
                 case R.id.btnSecession:
                     secession();
+                    break;
+
+                case R.id.btnMyScrap:
+                    Intent ii = new Intent(ModifyMemberActivity.this, MyScrapActivity.class);
+                    startActivity(ii);
                     break;
             }
         }

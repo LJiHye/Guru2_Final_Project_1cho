@@ -51,7 +51,7 @@ public class SellDetailActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
-    private ImageView imgSellDetail, imgEmptyStar, imgFullStar;
+    private ImageView imgSellDetail, imgStar;
     //private LinearLayout layoutSellVisibility;
 
     private FleaBean mFleaBean;
@@ -68,6 +68,8 @@ public class SellDetailActivity extends AppCompatActivity {
     private EditText edtSellComment;
 
     private MemberBean mLoginMember;
+
+    private List<String> mScrapList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class SellDetailActivity extends AppCompatActivity {
         lstSellComment.addHeaderView(header);
         // lstSellComment.addFooterView(footer);
 
-        imgEmptyStar = header.findViewById(R.id.emptyStar); //스크랩버튼
+        imgStar = header.findViewById(R.id.imgSellStar); //스크랩버튼
 
         txtSellDetailId = header.findViewById(R.id.txtSellDetailId); //아이디
         txtSellDetailDate = header.findViewById(R.id.txtSellDetailDate); //날짜
@@ -113,8 +115,42 @@ public class SellDetailActivity extends AppCompatActivity {
         header.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
         header.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
         header.findViewById(R.id.btnSellWriter).setOnClickListener(BtnClick);
+        header.findViewById(R.id.imgSellStar).setOnClickListener(BtnClick);
         //footer.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
         // footer.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
+
+        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+        mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("sell").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mScrapList.clear();
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String str = snapshot.getValue(String.class);
+                    if(!TextUtils.isEmpty(str)) {
+                        mScrapList.add(0, str);
+                    }
+                }
+
+                Boolean exist = false;
+                for(int i=0; i<mScrapList.size(); i++) {
+                    if(TextUtils.equals(mFleaBean.id, mScrapList.get(i))) {
+                        exist = true;
+                    }
+                }
+                if(exist) {
+                    imgStar.setImageResource(R.drawable.full_star);
+                } else {
+                    imgStar.setImageResource(R.drawable.empty_star);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
@@ -157,7 +193,7 @@ public class SellDetailActivity extends AppCompatActivity {
                             //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
                             if(!TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())){
                                 btnSellWriter.setVisibility(View.VISIBLE);
-                                imgEmptyStar.setVisibility(View.VISIBLE);
+                                imgStar.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -256,10 +292,71 @@ public class SellDetailActivity extends AppCompatActivity {
                 case R.id.btnSellWriter:
                     writerPage();
                     break;
-
+                case R.id.imgSellStar:
+                    scrap();
+                    break;
             }
         }
     };
+
+    private void scrap() {
+        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+
+        mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("sell").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mScrapList.clear();
+                Boolean flag= false;
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String str = snapshot.getValue(String.class);
+                    if (TextUtils.equals(mFleaBean.id, str)) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SellDetailActivity.this);
+                    builder.setTitle("스크랩");
+                    builder.setMessage("스크랩하시겠습니까?");
+                    builder.setNegativeButton("아니오", null);
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+                            String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+                            mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("sell").child(mFleaBean.id).setValue(mFleaBean.id);
+                            Toast.makeText(SellDetailActivity.this, "스크랩 되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.create().show();
+
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SellDetailActivity.this);
+                    builder.setTitle("스크랩");
+                    builder.setMessage("스크랩 취소하시겠습니까?");
+                    builder.setNegativeButton("아니오", null);
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+                            String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+                            mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("sell").child(mFleaBean.id).removeValue();
+                            Toast.makeText(SellDetailActivity.this, "스크랩 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.create().show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     //수정
     private void modify() {

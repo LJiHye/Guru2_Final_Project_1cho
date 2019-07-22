@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentMyBuy;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentMyEx;
+import com.example.cho1.guru2_final_project_1cho.fragment.FragmentMyFree;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentMySell;
 import com.google.android.material.tabs.TabLayout;
 
@@ -30,6 +31,7 @@ public class MyBoardActivity extends AppCompatActivity {
         mTabMyBoard.addTab(mTabMyBoard.newTab().setText("사주세요"));
         mTabMyBoard.addTab(mTabMyBoard.newTab().setText("팔아주세요"));
         mTabMyBoard.addTab(mTabMyBoard.newTab().setText("물물교환"));
+        mTabMyBoard.addTab(mTabMyBoard.newTab().setText("무료나눔"));
         mTabMyBoard.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // ViewPager 생성
@@ -70,6 +72,8 @@ public class MyBoardActivity extends AppCompatActivity {
                     return new FragmentMySell();
                 case 2:
                     return new FragmentMyEx();
+                case 3:
+                    return new FragmentMyFree();
             }
             return null;
         }

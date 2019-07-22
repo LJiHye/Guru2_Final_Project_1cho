@@ -16,7 +16,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/btnWrite"
+        android:id="@+id/btnFreeWrite"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"

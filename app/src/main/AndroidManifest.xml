@@ -21,12 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <activity android:name=".activity.FreeShareDetailActivity" />
+        <activity android:name=".activity.FreeModifyActivity"/>
+        <activity android:name=".activity.FreeWriteActivity" />
+        <activity android:name=".activity.FreeDetailActivity" />
         <activity android:name=".activity.MyBoardActivity" />
+        <activity android:name=".activity.MyScrapActivity"/>
         <!-- 카메라 사용을 위한 Provider 선언 -->
         <provider
             android:name="androidx.core.content.FileProvider"

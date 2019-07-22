@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -55,7 +56,7 @@ public class ExDetailActivity extends AppCompatActivity {
     private EditText edtExComment;
     private ImageButton btnExModify, btnExDel;
     private LinearLayout layoutExVisibility;
-    private ImageView imgExDetail, imgEmptyStar, imgFullStar;
+    private ImageView imgExDetail, imgStar;
 
     private Context mContext;
     private ExBean mExBean;
@@ -65,6 +66,8 @@ public class ExDetailActivity extends AppCompatActivity {
 
     private List<CommentBean> mCommentList = new ArrayList<>();
     private CommentAdapter mCommentAdapter;
+
+    private List<String> mScrapList = new ArrayList<>();
 
     Intent intent;
 
@@ -92,7 +95,7 @@ public class ExDetailActivity extends AppCompatActivity {
         imgExDetail.setBackground(drawable);
         imgExDetail.setClipToOutline(true);
 
-        imgEmptyStar = findViewById(R.id.emptyStar); //스크랩버튼
+        imgStar = findViewById(R.id.imgExStar); //스크랩버튼
 
         txtExDetailId = header.findViewById(R.id.txtExDetailId); //아이디
         txtExDetailDate = header.findViewById(R.id.txtExDetailDate); //날짜
@@ -120,9 +123,42 @@ public class ExDetailActivity extends AppCompatActivity {
         header.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
         header.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
         header.findViewById(R.id.btnExWriter).setOnClickListener(mBtnClick);
+        header.findViewById(R.id.imgExStar).setOnClickListener(mBtnClick);
 
 //        footer.findViewById(R.id.btnExModify).setOnClickListener(mBtnClick);
 //        footer.findViewById(R.id.btnExDel).setOnClickListener(mBtnClick);
+        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+        mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("ex").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mScrapList.clear();
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String str = snapshot.getValue(String.class);
+                    if(!TextUtils.isEmpty(str)) {
+                        mScrapList.add(0, str);
+                    }
+                }
+
+                Boolean exist = false;
+                for(int i=0; i<mScrapList.size(); i++) {
+                    if(TextUtils.equals(mExBean.id, mScrapList.get(i))) {
+                        exist = true;
+                    }
+                }
+                if(exist) {
+                    imgStar.setImageResource(R.drawable.full_star);
+                } else {
+                    imgStar.setImageResource(R.drawable.empty_star);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
         mFirebaseDB.getReference().child("ex").addValueEventListener(new ValueEventListener() {
@@ -134,6 +170,7 @@ public class ExDetailActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     //for (DataSnapshot snapshot2 : snapshot.getChildren()) {
                     ExBean bean = snapshot.getValue(ExBean.class);
+
                     if (TextUtils.equals(bean.id, mExBean.id)) {
                         if (mExBean != null) {
                             // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로 비동기로 표시한다.
@@ -172,7 +209,7 @@ public class ExDetailActivity extends AppCompatActivity {
                         //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
                         if (!TextUtils.equals(mExBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
                             btnExWriter.setVisibility(View.VISIBLE);
-                            imgEmptyStar.setVisibility(View.VISIBLE);
+                            imgStar.setVisibility(View.VISIBLE);
 
                         }
                         // }
@@ -306,9 +343,72 @@ public class ExDetailActivity extends AppCompatActivity {
                     writerPage();
                     break;
 
+                case R.id.imgExStar:
+                    scrap();
+                    break;
+
             }
         }
     };
+
+    private void scrap() {
+        String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+        String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+
+        mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("ex").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mScrapList.clear();
+                Boolean flag= false;
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String str = snapshot.getValue(String.class);
+                    if (TextUtils.equals(mExBean.id, str)) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ExDetailActivity.this);
+                    builder.setTitle("스크랩");
+                    builder.setMessage("스크랩하시겠습니까?");
+                    builder.setNegativeButton("아니오", null);
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+                            String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+                            mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("ex").child(mExBean.id).setValue(mExBean.id);
+                            Toast.makeText(ExDetailActivity.this, "스크랩 되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.create().show();
+
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ExDetailActivity.this);
+                    builder.setTitle("스크랩");
+                    builder.setMessage("스크랩 취소하시겠습니까?");
+                    builder.setNegativeButton("아니오", null);
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+                            String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+                            mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("ex").child(mExBean.id).removeValue();
+                            Toast.makeText(ExDetailActivity.this, "스크랩 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.create().show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     private void modEx() { // 게시글 수정
         //처리

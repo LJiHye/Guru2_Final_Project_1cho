@@ -116,7 +116,7 @@
             android:src="@drawable/photo" />
 
         <ImageView
-            android:id="@+id/emptyStar"
+            android:id="@+id/imgSellStar"
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:layout_weight="1"
