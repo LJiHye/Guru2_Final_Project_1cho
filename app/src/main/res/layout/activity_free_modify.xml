@@ -70,15 +70,6 @@
                     android:layout_marginBottom="10dp"/>
 
             </LinearLayout>
-           <!-- <Spinner
-                android:id="@+id/spinFreeModifyCategory"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_marginVertical="10dp"
-                android:spinnerMode="dropdown"
-                />-->
 
             <EditText
                 android:id="@+id/edtFreeModifyTitle"
@@ -88,21 +79,38 @@
                 android:hint="제목"/>
 
             <EditText
+                android:id="@+id/edtFreeModifyExplain"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="50dp"
+                android:hint="설명"
+                android:singleLine="false"/>
+
+            <Spinner
+                android:id="@+id/spinFreeMap"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:spinnerMode="dropdown"
+                />
+
+            <fragment
+                android:id="@+id/googleMap"
+                class="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:layout_height="300dp" />
+
+            <EditText
                 android:id="@+id/edtFreeModifyPlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
                 android:hint="장소"
                 android:singleLine="false"/>
-
-            <EditText
-                android:id="@+id/edtFreeModifyExplain"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="50dp"
-                android:hint="설명"
-                android:singleLine="false"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

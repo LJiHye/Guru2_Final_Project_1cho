@@ -92,8 +92,16 @@ public class CommentAdapter extends BaseAdapter {
                 txtCommentId.setTextColor(Color.parseColor(strColor));
                 txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
             }
-        } else if(mExBean != null) {
+        }
+        if(mExBean != null) {
             if (TextUtils.equals(mExBean.userId, mCommentBean.userId)) {
+                String strColor = "#ff4848";
+                txtCommentId.setTextColor(Color.parseColor(strColor));
+                txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+            }
+        }
+        if(mFreeBean != null) {
+            if (TextUtils.equals(mFreeBean.userId, mCommentBean.userId)) {
                 String strColor = "#ff4848";
                 txtCommentId.setTextColor(Color.parseColor(strColor));
                 txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);

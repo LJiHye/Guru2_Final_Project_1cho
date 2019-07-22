@@ -21,6 +21,9 @@ public class FreeBean implements Serializable {
     public String place;
     public String detailPlace;
 
+    public double latitude;
+    public double longitude;
+
     public transient Bitmap bmpTitle;
 
     public String date; // 게시물 올린 날짜

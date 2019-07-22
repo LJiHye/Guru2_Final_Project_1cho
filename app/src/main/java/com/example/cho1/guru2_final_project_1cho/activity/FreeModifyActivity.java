@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -34,6 +35,8 @@ import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FreeBean;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFree;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -79,6 +82,11 @@ public class FreeModifyActivity extends AppCompatActivity {
 
     private List<FreeBean> mFreeList = new ArrayList<>();
 
+    private SupportMapFragment mMapFragment;
+    private LocationManager mLocationManager;
+    private LatLng mCurPosLatLng;    //현재위치 저장 위도,경도 변수
+    private int mBtnClickIndex = 0; //어떤 버튼의 index 가 클릭됐는지를 저장
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +109,15 @@ public class FreeModifyActivity extends AppCompatActivity {
         Button mBtnImgReg = findViewById(R.id.btnFreeModifyImgReg);
         Button mBtnGalleryReg = findViewById(R.id.btnFreeModifyGalleryReg);
         Button mBtnSellModifyReg = findViewById(R.id.btnFreeModifyReg);
+
+        Spinner dropdown = findViewById(R.id.spinFreeMap);
+        String[] items = new String[]{"50주년기념관", "인문사회관", "제1과학관", "제2과학관", "도서관", "학생누리관", "조형예술관", "샬롬하우스", "바롬인성교육관", "체육관", "정문", "후문", "X"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+
+        mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.googleMap);
+        //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
+        //mMapFragment.getMapAsync(mapReadyCallback);
 
         mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +156,7 @@ public class FreeModifyActivity extends AppCompatActivity {
                         }
                         mEdtTitle.setText(bean.title);
                         mEdtExplain.setText(bean.explain);
-                        mEdtPlace.setText(bean.place);
+                        mEdtPlace.setText(bean.detailPlace);
                     }
                 }
             }
@@ -163,7 +180,7 @@ public class FreeModifyActivity extends AppCompatActivity {
         }
         if (mEdtPlace.length() == 0) {
             mEdtPlace.requestFocus();
-            Toast.makeText(this, "장소를 적어주세요", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "세부 장소를 적어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -172,7 +189,7 @@ public class FreeModifyActivity extends AppCompatActivity {
             //사진을 새로 안찍었을 경우
             mFreeBean.title = mEdtTitle.getText().toString();
             mFreeBean.explain = mEdtExplain.getText().toString();
-            mFreeBean.place = mEdtPlace.getText().toString();
+            mFreeBean.detailPlace = mEdtPlace.getText().toString();
             mFreeBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
             // 동일 ID로 데이터 수정
@@ -210,7 +227,7 @@ public class FreeModifyActivity extends AppCompatActivity {
                 //mFleaBean.title = mEdtTitle.getText().toString();
                 mFreeBean.title = mEdtTitle.getText().toString();
                 mFreeBean.explain = mEdtExplain.getText().toString();
-                mFreeBean.place = mEdtPlace.getText().toString();
+                mFreeBean.detailPlace = mEdtPlace.getText().toString();
                 mFreeBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
                 mFirebaseDB.getReference().child("free").child(mFreeBean.id).setValue(mFreeBean);

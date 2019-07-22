@@ -133,7 +133,7 @@
                     android:text="장소" />
 
                 <Spinner
-                    android:id="@+id/spinFreeWriteCategory"
+                    android:id="@+id/spinFree"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
