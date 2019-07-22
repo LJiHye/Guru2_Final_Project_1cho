@@ -309,6 +309,7 @@ public class ExDetailActivity extends AppCompatActivity {
                     break;
 
                 case R.id.btnExClip:
+                    // 스크랩
                     break;
             }
         }

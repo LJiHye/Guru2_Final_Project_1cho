@@ -64,7 +64,7 @@ public class SellDetailActivity extends AppCompatActivity {
     private CommentAdapter mCommentAdapter;
     private ListView lstSellComment;
     private Button btnSellComment, btnSellWriter;
-    private ImageButton btnSellModify, btnSellDel;
+    private ImageButton btnSellModify, btnSellDel, btnSellClip;
     private EditText edtSellComment;
 
     private MemberBean mLoginMember;
@@ -105,6 +105,7 @@ public class SellDetailActivity extends AppCompatActivity {
         btnSellWriter = findViewById(R.id.btnSellWriter);
         btnSellModify = findViewById(R.id.btnSellModify);
         btnSellDel = findViewById(R.id.btnSellDel);
+        btnSellClip = findViewById(R.id.btnSellClip);
 
         mCommentAdapter = new CommentAdapter(this, mCommentList);
         lstSellComment.setAdapter(mCommentAdapter);
@@ -113,6 +114,7 @@ public class SellDetailActivity extends AppCompatActivity {
         header.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
         header.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
         header.findViewById(R.id.btnSellWriter).setOnClickListener(BtnClick);
+        header.findViewById(R.id.btnSellClip).setOnClickListener(BtnClick);
         //footer.findViewById(R.id.btnSellModify).setOnClickListener(BtnClick);
         // footer.findViewById(R.id.btnSellDel).setOnClickListener(BtnClick);
 
@@ -157,6 +159,7 @@ public class SellDetailActivity extends AppCompatActivity {
                             //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
                             if(!TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())){
                                 btnSellWriter.setVisibility(View.VISIBLE);
+                                btnSellClip.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -254,6 +257,10 @@ public class SellDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.btnSellWriter:
                     writerPage();
+                    break;
+
+                case R.id.btnSellClip:
+                    // 스크랩
                     break;
             }
         }
