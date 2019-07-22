@@ -202,7 +202,6 @@ public class BuyWriteActivity extends AppCompatActivity {
 //            }
 //        }
 
-        mCategory = getIntent().getStringExtra("CATEGORY");
 
 //        if (mCategory.equals("옷")) {
 //            if (mPhotoPath == null) {
