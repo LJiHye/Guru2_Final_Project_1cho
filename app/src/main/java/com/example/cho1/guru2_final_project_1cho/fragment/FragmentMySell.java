@@ -89,17 +89,18 @@ public class FragmentMySell extends Fragment {
                                 flag = true;
                             }
                         }
+                        if(flag) {
+                            Toast.makeText(getActivity(), "삭제 되었습니다", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "삭제할 게시물이 없습니다", Toast.LENGTH_LONG).show();
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
-                if(flag) {
-                    Toast.makeText(getActivity(), "삭제 되었습니다", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "삭제할 게시물이 없습니다", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
         builder.create().show();

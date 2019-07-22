@@ -41,7 +41,7 @@ public class FragmentMyBuy extends Fragment {
 
     private MemberBean mLoginMember;
 
-    private Boolean flag;
+    private boolean flag;
 
     @Nullable
     @Override
@@ -76,6 +76,7 @@ public class FragmentMyBuy extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                 String uuid = SellWriteActivity.getUserIdFromUUID(email);
+
                 flag = false;
 
                 mFirebaseDB.getReference().child("buy").addValueEventListener(new ValueEventListener() {
@@ -90,17 +91,17 @@ public class FragmentMyBuy extends Fragment {
                                 flag = true;
                             }
                         }
+                        if(flag) {
+                            Toast.makeText(getActivity(), "삭제 되었습니다", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "삭제할 게시물이 없습니다", Toast.LENGTH_LONG).show();
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
-                if(flag) {
-                    Toast.makeText(getActivity(), "삭제 되었습니다", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "삭제할 게시물이 없습니다", Toast.LENGTH_LONG).show();
-                }
             }
         });
         builder.create().show();
