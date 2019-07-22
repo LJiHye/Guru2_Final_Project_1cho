@@ -18,6 +18,7 @@ import com.example.cho1.guru2_final_project_1cho.bean.MemberBean;
 import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentEx;
 import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFlea;
+import com.example.cho1.guru2_final_project_1cho.fragment.FragmentFreeShare;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // 탭 생성
         mTabLayout.addTab(mTabLayout.newTab().setText("플리마켓"));
         mTabLayout.addTab(mTabLayout.newTab().setText("물물교환"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("무료나눔"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // ViewPager 생성
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                     return new FragmentFlea();
                 case 1:
                     return new FragmentEx();
+                case 2:
+                    return new FragmentFreeShare();
             }
             return null;
         }
