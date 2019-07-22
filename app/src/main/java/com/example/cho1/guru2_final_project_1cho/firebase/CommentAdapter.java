@@ -3,6 +3,8 @@ package com.example.cho1.guru2_final_project_1cho.firebase;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -78,6 +80,11 @@ public class CommentAdapter extends BaseAdapter {
         String userId = tokens.nextToken("@") ;
         txtCommentId.setText(userId);
         Linkify.addLinks(txtComment, Linkify.WEB_URLS);
+        if(TextUtils.equals(mFleaBean.userId, mCommentBean.userId)) {
+            String strColor = "#ff4848";
+            txtCommentId.setTextColor(Color.parseColor(strColor));
+            txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+        }
 
         imgCommentDelete.setOnClickListener(new View.OnClickListener() {
             @Override
