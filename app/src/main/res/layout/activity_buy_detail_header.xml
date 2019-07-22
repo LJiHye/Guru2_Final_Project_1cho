@@ -95,7 +95,7 @@
                     android:background="#00ff0000"
                     android:text="작성자 페이지 >"
                     android:textColor="#5b5b5b"
-                    android:textSize="10dp"
+                    android:textSize="13dp"
                     android:visibility="invisible" />
 
             </FrameLayout>
