@@ -18,7 +18,8 @@
 
         <ImageButton
             android:id="@+id/btnBuyModify"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginVertical="10dp"
             android:src="@drawable/modify"
@@ -30,7 +31,8 @@
 
         <ImageButton
             android:id="@+id/btnBuyDel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginVertical="10dp"
             android:src="@drawable/trash"
@@ -39,6 +41,7 @@
             android:textColor="#5b5b5b"
             android:background="#00ff0000"/>
             <!--android:background="@drawable/border_button"-->/>
+
 
     </LinearLayout>
 

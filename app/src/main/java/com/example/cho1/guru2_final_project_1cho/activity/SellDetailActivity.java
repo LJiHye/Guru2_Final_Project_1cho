@@ -157,6 +157,7 @@ public class SellDetailActivity extends AppCompatActivity {
                             //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
                             if(!TextUtils.equals(mFleaBean.userId, mFirebaseAuth.getCurrentUser().getEmail())){
                                 btnSellWriter.setVisibility(View.VISIBLE);
+                                imgEmptyStar.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -255,6 +256,7 @@ public class SellDetailActivity extends AppCompatActivity {
                 case R.id.btnSellWriter:
                     writerPage();
                     break;
+
             }
         }
     };

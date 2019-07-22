@@ -36,6 +36,8 @@ tools:context=".activity.ExDetailActivity">
         android:textStyle="bold"
         android:textColor="#5b5b5b"
         android:background="@drawable/border_button"/>
+
+
 </LinearLayout> <!-- 수정 삭제 버튼 -->
 
 <!-- 댓글 입력 -->

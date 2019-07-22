@@ -38,6 +38,7 @@
             android:textColor="#5b5b5b"
             android:background="@drawable/border_button" />
 
+
     </LinearLayout>
     <!--- 댓글 -->
 
