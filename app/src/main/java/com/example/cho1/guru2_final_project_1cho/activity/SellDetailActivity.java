@@ -51,7 +51,7 @@ public class SellDetailActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private TextView txtSellDetailId, txtSellDetailDate, txtSellTitle, txtSellDetailPrice, txtSellDetailOption;
-    private ImageView imgSellDetail, imgEmptyStar;
+    private ImageView imgSellDetail, imgEmptyStar, imgFullStar;
     //private LinearLayout layoutSellVisibility;
 
     private FleaBean mFleaBean;

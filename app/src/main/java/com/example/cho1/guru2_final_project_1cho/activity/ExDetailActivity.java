@@ -55,7 +55,7 @@ public class ExDetailActivity extends AppCompatActivity {
     private EditText edtExComment;
     private ImageButton btnExModify, btnExDel;
     private LinearLayout layoutExVisibility;
-    private ImageView imgExDetail, imgEmptyStar;
+    private ImageView imgExDetail, imgEmptyStar, imgFullStar;
 
     private Context mContext;
     private ExBean mExBean;

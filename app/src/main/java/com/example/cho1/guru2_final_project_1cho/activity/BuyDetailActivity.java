@@ -57,7 +57,7 @@ public class BuyDetailActivity extends AppCompatActivity {
     public String mPhotoPath;
 
     private FleaBean mFleaBean;
-    private ImageView imgBuyDetail, imgEmptyStar;
+    private ImageView imgBuyDetail, imgEmptyStar, imgFullStar;
     private TextView txtBuyDetailId, txtBuyDetailProduct, txtBuyDetailPrice, txtBuyDetailFinalPrice,
             txtBuyDetailState, txtBuyDetailFault, txtBuyDetailBuyDate, txtBuyDetailExpire, txtBuyDetailSize, txtBuyDetailExplain;
     private ListView lstBuyComment;
