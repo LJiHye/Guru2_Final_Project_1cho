@@ -79,7 +79,7 @@ public class SellWriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_write);
 
         //카테고리 드롭다운 스피너 추가
-        Spinner dropdown = (Spinner)findViewById(R.id.spinSellWriteCategory);
+        Spinner dropdown = (Spinner) findViewById(R.id.spinSellWriteCategory);
         String[] items = new String[]{"옷", "책", "생활용품", "기프티콘", "데이터", "대리예매", "전자기기", "화장품", "기타"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
@@ -117,20 +117,20 @@ public class SellWriteActivity extends AppCompatActivity {
         mBtnSellReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mFleaBean == null){
+                if (mFleaBean == null) {
                     //신규 등록
                     upload();
-                }else{
+                } else {
                     //수정 업데이트
                     //update();
                 }
             }
         });
 
-        mFleaBean = (FleaBean)getIntent().getSerializableExtra(FleaBean.class.getName());
-        if(mFleaBean != null){
+        mFleaBean = (FleaBean) getIntent().getSerializableExtra(FleaBean.class.getName());
+        if (mFleaBean != null) {
             getIntent().getParcelableArrayExtra("titleBitmap");
-            if(mFleaBean.bmpTitle != null){
+            if (mFleaBean.bmpTitle != null) {
                 mImgSellWrite.setImageBitmap(mFleaBean.bmpTitle);
             }
             mEdtTitle.setText(mFleaBean.selltitle);
@@ -151,11 +151,28 @@ public class SellWriteActivity extends AppCompatActivity {
     }  //end onCreate()
 
     //새 글 등록
-    private void upload(){
-        if(mPhotoPath == null){
+    private void upload() {
+        if (mPhotoPath == null) {
             Toast.makeText(this, "사진을 찍어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (mEdtTitle.length() == 0) {
+            mEdtTitle.requestFocus();
+            Toast.makeText(this, "제목을 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mEdtWishPrice.length() == 0) {
+            mEdtWishPrice.requestFocus();
+            Toast.makeText(this, "희망가를 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mEdtWishOption.length() == 0) {
+            mEdtWishOption.requestFocus();
+            Toast.makeText(this, "희망옵션을 적어주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //사진 업로드
         StorageReference storageRef = mFirebaseStorage.getReference();
         final StorageReference imagesRef = storageRef.child("images/" + mCaptureUri.getLastPathSegment()); //images/파일날짜.jpg
@@ -165,7 +182,7 @@ public class SellWriteActivity extends AppCompatActivity {
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(!task.isSuccessful()) {
+                if (!task.isSuccessful()) {
                     throw task.getException();
                 }
                 return imagesRef.getDownloadUrl();
@@ -199,7 +216,7 @@ public class SellWriteActivity extends AppCompatActivity {
         //고유번호를 생성한다
         //String guid = getUserIdFromUUID(fleaBean.userId);
         //dbRef.child("sell").child( guid ).child( fleaBean.id ).setValue(fleaBean);
-        dbRef.child("sell").child( fleaBean.id ).setValue(fleaBean);
+        dbRef.child("sell").child(fleaBean.id).setValue(fleaBean);
         Toast.makeText(this, "게시물이 등록 되었습니다.", Toast.LENGTH_LONG).show();
         finish();
     }
@@ -226,7 +243,7 @@ public class SellWriteActivity extends AppCompatActivity {
 
             Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
 
-            if(tempFile != null) {
+            if (tempFile != null) {
                 if (tempFile.exists()) {
                     if (tempFile.delete()) {
                         Log.e("test", tempFile.getAbsolutePath() + " 삭제 성공");
@@ -250,7 +267,7 @@ public class SellWriteActivity extends AppCompatActivity {
                  *  Uri 스키마를
                  *  content:/// 에서 file:/// 로  변경한다.
                  */
-                String[] proj = { MediaStore.Images.Media.DATA };
+                String[] proj = {MediaStore.Images.Media.DATA};
 
                 assert photoUri != null;
                 cursor = getContentResolver().query(photoUri, proj, null, null, null);
@@ -270,7 +287,7 @@ public class SellWriteActivity extends AppCompatActivity {
 
             setImage();
 
-        } else if(requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE) { //카메라로부터 오는 데이터를 취득한다.
             sendPicture();
         }
     }
