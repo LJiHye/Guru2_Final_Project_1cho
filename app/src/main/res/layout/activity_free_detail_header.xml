@@ -192,11 +192,22 @@
             android:text="장소 : "
             android:textStyle="bold" />
 
+
+        <TextView
+            android:id="@+id/txtFreePlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="장소.."
+            android:gravity="right"
+            android:layout_marginRight="10dp"/>
+
         <TextView
             android:id="@+id/txtFreeDetailPlace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginRight="50dp"
             android:text="장소.." />
 
     </LinearLayout>

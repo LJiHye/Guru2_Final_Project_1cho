@@ -58,7 +58,7 @@ public class FreeDetailActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
-    private TextView txtFreeDetailId, txtFreeDetailDate, txtFreeTitle, txtFreeDetailPlace, txtFreeDetailOption;
+    private TextView txtFreeDetailId, txtFreeDetailDate, txtFreeTitle, txtFreeDetailPlace, txtFreePlace, txtFreeDetailOption;
     private ImageView imgFreeDetail,imgStar;
 
 
@@ -115,6 +115,7 @@ public class FreeDetailActivity extends AppCompatActivity {
         imgFreeDetail.setClipToOutline(true);
 
         txtFreeTitle = header.findViewById(R.id.txtFreeTitle);
+        txtFreePlace=header.findViewById(R.id.txtFreePlace);
         txtFreeDetailPlace = header.findViewById(R.id.txtFreeDetailPlace); //무나장소
         txtFreeDetailOption = header.findViewById(R.id.txtFreeDetailOption); //하고싶은말,,
 
@@ -197,7 +198,8 @@ public class FreeDetailActivity extends AppCompatActivity {
                             String userId = tokens.nextToken("@");
                             txtFreeDetailId.setText(userId);
                             txtFreeDetailDate.setText(bean.date);
-                            txtFreeDetailPlace.setText(bean.place +" " + bean.detailPlace);
+                            txtFreePlace.setText(bean.place);
+                            txtFreeDetailPlace.setText( bean.detailPlace);
                         }
 
                         LinearLayout layoutExVisibility = findViewById(R.id.layoutFreeVisibility);
