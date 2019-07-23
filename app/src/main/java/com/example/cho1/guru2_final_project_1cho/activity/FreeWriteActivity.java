@@ -283,8 +283,8 @@ public class FreeWriteActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
             //위치 변경시 위도, 경도 정보 update 수신
-            mCurPosLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            Toast.makeText(getBaseContext(), "현재 위치가 갱신 되었습니다. " + mCurPosLatLng.latitude + ", " + mCurPosLatLng.longitude, Toast.LENGTH_SHORT).show();
+            /*mCurPosLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            Toast.makeText(getBaseContext(), "현재 위치가 갱신 되었습니다. " + mCurPosLatLng.latitude + ", " + mCurPosLatLng.longitude, Toast.LENGTH_SHORT).show();*/
             //구글맵을 현재 위치로 이동시킨다.
             mMapFragment.getMapAsync(mapReadyCallback);
             //현재 위치를 한번만 호출하기 위해 리스너 해지
@@ -398,6 +398,7 @@ public class FreeWriteActivity extends AppCompatActivity {
                     markerOptions.title("서울여대");
                     markerOptions.snippet("후문");
                 }
+                else return;
 
                 googleMap.addMarker(markerOptions).showInfoWindow();
 
@@ -428,7 +429,7 @@ public class FreeWriteActivity extends AppCompatActivity {
             Toast.makeText(this, "설명을 적어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mCurPosLatLng != null && medtDetailPlace.length() == 0) {
+        if (mClickIndex != 0) {
             medtDetailPlace.requestFocus();
             Toast.makeText(this, "세부 장소를 적어주세요", Toast.LENGTH_SHORT).show();
             return;
@@ -474,11 +475,10 @@ public class FreeWriteActivity extends AppCompatActivity {
         freeBean.imgName = imgName;
         freeBean.title = medtTitle.getText().toString(); // 타이틀
         freeBean.detailPlace = medtDetailPlace.getText().toString();
-        if(mClickIndex != 0) {
-            freeBean.place = spinFree.getSelectedItem().toString();
-            freeBean.latitude = mCurPosLatLng.latitude;
-            freeBean.longitude = mCurPosLatLng.longitude;
-        }
+        freeBean.place = spinFree.getSelectedItem().toString();
+        freeBean.latitude = mCurPosLatLng.latitude;
+        freeBean.longitude = mCurPosLatLng.longitude;
+
         freeBean.detailPlace = medtDetailPlace.getText().toString();
         freeBean.explain = medtExplain.getText().toString(); // 서브 타이틀(설명)
 

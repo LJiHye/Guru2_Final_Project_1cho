@@ -307,7 +307,7 @@ public class FreeDetailActivity extends AppCompatActivity {
             googleMap.getUiSettings().setCompassEnabled(true);
 
 
-            if(mFreeBean.latitude != -1 && mFreeBean.longitude != -1) {
+            if(!TextUtils.equals(mFreeBean.place, "X")) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 LatLng latLng = new LatLng(mFreeBean.latitude, mFreeBean.longitude);
                 markerOptions.position(latLng);
@@ -317,6 +317,8 @@ public class FreeDetailActivity extends AppCompatActivity {
                 googleMap.addMarker(markerOptions).showInfoWindow();
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+            } else {
+                mMapFragment.getView().setVisibility(View.GONE);
             }
         }
     };
