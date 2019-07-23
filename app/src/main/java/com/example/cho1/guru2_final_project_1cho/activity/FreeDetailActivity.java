@@ -393,6 +393,7 @@ public class FreeDetailActivity extends AppCompatActivity {
         Intent intent = new Intent(FreeDetailActivity.this, FreeModifyActivity.class);
         intent.putExtra("FREEITEM", mFreeBean);
         startActivity(intent);
+        finish();
     }
 
     //삭제
@@ -482,6 +483,68 @@ public class FreeDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //상단 아이디 바 글쓴이 아이디, 올린 날짜 출력
+        mFirebaseDB.getReference().child("free").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //데이터를 받아와서 List에 저장.
+                mFreeList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    //for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                    FreeBean bean = snapshot.getValue(FreeBean.class);
+
+                    if (TextUtils.equals(bean.id, mFreeBean.id)) {
+                        if (mFreeBean != null) {
+                            // imgTitle 이미지를 표시할 때는 원격 서버에 있는 이미지이므로 비동기로 표시한다.
+                            try {
+                                if (bean.bmpTitle == null) {
+                                    new DownloadImgTaskFree(mContext, imgFreeDetail, mFreeList, 0).execute(new URL(bean.imgUrl));
+                                } else {
+                                    imgFreeDetail.setImageBitmap(bean.bmpTitle);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            txtFreeTitle.setText(bean.title);
+                            txtFreeDetailOption.setText(bean.explain);
+
+                            StringTokenizer tokens = new StringTokenizer(bean.userId);
+                            String userId = tokens.nextToken("@");
+                            txtFreeDetailId.setText(userId);
+                            txtFreeDetailDate.setText(bean.date);
+                            txtFreePlace.setText(bean.place);
+                            txtFreeDetailPlace.setText( bean.detailPlace);
+                        }
+
+                        LinearLayout layoutExVisibility = findViewById(R.id.layoutFreeVisibility);
+                        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 같으면 수정, 삭제버튼 visibility 풀기
+                        if (TextUtils.equals(mFreeBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+                            btnFreeModify.setVisibility(View.VISIBLE);
+                            btnFreeDel.setVisibility(View.VISIBLE);
+                        }
+                        //상단 아이디(글쓴이 아이디)와 로그인 아이디가 다르면 작성자 페이지 가는 버튼 visibility 풀기
+                        if (!TextUtils.equals(mFreeBean.userId, mFirebaseAuth.getCurrentUser().getEmail())) {
+                            btnFreeWriter.setVisibility(View.VISIBLE);
+                            imgStar.setVisibility(View.VISIBLE);
+
+                        }
+                        // }
+                    }
+                }
+
+                if (mFreeAdapter != null) {
+                    mFreeAdapter.setList(mFreeList);
+                    mFreeAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
         mMapFragment.getMapAsync(mapReadyCallback);

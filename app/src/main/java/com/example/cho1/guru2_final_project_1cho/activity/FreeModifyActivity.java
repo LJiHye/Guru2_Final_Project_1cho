@@ -446,6 +446,9 @@ public class FreeModifyActivity extends AppCompatActivity {
             // 동일 ID로 데이터 수정
             mFirebaseDB.getReference().child("free").child(mFreeBean.id).setValue(mFreeBean);
             Toast.makeText(this, "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, FreeDetailActivity.class);
+            i.putExtra("FREEITEM", mFreeBean);
+            startActivity(i);
             finish();
             return;
         }
