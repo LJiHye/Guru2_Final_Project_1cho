@@ -86,7 +86,14 @@ public class CommentAdapter extends BaseAdapter {
         String userId = tokens.nextToken("@") ;
         txtCommentId.setText(userId);
         Linkify.addLinks(txtComment, Linkify.WEB_URLS);
-        if(mFleaBean != null) {
+
+        if(mCommentBean.flag == 1) {
+            if (TextUtils.equals(mFleaBean.userId, mCommentBean.userId)) {
+                String strColor = "#ff4848";
+                txtCommentId.setTextColor(Color.parseColor(strColor));
+                txtCommentId.setPaintFlags(txtCommentId.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+            }
+        } else if(mCommentBean.flag == 2) {
             if (TextUtils.equals(mFleaBean.userId, mCommentBean.userId)) {
                 String strColor = "#ff4848";
                 txtCommentId.setTextColor(Color.parseColor(strColor));
