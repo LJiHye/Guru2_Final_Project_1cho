@@ -7,7 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -79,6 +83,7 @@ public class FreeDetailActivity extends AppCompatActivity {
     private FreeAdapter mFreeAdapter;
 
     private SupportMapFragment mMapFragment;
+    private LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +94,6 @@ public class FreeDetailActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
         }, 0);
-
-
 
         mLoginMember = FileDB.getLoginMember(this);
         mFreeBean = (FreeBean) getIntent().getSerializableExtra("FREEITEM");
@@ -103,6 +106,28 @@ public class FreeDetailActivity extends AppCompatActivity {
         mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
         mMapFragment.getMapAsync(mapReadyCallback);
+
+        //GSP 가 켜져 있는지 확인한다.
+        mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            //GSP 설정하는 Setting 화면으로 이동한다.
+            Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            i.addCategory(Intent.CATEGORY_DEFAULT);
+            startActivity(i);
+        }
+
+        if(
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        )
+        {
+            return;
+        }
+
+        //GPS 위치를 0.1초마다 10m 간격범위안에서 이동하면 위치를 listener 로 보내주도록 등록한다.
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 10, locationListener);
+        //WIFI 위치를 0.1초마다 10m 간격범위안에서 이동하면 위치를 listener 로 보내주도록 등록한다.
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 10, locationListener);
 
         imgStar = header.findViewById(R.id.imgFreeStar); //스크랩버튼
 
@@ -289,6 +314,25 @@ public class FreeDetailActivity extends AppCompatActivity {
 
     }
 
+    private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            //구글맵을 현재 위치로 이동시킨다.
+            mMapFragment.getMapAsync(mapReadyCallback);
+            //현재 위치를 한번만 호출하기 위해 리스너 해지
+            mLocationManager.removeUpdates(locationListener);
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) { }
+
+        @Override
+        public void onProviderEnabled(String s) { }
+
+        @Override
+        public void onProviderDisabled(String s) { }
+    };
+
     //구글맵 로딩완료후 이벤트
     private OnMapReadyCallback mapReadyCallback = new OnMapReadyCallback() {
         @Override
@@ -311,7 +355,6 @@ public class FreeDetailActivity extends AppCompatActivity {
 
             if(TextUtils.equals(mFreeBean.place, "X")) {
                 mMapFragment.getView().setVisibility(View.GONE);
-                return;
             }
             MarkerOptions markerOptions = new MarkerOptions();
             LatLng latLng = new LatLng(mFreeBean.latitude, mFreeBean.longitude);
