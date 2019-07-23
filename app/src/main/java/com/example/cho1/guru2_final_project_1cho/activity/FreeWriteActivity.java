@@ -704,5 +704,4 @@ public class FreeWriteActivity extends AppCompatActivity {
         Bitmap resized = Bitmap.createScaledBitmap(src, width, height, true);
         return resized;
     }
-
 }
