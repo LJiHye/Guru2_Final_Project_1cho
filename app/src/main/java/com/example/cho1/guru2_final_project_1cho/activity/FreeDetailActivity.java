@@ -307,19 +307,19 @@ public class FreeDetailActivity extends AppCompatActivity {
             googleMap.getUiSettings().setCompassEnabled(true);
 
 
-            if(!TextUtils.equals(mFreeBean.place, "X")) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                LatLng latLng = new LatLng(mFreeBean.latitude, mFreeBean.longitude);
-                markerOptions.position(latLng);
-                markerOptions.title(mFreeBean.place);
-                markerOptions.snippet("위도:" + latLng.latitude + ", 경도: " + latLng.longitude);
-
-                googleMap.addMarker(markerOptions).showInfoWindow();
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-            } else {
+            if(TextUtils.equals(mFreeBean.place, "X")) {
                 mMapFragment.getView().setVisibility(View.GONE);
+                return;
             }
+            MarkerOptions markerOptions = new MarkerOptions();
+            LatLng latLng = new LatLng(mFreeBean.latitude, mFreeBean.longitude);
+            markerOptions.position(latLng);
+            markerOptions.title(mFreeBean.place);
+            markerOptions.snippet("위도:" + latLng.latitude + ", 경도: " + latLng.longitude);
+
+            googleMap.addMarker(markerOptions).showInfoWindow();
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
         }
     };
 

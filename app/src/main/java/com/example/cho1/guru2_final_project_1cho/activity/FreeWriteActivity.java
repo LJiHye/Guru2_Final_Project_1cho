@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -431,8 +432,10 @@ public class FreeWriteActivity extends AppCompatActivity {
         }
         if (mClickIndex != 0) {
             medtDetailPlace.requestFocus();
-            Toast.makeText(this, "세부 장소를 적어주세요", Toast.LENGTH_SHORT).show();
-            return;
+            if (TextUtils.isEmpty(medtDetailPlace.getText().toString())) {
+                Toast.makeText(this, "세부 장소를 적어주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
 
