@@ -368,6 +368,7 @@ public class ExDetailActivity extends AppCompatActivity {
                     }
                 }
                 if (!flag) {
+
                     String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
                     String uuid = JoinActivity.getUserIdFromUUID(userEmail);
                     mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("ex").child(mExBean.id).setValue(mExBean.id);

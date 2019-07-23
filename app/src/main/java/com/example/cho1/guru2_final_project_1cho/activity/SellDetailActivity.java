@@ -317,6 +317,7 @@ public class SellDetailActivity extends AppCompatActivity {
                     }
                 }
                 if (!flag) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SellDetailActivity.this);
                     String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
                     String uuid = JoinActivity.getUserIdFromUUID(userEmail);
                     mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("sell").child(mFleaBean.id).setValue(mFleaBean.id);
