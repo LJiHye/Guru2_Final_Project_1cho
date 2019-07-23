@@ -266,7 +266,7 @@ public class FreeWriteActivity extends AppCompatActivity {
 
                     default:
                         mClickIndex = 0;
-                        mCurPosLatLng = null;
+                        mCurPosLatLng = new LatLng(-1, -1);
 
                 }//end switch
                 mMapFragment.getMapAsync(mapReadyCallback); //map refresh

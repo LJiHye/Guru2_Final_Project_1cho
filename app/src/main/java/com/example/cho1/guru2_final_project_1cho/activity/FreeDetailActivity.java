@@ -1,27 +1,29 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.cho1.guru2_final_project_1cho.R;
 import com.example.cho1.guru2_final_project_1cho.bean.CommentBean;
@@ -31,6 +33,12 @@ import com.example.cho1.guru2_final_project_1cho.db.FileDB;
 import com.example.cho1.guru2_final_project_1cho.firebase.CommentAdapter;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFree;
 import com.example.cho1.guru2_final_project_1cho.firebase.FreeAdapter;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,10 +78,19 @@ public class FreeDetailActivity extends AppCompatActivity {
     private List<FreeBean> mFreeList = new ArrayList<>();
     private FreeAdapter mFreeAdapter;
 
+    private SupportMapFragment mMapFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_free_detail);
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        }, 0);
+
+
 
         mLoginMember = FileDB.getLoginMember(this);
         mFreeBean = (FreeBean) getIntent().getSerializableExtra("FREEITEM");
@@ -82,6 +99,10 @@ public class FreeDetailActivity extends AppCompatActivity {
         lstFreeComment = findViewById(R.id.lstFreeComment);
         View header = getLayoutInflater().inflate(R.layout.activity_free_detail_header, null, false);
         lstFreeComment.addHeaderView(header);
+
+        mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
+        //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
+        mMapFragment.getMapAsync(mapReadyCallback);
 
         imgStar = header.findViewById(R.id.imgFreeStar); //스크랩버튼
 
@@ -265,6 +286,40 @@ public class FreeDetailActivity extends AppCompatActivity {
         });
 
     }
+
+    //구글맵 로딩완료후 이벤트
+    private OnMapReadyCallback mapReadyCallback = new OnMapReadyCallback() {
+        @Override
+        public void onMapReady(final GoogleMap googleMap) {
+
+            if(
+                    ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            )
+            {
+                return;
+            }
+            //현재버튼 추가
+            googleMap.setMyLocationEnabled(true);
+            //줌인 줌아웃 버튼 추가
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            //나침반 추가
+            googleMap.getUiSettings().setCompassEnabled(true);
+
+
+            if(mFreeBean.latitude != -1 && mFreeBean.longitude != -1) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                LatLng latLng = new LatLng(mFreeBean.latitude, mFreeBean.longitude);
+                markerOptions.position(latLng);
+                markerOptions.title(mFreeBean.place);
+                markerOptions.snippet("위도:" + latLng.latitude + ", 경도: " + latLng.longitude);
+
+                googleMap.addMarker(markerOptions).showInfoWindow();
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                googleMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+            }
+        }
+    };
 
     View.OnClickListener BtnClick = new View.OnClickListener() {
         @Override
