@@ -125,16 +125,6 @@
                 android:layout_marginLeft="35dp"
                 android:src="@drawable/photo" />
 
-            <ImageView
-                android:id="@+id/imgExStar"
-                android:layout_width="30dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:src="@drawable/empty_star"
-                android:visibility="invisible"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -144,30 +134,44 @@
             android:layout_marginHorizontal="20dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:weightSum="10">
 
             <TextView
                 android:id="@+id/txtExDetailTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="제품명"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_weight="2"/>
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/exchange"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"/>
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="3"/>
 
             <TextView
                 android:id="@+id/txtExDetailWant"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="원하는 제품"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_weight="2"/>
+
+            <ImageView
+                android:id="@+id/imgExStar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight="3"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/empty_star"/>
         </LinearLayout>
 
         <LinearLayout

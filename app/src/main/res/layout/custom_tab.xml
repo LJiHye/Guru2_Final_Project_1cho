@@ -8,10 +8,9 @@
 
     <ImageView
         android:id="@+id/imgTab"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/market"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cart2_icon" />
     <TextView
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
