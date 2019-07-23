@@ -448,21 +448,10 @@ public class FreeDetailActivity extends AppCompatActivity {
                     }
                 }
                 if (!flag) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(FreeDetailActivity.this);
-                    builder.setTitle("스크랩");
-                    builder.setMessage("스크랩하시겠습니까?");
-                    builder.setNegativeButton("아니오", null);
-                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
-                            String uuid = JoinActivity.getUserIdFromUUID(userEmail);
-                            mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("free").child(mFreeBean.id).setValue(mFreeBean.id);
-                            Toast.makeText(FreeDetailActivity.this, "스크랩 되었습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    builder.create().show();
-
+                    String userEmail = mFirebaseAuth.getCurrentUser().getEmail();
+                    String uuid = JoinActivity.getUserIdFromUUID(userEmail);
+                    mFirebaseDB.getReference().child("member").child(uuid).child("scrap").child("free").child(mFreeBean.id).setValue(mFreeBean.id);
+                    Toast.makeText(FreeDetailActivity.this, "스크랩 되었습니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(FreeDetailActivity.this);
                     builder.setTitle("스크랩");
