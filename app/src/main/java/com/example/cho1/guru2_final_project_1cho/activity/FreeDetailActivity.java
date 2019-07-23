@@ -104,8 +104,6 @@ public class FreeDetailActivity extends AppCompatActivity {
         lstFreeComment.addHeaderView(header);
 
         mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
-        //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
-        mMapFragment.getMapAsync(mapReadyCallback);
 
         //GSP 가 켜져 있는지 확인한다.
         mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -312,7 +310,8 @@ public class FreeDetailActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }//end onCreate
+
 
     private LocationListener locationListener = new LocationListener() {
         @Override
@@ -483,6 +482,9 @@ public class FreeDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
+        mMapFragment.getMapAsync(mapReadyCallback);
 
         //데이터 취득
         DatabaseReference dbRef = mFirebaseDB.getReference();

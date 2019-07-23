@@ -98,7 +98,7 @@
 
             <fragment
                 android:id="@+id/googleMap"
-                class="com.google.android.gms.maps.MapFragment"
+                class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="20dp"

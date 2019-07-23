@@ -2,6 +2,7 @@ package com.example.cho1.guru2_final_project_1cho.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -128,7 +130,29 @@ public class FreeModifyActivity extends AppCompatActivity {
 
         mMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.googleMap);
         //구글맵이 로딩이 완료되면 아래의 이벤트가 발생한다.
-        //mMapFragment.getMapAsync(mapReadyCallback);
+        mMapFragment.getMapAsync(mapReadyCallback);
+
+        //GSP 가 켜져 있는지 확인한다.
+        mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            //GSP 설정하는 Setting 화면으로 이동한다.
+            Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            i.addCategory(Intent.CATEGORY_DEFAULT);
+            startActivity(i);
+        }
+
+        if(
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        )
+        {
+            return;
+        }
+
+        //GPS 위치를 0.1초마다 10m 간격범위안에서 이동하면 위치를 listener 로 보내주도록 등록한다.
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 10, locationListener);
+        //WIFI 위치를 0.1초마다 10m 간격범위안에서 이동하면 위치를 listener 로 보내주도록 등록한다.
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 10, locationListener);
 
         mBtnImgReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,22 +282,17 @@ public class FreeModifyActivity extends AppCompatActivity {
                         mCurPosLatLng = null;
 
                 }//end switch
-                //mMapFragment.getMapAsync(mapReadyCallback); //map refresh
+                mMapFragment.getMapAsync(mapReadyCallback); //map refresh
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) { }
         });
     }//end onCreate
 
     private LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            //위치 변경시 위도, 경도 정보 update 수신
-            mCurPosLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            Toast.makeText(getBaseContext(), "현재 위치가 갱신 되었습니다. " + mCurPosLatLng.latitude + ", " + mCurPosLatLng.longitude, Toast.LENGTH_SHORT).show();
             //구글맵을 현재 위치로 이동시킨다.
             mMapFragment.getMapAsync(mapReadyCallback);
             //현재 위치를 한번만 호출하기 위해 리스너 해지
@@ -289,6 +308,7 @@ public class FreeModifyActivity extends AppCompatActivity {
         @Override
         public void onProviderDisabled(String s) { }
     };
+
 
 
     //구글맵 로딩완료후 이벤트
@@ -419,6 +439,7 @@ public class FreeModifyActivity extends AppCompatActivity {
             //사진을 새로 안찍었을 경우
             mFreeBean.title = mEdtTitle.getText().toString();
             mFreeBean.explain = mEdtExplain.getText().toString();
+            mFreeBean.place = spinFree.getSelectedItem().toString();
             mFreeBean.detailPlace = mEdtPlace.getText().toString();
             mFreeBean.date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
