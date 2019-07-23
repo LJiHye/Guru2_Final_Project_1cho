@@ -1,10 +1,5 @@
 package com.example.cho1.guru2_final_project_1cho.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -30,10 +25,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+
 import com.example.cho1.guru2_final_project_1cho.R;
-import com.example.cho1.guru2_final_project_1cho.bean.FleaBean;
 import com.example.cho1.guru2_final_project_1cho.bean.FreeBean;
-import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFlea;
 import com.example.cho1.guru2_final_project_1cho.firebase.DownloadImgTaskFree;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -91,6 +89,11 @@ public class FreeModifyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_free_modify);
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        }, 0);
 
         mFreeBean = (FreeBean) getIntent().getSerializableExtra("FREEITEM");
 

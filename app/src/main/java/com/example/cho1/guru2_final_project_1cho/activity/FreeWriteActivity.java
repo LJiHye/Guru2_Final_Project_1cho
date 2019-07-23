@@ -106,6 +106,7 @@ public class FreeWriteActivity extends AppCompatActivity {
         String[] items = new String[]{"50주년기념관", "인문사회관", "제1과학관", "제2과학관", "도서관", "학생누리관", "조형예술관", "샬롬하우스", "바롬인성교육관", "체육관", "정문", "후문", "X"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(FreeWriteActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
         spinFree.setAdapter(adapter);
+        spinFree.setSelection(12);
 
         //카메라를 사용하기 위한 퍼미션을 요청한다.
         ActivityCompat.requestPermissions(this, new String[]{
@@ -262,6 +263,7 @@ public class FreeWriteActivity extends AppCompatActivity {
                         mClickIndex = 12;
                         mCurPosLatLng = new LatLng(37.625416, 127.088289);
                         break;
+
                     default:
                         mClickIndex = 0;
                         mCurPosLatLng = null;
@@ -329,6 +331,7 @@ public class FreeWriteActivity extends AppCompatActivity {
                     markerOptions.position(latLng);
                     markerOptions.title("클릭한 장소 ");
                     markerOptions.snippet("위도:" + latLng.latitude + ", 경도: " + latLng.longitude);
+
                     googleMap.addMarker(markerOptions).showInfoWindow();
                 }
             });
@@ -425,7 +428,7 @@ public class FreeWriteActivity extends AppCompatActivity {
             Toast.makeText(this, "설명을 적어주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (medtDetailPlace.length() == 0) {
+        if (mCurPosLatLng != null && medtDetailPlace.length() == 0) {
             medtDetailPlace.requestFocus();
             Toast.makeText(this, "세부 장소를 적어주세요", Toast.LENGTH_SHORT).show();
             return;
@@ -474,7 +477,7 @@ public class FreeWriteActivity extends AppCompatActivity {
         if(mClickIndex != 0) {
             freeBean.place = spinFree.getSelectedItem().toString();
             freeBean.latitude = mCurPosLatLng.latitude;
-            freeBean.latitude = mCurPosLatLng.longitude;
+            freeBean.longitude = mCurPosLatLng.longitude;
         }
         freeBean.detailPlace = medtDetailPlace.getText().toString();
         freeBean.explain = medtExplain.getText().toString(); // 서브 타이틀(설명)
